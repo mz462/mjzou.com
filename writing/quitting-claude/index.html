@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I'm Quitting Claude (But Not What You Think) · MJ Zou</title>
+<meta name="description" content="After losing six months of Claude context to an account reset, I rebuilt my AI workflow on local files. Here's why context ownership matters more than convenience.">
+<meta name="date" content="2026-01-10">
+<meta name="topic" content="Claude">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2026-01-10 · 8 min read</span>
+<h1>I'm Quitting Claude (But Not What You Think)</h1>
+<p class="dek">After losing six months of Claude context to an account reset, I rebuilt my AI workflow on local files. Here's why context ownership matters more than convenience.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">Claude</span><span class="chip">context engineering</span><span class="chip">product management</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p><img alt="Hero: I Lost Six Months of Claude" loading="lazy" src="/assets/hero-CuTaBtJo.webp"></p>
+<p>Last Tuesday, I opened Claude Desktop to continue a complex workflow I&rsquo;d been refining for months. Instead, I found a login screen. Then an error. Then, after a frustrating back-and-forth, confirmation: my account had been reset.</p>
+<p>Six months of Claude — gone.</p>
+<p>Not just chat history. My account memory, where Claude had learned that I prefer direct feedback over diplomatic hedging. My project memories, where &ldquo;Phoenix&rdquo; meant my project, not a city in Arizona. The custom Skills I&rsquo;d built for everything from weekly status reports to technical spec reviews.</p>
+<p>All of it, wiped by circumstances outside my control.</p>
+<p>This isn&rsquo;t a complaint post. It&rsquo;s about what I learned when I suddenly had to work without the AI context I&rsquo;d spent months building — and why I&rsquo;m now running Claude differently.</p>
+<p><img alt="Opening story illustration" loading="lazy" src="/assets/opening-story-DXnrsOfd.webp"></p>
+<h2 id="what-i-actually-lost">What I Actually Lost</h2>
+<p>Let me explain what &ldquo;six months of Claude&rdquo; actually means, because it&rsquo;s not just chat logs.</p>
+<p><strong>Account Memory</strong> is where Claude stores cross-conversation context about you — your preferences, communication style, background. Mine knew I&rsquo;m a product manager who values concise answers. It knew to skip the caveats and give me the direct take first. These feel like small calibrations, but they compound. The difference between an 85% useful response and a 95% useful response often comes down to Claude not needing you to re-explain who you are.</p>
+<p><strong>Project Memory</strong> is siloed context for specific workspaces. Claude&rsquo;s architecture deliberately keeps projects separate — your product launch doesn&rsquo;t bleed into your client work. I had projects for Phoenix, for quarterly planning, for stakeholder communications. Each one had accumulated context: the key players, the terminology, the decisions already made. When I typed &ldquo;update the Phoenix timeline,&rdquo; Claude knew exactly what I meant.</p>
+<p><strong>Skills</strong> are reusable workflows — instructions, scripts, and templates that Claude loads when relevant. I&rsquo;d built Skills for drafting weekly updates, reviewing technical specs, preparing meeting agendas. These weren&rsquo;t just prompts I&rsquo;d saved somewhere. They were tested, refined, and integrated into how I worked.</p>
+<p><strong>Chat History</strong> is searchable context that Claude can reference through its <code>conversation_search</code> tool. Past decisions, past reasoning, past iterations — all retrievable.</p>
+<p>The first day without all this, I felt slow. I kept catching myself mid-sentence, realizing I had to explain context that Claude used to just <em>know</em>. It wasn&rsquo;t catastrophic. But it was friction, everywhere, all day.</p>
+<p><img alt="The architecture of AI context" loading="lazy" src="/assets/context-architecture-CVyNer1Q.webp"></p>
+<p>And somewhere in that friction, the realization hit.</p>
+<h2 id="the-realization">The Realization</h2>
+<p>Here&rsquo;s what I hadn&rsquo;t fully internalized: I was building on rented land.</p>
+<p>Every preference Claude learned, every project context I accumulated, every Skill I refined — all of it lived in Anthropic&rsquo;s cloud, tied to an account I didn&rsquo;t fully control. I wasn&rsquo;t thinking about that when things worked. Why would I? The convenience was seamless.</p>
+<p>That&rsquo;s the tradeoff we rarely examine. When you use Claude Desktop, there&rsquo;s an application layer between you and the model. That layer handles authentication, stores your memory, manages your projects. It makes everything frictionless — until it doesn&rsquo;t.</p>
+<p>I&rsquo;m not saying cloud-based AI tools are bad. They&rsquo;re not. The memory architecture in Claude is genuinely well-designed: project-scoped to prevent context bleeding, transparent so you can see and edit what Claude remembers, searchable across your conversation history. It&rsquo;s good product thinking.</p>
+<p>But convenience has a cost: you&rsquo;re trusting that access will always be there. That SSO will always work. That account resets won&rsquo;t happen. For most users, most of the time, that&rsquo;s a fine bet. For me, last Tuesday, it wasn&rsquo;t.</p>
+<p><img alt="Building on rented land" loading="lazy" src="/assets/rented-land-DNguvRlO.webp"></p>
+<p>The question I started asking myself: <em>What if I could have the same context persistence, but own it locally?</em></p>
+<h2 id="the-new-system">The New System</h2>
+<p>Claude Code is Anthropic&rsquo;s CLI tool — Claude running in your terminal, with direct access to your filesystem. It&rsquo;s the same model, but the application layer is different. And that difference matters.</p>
+<p>Here&rsquo;s how I&rsquo;ve rebuilt my context:</p>
+<h3 id="claudemd-replaces-account--project-memory">CLAUDE.md replaces Account + Project Memory</h3>
+<p>Claude Code automatically reads a file called <code>CLAUDE.md</code> from your working directory. Whatever&rsquo;s in that file becomes persistent context for every conversation. Memory you can see, edit, and version control.</p>
+<p>The hierarchy mirrors what I lost:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Claude Desktop</th>
+          <th>Claude Code equivalent</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Account Memory</td>
+          <td><code>~/.claude/CLAUDE.md</code> (personal, all projects)</td>
+      </tr>
+      <tr>
+          <td>Project Memory</td>
+          <td><code>./CLAUDE.md</code> (shared with team via git)</td>
+      </tr>
+      <tr>
+          <td>Private project prefs</td>
+          <td><code>./CLAUDE.local.md</code> (auto-gitignored)</td>
+      </tr>
+  </tbody>
+</table>
+<p><img alt="Desktop vs Code comparison" loading="lazy" src="/assets/desktop-vs-code-nnfptAn2.webp"></p>
+<p>I now have my general preferences in my home directory — direct feedback, concise answers, my PM background. Each project folder has its own <code>CLAUDE.md</code> with context that would&rsquo;ve taken weeks to accumulate in Desktop. Phoenix has one. Quarterly planning has one. Run <code>/init</code> in any project and Claude bootstraps one for you.</p>
+<p>The difference: these files live on my machine. I can back them up, version them with git, even symlink shared rules across projects. If my account gets reset tomorrow, I lose nothing.</p>
+<h3 id="local-skills-replace-cloud-skills">Local Skills replace cloud Skills</h3>
+<p>Skills in Claude Code work the same way — Markdown files with instructions and resources. But they live in <code>.claude/skills/</code> in my project or <code>~/.claude/skills/</code> globally. Claude auto-discovers them at startup and invokes them when relevant.</p>
+<p>As of version 2.1.0, Skills hot-reload — I can update a Skill mid-session without restarting. I&rsquo;ve rebuilt my weekly update workflow, my spec review process, my meeting prep routine. They took an afternoon to recreate, but now they&rsquo;re portable and version-controlled.</p>
+<h3 id="session-persistence-actually-works">Session persistence actually works</h3>
+<p>One thing I underestimated: <code>/resume</code>. Claude Code stores sessions locally with full message history, tool results, and context. I can pick up exactly where I left off, even across days. <code>/rename</code> early to give sessions memorable names; <code>/resume</code> opens a picker showing sessions by project, branch, and last activity.</p>
+<p>This isn&rsquo;t chat history search like Desktop&rsquo;s <code>conversation_search</code> — but it&rsquo;s surprisingly close for the workflows I care about.</p>
+<h3 id="cli-over-mcp-where-it-makes-sense">CLI over MCP where it makes sense</h3>
+<p>I&rsquo;ve also replaced some MCP servers with their CLI equivalents. MCP is powerful for integrations that don&rsquo;t have good command-line tools, but many popular servers just reimplement functionality that already exists in a CLI. The GitHub MCP server, for example, injects dozens of tool definitions into context — tokens spent before I&rsquo;ve even asked a question. The <code>gh</code> CLI does the same thing with zero overhead.</p>
+<p>For tools like GitHub, Jira, or cloud CLIs I already use, I skip the MCP layer entirely. Claude runs the commands directly. It&rsquo;s faster, simpler, and keeps my context budget for what actually matters.</p>
+<h3 id="what-i-gave-up">What I gave up</h3>
+<p>I won&rsquo;t pretend this is a pure upgrade. Claude Code doesn&rsquo;t have:</p>
+<ul>
+<li><strong>Automatic memory accumulation.</strong> Claude Desktop learns passively from your conversations. With Claude Code, if I want Claude to remember something, I add it to CLAUDE.md myself. It&rsquo;s manual, but it&rsquo;s also intentional.</li>
+<li><strong>Cross-device sync.</strong> My context lives on my laptop. If I switch machines, I need to sync the files myself (git handles this, but it&rsquo;s not seamless).</li>
+<li><strong>The polished GUI.</strong> This is a terminal tool. If that&rsquo;s not your environment, the learning curve is real.</li>
+</ul>
+<p>For my workflow — solo PM work, deep focus sessions, context-heavy projects — these tradeoffs are worth it. Your mileage may vary.</p>
+<h3 id="what-i-gained">What I gained</h3>
+<ul>
+<li><strong>Ownership.</strong> My context is mine. No account reset can take it.</li>
+<li><strong>Transparency.</strong> I know exactly what Claude knows, because I wrote it.</li>
+<li><strong>Portability.</strong> CLAUDE.md is just Markdown. It works anywhere.</li>
+<li><strong>Version control.</strong> I can track how my project context evolves. I can roll back. I can branch.</li>
+<li><strong>Hooks for automation.</strong> I&rsquo;ve set up hooks that auto-format code after edits and block modifications to sensitive files — deterministic behavior I couldn&rsquo;t get in Desktop.</li>
+</ul>
+<p><img alt="The honest tradeoffs" loading="lazy" src="/assets/tradeoffs-DcjWHiWo.webp"></p>
+<p>I rebuilt the framework Thursday and Friday, two days after losing everything. Early days still, but so far the system feels more robust than what I lost.</p>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-125 -89 205 163" role="img" aria-labelledby="fig-quitting-claude">
+<g data-k="desk"><polygon points="-6,-69 0,-66 0,6 -6,3" fill="#D6D8DB"/><polygon points="0,-66 6,-69 6,3 0,6" fill="#C5C8CC"/><polygon points="0,-72 6,-69 0,-66 -6,-69" fill="#ECEDEF"/><polygon points="60,-36 66,-33 66,39 60,36" fill="#D6D8DB"/><polygon points="66,-33 72,-36 72,36 66,39" fill="#C5C8CC"/><polygon points="66,-39 72,-36 66,-33 60,-36" fill="#ECEDEF"/><polygon points="-60,-42 -54,-39 -54,33 -60,30" fill="#D6D8DB"/><polygon points="-54,-39 -48,-42 -48,30 -54,33" fill="#C5C8CC"/><polygon points="-54,-45 -48,-42 -54,-39 -60,-42" fill="#ECEDEF"/><polygon points="-57,-40.5 9,-7.5 9,22.5 -57,-10.5" fill="#D6D8DB"/><polygon points="9,-7.5 69,-37.5 69,-7.5 9,22.5" fill="#C5C8CC"/><polygon points="3,-70.5 69,-37.5 9,-7.5 -57,-40.5" fill="#ECEDEF"/><polygon points="-54,-11 6,19 6,-6 -54,-36" fill="#ABAFB5"/><polygon points="6,-9 12,-6 12,66 6,63" fill="#D6D8DB"/><polygon points="12,-6 18,-9 18,63 12,66" fill="#C5C8CC"/><polygon points="12,-12 18,-9 12,-6 6,-9" fill="#ECEDEF"/></g><g class="layer" style="--cx:62px;--c:-31px"><g data-k="drawer"><polygon points="-112,6 -54,35 -54,48 -112,19" fill="#24406A"/><polygon points="-54,35 -1,8.5 -1,21.5 -54,48" fill="#1C3356"/><polygon points="-59,-20.5 -1,8.5 -54,35 -112,6" fill="#2F4F7F"/></g><g data-k="home"><polygon points="-83,-9.5 -59,2.5 -59,6.5 -83,-5.5" fill="#E3E4E6"/><polygon points="-59,2.5 -35,-9.5 -35,-5.5 -59,6.5" fill="#D3D5D8"/><polygon points="-59,-21.5 -35,-9.5 -59,2.5 -83,-9.5" fill="#FFFFFF"/><line x1="-62" y1="-16" x2="-48" y2="-9" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-69" y1="-12.5" x2="-55" y2="-5.5" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/></g><g data-k="skills"><polygon points="-104,0 -82,11 -82,16 -104,5" fill="#E3E4E6"/><polygon points="-82,11 -65,2.5 -65,7.5 -82,16" fill="#D3D5D8"/><polygon points="-87,-8.5 -65,2.5 -82,11 -104,0" fill="#FFFFFF"/><polygon points="-100,-5 -78,6 -78,11 -100,0" fill="#E3E4E6"/><polygon points="-78,6 -61,-2.5 -61,2.5 -78,11" fill="#D3D5D8"/><polygon points="-83,-13.5 -61,-2.5 -78,6 -100,-5" fill="#FFFFFF"/><polygon points="-96,-10 -74,1 -74,6 -96,-5" fill="#E3E4E6"/><polygon points="-74,1 -57,-7.5 -57,-2.5 -74,6" fill="#D3D5D8"/><polygon points="-79,-18.5 -57,-7.5 -74,1 -96,-10" fill="#FFFFFF"/></g><g data-k="proj"><polygon points="-40,-20 -16,-8 -16,14 -40,2" fill="#E3E4E6"/><polygon points="-16,-8 -11,-10.5 -11,11.5 -16,14" fill="#D3D5D8"/><polygon points="-35,-22.5 -11,-10.5 -16,-8 -40,-20" fill="#FFFFFF"/><polygon points="-60,-10 -36,2 -36,24 -60,12" fill="#E3E4E6"/><polygon points="-36,2 -31,-0.5 -31,21.5 -36,24" fill="#D3D5D8"/><polygon points="-55,-12.5 -31,-0.5 -36,2 -60,-10" fill="#FFFFFF"/></g><g data-k="drawer"><polygon points="-117,-5.5 -55,25.5 -55,51.5 -117,20.5" fill="#24406A"/><polygon points="-55,25.5 -52,24 -52,50 -55,51.5" fill="#1C3356"/><polygon points="-114,-7 -52,24 -55,25.5 -117,-5.5" fill="#2F4F7F"/><line x1="-92" y1="20" x2="-80" y2="26" stroke="#E3E4E6" stroke-width="3.2" stroke-linecap="round"/></g></g><g data-k="desk"><polygon points="7,-8.5 9,-7.5 9,22.5 7,21.5" fill="#D6D8DB"/><polygon points="9,-7.5 69,-37.5 69,-7.5 9,22.5" fill="#C5C8CC"/><polygon points="67,-38.5 69,-37.5 9,-7.5 7,-8.5" fill="#ECEDEF"/><polygon points="-60,-51 12,-15 12,-6 -60,-42" fill="#D6D8DB"/><polygon points="12,-15 72,-45 72,-36 12,-6" fill="#C5C8CC"/><polygon points="0,-81 72,-45 12,-15 -60,-51" fill="#ECEDEF"/></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="desk" aria-pressed="false"><span class="en">Claude Desktop<small>Login, memory, projects, all in the app layer. Convenient, but rented.</small></span><span class="zh" lang="zh">Claude 桌面版<small>登录、记忆、项目都在应用层里。方便，但是租来的。</small></span></button></li>
+<li><button type="button" data-key="drawer" aria-pressed="false"><span class="en">Your context<small>The asset. Pull it out, back it up, put it in git.</small></span><span class="zh" lang="zh">你的上下文<small>真正的资产。拿得走，能备份，能进 git。</small></span></button></li>
+<li><button type="button" data-key="home" aria-pressed="false"><span class="en">Global CLAUDE.md<small>Who you are, for every project: direct, concise.</small></span><span class="zh" lang="zh">全局 CLAUDE.md<small>你是谁，所有项目通用：直说，简洁。</small></span></button></li>
+<li><button type="button" data-key="proj" aria-pressed="false"><span class="en">Project CLAUDE.md<small>One per project. “Phoenix” means yours, not the city.</small></span><span class="zh" lang="zh">项目 CLAUDE.md<small>一个项目一份。“Phoenix”是你的项目，不是那座城。</small></span></button></li>
+<li><button type="button" data-key="skills" aria-pressed="false"><span class="en">Local Skills<small>Weekly updates, spec reviews: Markdown that reloads mid-session.</small></span><span class="zh" lang="zh">本地 Skills<small>周报、规格评审，都是 Markdown，改了就生效。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-quitting-claude"><span class="en">Context is the asset. The app is just furniture. Tap a part.</span><span class="zh" lang="zh">上下文才是资产，应用只是家具。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="when-desktop-still-makes-sense">When Desktop Still Makes Sense</h2>
+<p>I&rsquo;m not abandoning Claude Desktop entirely. This isn&rsquo;t that kind of post.</p>
+<p>Desktop still wins in a few areas:</p>
+<p><strong>Artifacts for sharing.</strong> When I need to generate something visual — a diagram, a React component preview, a document I&rsquo;ll hand to someone else — Desktop&rsquo;s artifact system is hard to beat. It renders outputs inline, makes iteration fast, and gives me something shareable without extra steps.</p>
+<p><strong>Collaboration and team memory.</strong> If you&rsquo;re working with a team that shares Claude projects, Desktop&rsquo;s cloud-based memory is a feature, not a bug. Project memory that syncs across team members, Skills that everyone can access — that&rsquo;s genuinely useful for collaborative workflows.</p>
+<p><strong>Lower barrier to entry.</strong> Not everyone lives in a terminal. Desktop&rsquo;s GUI is polished, approachable, and requires zero setup. For quick questions, casual use, or onboarding someone new to Claude, it&rsquo;s the right choice.</p>
+<p><strong>Mobile and cross-device.</strong> Desktop syncs across web, desktop app, and mobile. If you need Claude on your phone or frequently switch machines, that seamlessness matters.</p>
+<p>My shift isn&rsquo;t &ldquo;Desktop bad, Code good.&rdquo; It&rsquo;s about matching the tool to the job:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Use case</th>
+          <th>My choice</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Deep solo work, context-heavy projects</td>
+          <td>Claude Code</td>
+      </tr>
+      <tr>
+          <td>Shareable artifacts, visual outputs</td>
+          <td>Claude Desktop</td>
+      </tr>
+      <tr>
+          <td>Team collaboration</td>
+          <td>Claude Desktop</td>
+      </tr>
+      <tr>
+          <td>Quick questions on mobile</td>
+          <td>Claude Desktop</td>
+      </tr>
+      <tr>
+          <td>Anything I can&rsquo;t afford to lose</td>
+          <td>Claude Code</td>
+      </tr>
+  </tbody>
+</table>
+<p><img alt="Matching the tool to the job" loading="lazy" src="/assets/tool-matching-MuWv4Njl.webp"></p>
+<p>The last row is the point. For work that accumulates value over time — the context, the calibration, the workflows — I want that on my machine.</p>
+<h2 id="the-principle">The Principle</h2>
+<p>Here&rsquo;s what I want you to take from this:</p>
+<p><strong>Context is the asset. The interface is just the delivery mechanism.</strong></p>
+<p><img alt="Context is the asset" loading="lazy" src="/assets/context-is-asset-rpnxeNzG.webp"></p>
+<p>The value I&rsquo;d built over six months wasn&rsquo;t in Claude itself — it was in the accumulated context that made Claude useful to <em>me</em>. The preferences, the project knowledge, the workflows. When I lost access, I didn&rsquo;t lose the model. I lost the context layer I&rsquo;d built on top of it.</p>
+<p>That context has value. Treat it like an asset worth protecting.</p>
+<p><strong>Be intentional about where your AI muscle memory lives.</strong></p>
+<p>Every time you teach an AI tool something about yourself — your preferences, your terminology, your workflows — you&rsquo;re making a deposit. Ask yourself: <em>Where is that deposit going? Can I withdraw it if I need to? What happens if access disappears?</em></p>
+<p>For casual use, cloud-based memory is fine. For work that compounds over months, I now want local control.</p>
+<p><strong>Questions to ask about any AI workflow:</strong></p>
+<ul>
+<li>Where does my context live? (Cloud, local, or both?)</li>
+<li>Can I export it? Can I version control it?</li>
+<li>What happens if my account is reset, my SSO breaks, or the service changes?</li>
+<li>Am I building on something I own, or something I rent?</li>
+</ul>
+<p>I&rsquo;m not arguing everyone should switch to Claude Code. I&rsquo;m saying everyone should <em>know</em> where their AI context lives — and make that choice deliberately, not by default.</p>
+<p>The convenience is real. Just make sure you understand what you&rsquo;re trading for it.</p>
+<p>I learned that the hard way. You don&rsquo;t have to.</p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “I'm Quitting Claude (But Not What You Think)”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/mcp-python-to-typescript/"><span class="mono">← EARLIER · 2025-12-27</span><strong>Why I Had to Rewrite My MCP Server from Python to TypeScript</strong></a><a class="card later" href="/writing/anthropic-ate-my-startup/"><span class="mono">LATER · 2026-01-19 →</span><strong>Anthropic Just Ate My Startup</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

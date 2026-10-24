@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The General Tso's Chicken Theory of AI Adoption · MJ Zou</title>
+<meta name="description" content="Chinese food has been in America for 150 years. The real stuff is right there on the menu. And yet the default order is still a dish that doesn't exist in China. AI adoption has the same problem.">
+<meta name="date" content="2026-02-17">
+<meta name="topic" content="Enterprise AI">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2026-02-17 · 13 min read</span>
+<h1>The General Tso's Chicken Theory of AI Adoption</h1>
+<p class="dek">Chinese food has been in America for 150 years. The real stuff is right there on the menu. And yet the default order is still a dish that doesn't exist in China. AI adoption has the same problem.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">enterprise AI</span><span class="chip">product management</span><span class="chip">AI adoption</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>Chinese New Year dinner, Szechuan Gourmet, Midtown Manhattan. This place has been Michelin-recommended multiple times. It&rsquo;s one of the most acclaimed Szechuan restaurants in the city — the kind of place where the ma la hits right and the menu runs deep into dishes most Americans have never encountered.</p>
+<p>Two tables nearby, both ordering fried rice and General Tso&rsquo;s chicken. My wife nudged me mid-conversation and nodded in their direction. Same order, same restaurant, same story. One of the best Szechuan restaurants in New York, Lunar New Year, and the tables next to us are ordering a dish that doesn&rsquo;t exist in China.</p>
+<p>General Tso&rsquo;s chicken was popularized in New York in the 1970s by Hunanese chef Peng Chang-kuei, adapting a dish he&rsquo;d originally created in Taiwan for American palates.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> It has no historical connection to General Tso Tsung-t&rsquo;ang, no regional culinary tradition, and no presence on any menu in mainland China. It is a translation artifact — a dish engineered to be familiar enough that someone with no context for Chinese food could walk in and know exactly what to order.</p>
+<p>And that&rsquo;s not a failing of the customer. That&rsquo;s a failing of the bridge.</p>
+<p>Chinese food has been in America for over 150 years. The full depth of the cuisine is right there on the same menu — same restaurant, same kitchen, same chef. Szechuan Gourmet earned its reputation serving exactly that food. This is not an availability problem. It&rsquo;s not a quality problem — the kitchen has been recognized by Michelin. It&rsquo;s an adoption pathway problem. Without something bridging the gap between what&rsquo;s available and what a new customer will actually try, the default order stays frozen at General Tso&rsquo;s. For 150 years and counting.</p>
+<p>I work in enterprise AI. I see this same scene play out constantly. The capability is on the menu. Nobody&rsquo;s ordering it.</p>
+<hr>
+<h2 id="two-exponentials">Two Exponentials</h2>
+<p>In February 2026, Anthropic CEO Dario Amodei sat down with Dwarkesh Patel<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and laid out a model that explains why. He proposed two exponential curves running in parallel. The first is the capability exponential — how smart the model gets. The second is the diffusion exponential — how fast the economy actually absorbs it. Not instant, not slow. Much faster than any previous technology. But not the same curve.</p>
+<p>Dwarkesh pushed back hard. He called diffusion &ldquo;cope&rdquo; — the excuse people reach for when models can&rsquo;t do something. His logic: hiring a human is far more friction than onboarding an AI. The world already pays $50 trillion in wages to humans who are harder to integrate than software. If the capability is there, adoption should be trivial.</p>
+<p>Dario disagreed. Even geniuses in a datacenter face real-world friction — enterprise procurement, security reviews, legal approvals, organizational change management. He called these constraints &ldquo;fiddly.&rdquo; Real but not permanent. And to prove diffusion is real but not instant, he pointed to Anthropic&rsquo;s own trajectory: from zero to $100 million in 2023, to $1 billion in 2024, to nearly $10 billion in 2025. Revenue growing at 10x year-over-year is fast by any historical standard. It&rsquo;s still not instantaneous.</p>
+<p>When asked why Anthropic doesn&rsquo;t go all-in on compute spending, his answer was blunt: &ldquo;What if the country of geniuses comes, but it comes in mid-2028 instead of mid-2027? You go bankrupt.&rdquo;<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> The time gap between capability arriving and revenue catching up can be fatal — even for the company building the models.</p>
+<p>This is the General Tso&rsquo;s chicken problem expressed in economic terms. There are two exponentials. One is how good the AI gets. The other is how fast anyone actually uses it. The gap between them is where fortunes are made and lost — and where most of the industry is right now, waiting for the dining room to fill itself.</p>
+<p><img alt="The two exponentials: capability rises steeply while diffusion lags behind, with the gap between them highlighted" loading="lazy" src="/assets/illustration-two-exponentials-DvNUK6Mi.webp"></p>
+<hr>
+<h2 id="the-graveyard">The Graveyard</h2>
+<p>If diffusion is the hard problem, there are three ways to die trying to solve it. Each one has a Chinese food equivalent.</p>
+<p><img alt="Three archetypes of AI adoption failure: too far ahead, all packaging, and real but invisible" loading="lazy" src="/assets/illustration-graveyard-triptych-D6UvEhBM.webp"></p>
+<p><strong>The Molecular Gastronomy Trap: too far ahead of the customer.</strong></p>
+<p>Humane raised $230 million<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> to build the AI Pin — a $700 screenless wearable that projected a laser interface onto your palm. The vision was post-smartphone computing. The reality was a device that overheated so badly the founders used ice packs to cool it before investor demos.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> Battery cases were recalled for fire hazards. Returns outpaced sales by summer 2024. The price was cut from $699 to $499. It didn&rsquo;t help. HP acquired the remains for $116 million in February 2025,<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> and every device was bricked ten days later.<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup> No refunds for the vast majority of buyers.</p>
+<p>This is the $300-a-head molecular gastronomy tasting menu of Chinese food. The chef may be a genius, but there&rsquo;s no pathway for a normal person to walk in and have a good first experience. If your product requires customers to abandon everything they know before they can experience any value, you&rsquo;re not ahead of the market. You&rsquo;re outside it.</p>
+<p><strong>The Fake Szechuan: all packaging, no kitchen.</strong></p>
+<p>Builder.ai raised $445 million<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup> on the promise of making app development &ldquo;as easy as ordering a pizza&rdquo; through an AI assistant called Natasha. It peaked at a $1.5 billion valuation with backing from Microsoft and SoftBank. Then the Wall Street Journal revealed what the kitchen actually looked like: primarily human engineers in India, not AI.<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup> Customer acquisition cost was four times lifetime value. No CFO since mid-2023. The company filed for bankruptcy in May 2025 with $5 million left in the bank.<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup></p>
+<p>This is the restaurant that prints dragons on the takeout box and writes &ldquo;Authentic Szechuan&rdquo; on the awning but serves frozen egg rolls at premium prices. Printing a dragon on the box doesn&rsquo;t make it Chinese food. And wrapping an outsourcing shop in an AI narrative doesn&rsquo;t make it a tech company.</p>
+<p><strong>The Best Restaurant Nobody Finds: real but can&rsquo;t scale.</strong></p>
+<p>Locale.ai built genuine geospatial analytics for logistics and delivery companies. Real technology, real paying customers, solid reputation. After six years, the founders looked at the numbers and made a quiet decision: the business worked, but it wasn&rsquo;t scaling. Enterprise sales cycles were long and founder-led. Every deal required heavy customization. They wound down responsibly and returned money to investors.<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup> Several other AI startups — Noogata, Astra, Subtl.ai — hit the same wall. Long sales cycles, heavy integration, cautious buyers, and a bank balance ticking down.</p>
+<p>This is the genuinely excellent Szechuan restaurant in the wrong location with no signage and a menu entirely in Chinese. The mapo tofu is perfect. But if every customer needs the chef to come out and personally explain the menu, you run out of chefs before you run out of customers.</p>
+<hr>
+<p>These aren&rsquo;t outliers. MIT&rsquo;s 2025 NANDA report found roughly 95% of generative AI pilots fail to achieve measurable revenue impact.<sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup> S&amp;P Global reported 42% of AI initiatives scrapped — up from 17% the year before.<sup id="fnref:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">13</a></sup> RAND puts AI project failure rates at nearly double those of conventional IT projects.<sup id="fnref:14"><a href="#fn:14" class="footnote-ref" role="doc-noteref">14</a></sup></p>
+<p><img alt="AI adoption failure statistics: 95% of pilots fail, 42% of initiatives scrapped, 2x failure rate vs conventional IT" loading="lazy" src="/assets/illustration-failure-stats-D4gACb2p.webp"></p>
+<p>The capability exponential is working. The diffusion exponential is littered with bodies.</p>
+<hr>
+<h2 id="the-market-reckoning">The Market Reckoning</h2>
+<p>On January 30, 2026, Anthropic released Claude Cowork plugins — eleven open-source integrations that let Claude operate directly inside enterprise workflows. By early February, the IGV software ETF had fallen 32% from its September peak. Roughly $2 trillion in market cap evaporated.<sup id="fnref:15"><a href="#fn:15" class="footnote-ref" role="doc-noteref">15</a></sup> Hedge funds made $24 billion shorting the sector.<sup id="fnref:16"><a href="#fn:16" class="footnote-ref" role="doc-noteref">16</a></sup> Jefferies coined a term for it: the SaaSpocalypse.<sup id="fnref:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup></p>
+<p><img alt="The SaaSpocalypse: IGV down 32%, $2 trillion in market cap lost, $24 billion in short profits" loading="lazy" src="/assets/illustration-saaspocalypse-Byuy-3X7.webp"></p>
+<p>Bank of America&rsquo;s Vivek Arya spotted the paradox at the heart of the selloff.<sup id="fnref:18"><a href="#fn:18" class="footnote-ref" role="doc-noteref">18</a></sup> Investors were simultaneously punishing hyperscalers because AI spending might generate weak returns — diffusion too slow — while destroying software stocks because AI adoption would be so pervasive it renders existing tools obsolete — diffusion too fast. Both cannot be true at the same time. But both were being priced in at the same time.</p>
+<p>Goldman&rsquo;s Gabriela Borges drew a distinction the market was ignoring.<sup id="fnref:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup> Systems of Record — the deep infrastructure where data lives, gets validated, and stays compliant — are not the same as Systems of Engagement, the workflow tools where the user interface <em>is</em> the product. PitchBook described replacing a System of Record as &ldquo;effectively open-heart surgery for an enterprise.&rdquo;<sup id="fnref:20"><a href="#fn:20" class="footnote-ref" role="doc-noteref">20</a></sup> But when the interface becomes natural language, the moat around an engagement layer collapses. The bear case is right about engagement. The bull case is right about record. The market was wrong to price them identically.</p>
+<p>This is Dario&rsquo;s two-exponential model playing out in real dollars. Wall Street is betting the dining room will never fill up <em>and</em> that it&rsquo;s already so full there&rsquo;s no room for the incumbents. The actual answer is somewhere in the middle — and the gap is where the fight is.</p>
+<hr>
+<h2 id="the-panda-express-model">The Panda Express Model</h2>
+<p>Panda Express did $6.2 billion in sales last year across 2,500 locations.<sup id="fnref:21"><a href="#fn:21" class="footnote-ref" role="doc-noteref">21</a></sup> It is the largest Asian restaurant chain in America — and not by a little. No competitor reaches even a fraction of its scale. It ranks eleventh among <em>all</em> U.S. restaurant chains by revenue, ahead of KFC, Popeyes, Olive Garden, Dairy Queen, and Arby&rsquo;s. Its signature dish, the Original Orange Chicken — introduced in 1987 and wok-tossed fresh in every store — accounts for a third of all entrees sold. Last year alone, Panda served 137 million pounds of the stuff.<sup id="fnref:22"><a href="#fn:22" class="footnote-ref" role="doc-noteref">22</a></sup></p>
+<p>It is not the most authentic Chinese food in America. It doesn&rsquo;t pretend to be.</p>
+<p>But here&rsquo;s what Panda Express didn&rsquo;t do: it didn&rsquo;t abandon Chinese culinary infrastructure. The wok cooking is real. The ingredients are real. The technique is real. What Panda Express built was an American-accessible interaction layer on top of actual Chinese cooking fundamentals — orange chicken, fortune cookies with every meal, a quick-service format where you point at what you want behind glass.</p>
+<p>Orange chicken is a diffusion adapter. It translates capability into accessible experience. And it&rsquo;s the only model that actually works for AI adoption.</p>
+<p><img alt="The Panda Express model: the kitchen represents capability, the menu represents accessibility, connected by the translation layer" loading="lazy" src="/assets/illustration-panda-express-model-BpJG-1iQ.webp"></p>
+<hr>
+<p><strong>Meet them at fried rice, move them to mapo tofu.</strong></p>
+<p>When Anthropic shipped a sandboxed Python container for Claude, the raw capability meant nothing to my enterprise users. Nobody in commercial real estate woke up wanting access to a Python container. What they wanted was to underwrite deals faster.</p>
+<p>So that&rsquo;s what I gave them. I packaged the capability into a CRE underwriting Skill that embedded our existing underwriting model, pre-mapped input fields and key output metrics, and removed circular references from the Excel formulas so the AI could actually process it without choking on self-referential cells. The user uploads the docs, gets back an analyzed deal. They don&rsquo;t need to know it&rsquo;s Python underneath. They need to know it does in minutes what used to take hours.</p>
+<p>That&rsquo;s the path: start by solving problems users already recognize. Then, once they trust the tool, reveal what they didn&rsquo;t know they needed. Don&rsquo;t lead with your most sophisticated capability — lead with your most recognizable value. Fried rice first. Mapo tofu later.</p>
+<p><img alt="The adoption journey from fried rice to mapo tofu: trust, curiosity, and expansion bridge recognizable value to transformative capability" loading="lazy" src="/assets/illustration-fried-rice-to-mapo-tofu-CP99sj4i.webp"></p>
+<p><strong>The menu is the product.</strong></p>
+<p>Here&rsquo;s something most AI companies get wrong: they think the capability is the product. It&rsquo;s not. The translation layer between what AI can do and what users understand — <em>that&rsquo;s</em> the product. The kitchen has to work. But the menu determines whether anyone orders.</p>
+<p>Panda Express doesn&rsquo;t just translate Chinese food for American palates. It translates the <em>ordering experience</em> — the format, the interface, the decision architecture. The menu keeps evolving even when the kitchen stays the same.</p>
+<p>When I introduced Claude Code internally, I didn&rsquo;t demo it as &ldquo;an agentic coding tool in your terminal.&rdquo; That sentence means nothing to 90% of an enterprise. Instead, I paired it with an Outlook CLI I&rsquo;d built and integrated it into our existing workflow. Then I showed three different audiences what it meant for <em>them</em>. Product managers saw automated ideation → PRD → demo prototype. Data engineers saw faster dbt model iteration without context-switching. Financial power users saw a way to pull and process routine data exports without waiting on analytic engineering.</p>
+<p>Same CLI tool. Three different menu items. Each translated into the user&rsquo;s own language and workflow. If I&rsquo;d walked into those meetings and demoed PowerShell commands, I&rsquo;d have gotten polite nods and gone nowhere.</p>
+<p><strong>Never fake the kitchen.</strong></p>
+<p>This is where the metaphor has teeth. Builder.ai faked the kitchen entirely. Humane built a real kitchen but designed a menu no one could read. You need both: real capability, translated honestly.</p>
+<p>When I presented Claude to senior leadership, I didn&rsquo;t run a generic demo with toy examples. Before the meeting, I built a vendor MCP server using their API — connecting Claude directly to it in a thin wrapper — and ran live demonstrations using real scenarios from the portfolio: pulling deal comps, querying pipeline data, generating investment summaries from our own database. Leadership doesn&rsquo;t care about &ldquo;MCP protocol&rdquo; or &ldquo;tool use&rdquo; or &ldquo;function calling.&rdquo; They care about whether this thing can answer questions about their deals in natural language.</p>
+<p>The kitchen — real data integration, real AI reasoning over our actual systems — had to work. And it did. But the presentation was framed as &ldquo;ask questions about your deals the way you&rsquo;d ask a colleague.&rdquo; That&rsquo;s the menu. And it&rsquo;s the only reason anyone in that room took the next step.</p>
+<p>There&rsquo;s a reason Panda Express succeeded where thousands of authentic Chinese restaurants have struggled to scale. It&rsquo;s not because orange chicken is better than mapo tofu. It&rsquo;s because someone designed the path between what the kitchen could cook and what a new customer would actually order.</p>
+<p>Panda Express didn&rsquo;t win by being the most authentic. It won by being the most accessible without being fake. It&rsquo;s the on-ramp, not the destination — but without the on-ramp, most customers never start the journey. That&rsquo;s the only viable path for AI adoption. And right now, most of the industry is still arguing about whether the kitchen is hot enough — while the dining room sits empty.</p>
+<hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-134 -161.5 260 253.5" role="img" aria-labelledby="fig-general-tsos-chicken-theory">
+<g data-k="wok"><polygon points="28,-32 76,-8 76,36 28,12" fill="#BEC1C6"/><polygon points="76,-8 114,-27 114,17 76,36" fill="#ABAFB5"/><polygon points="66,-51 114,-27 76,-8 28,-32" fill="#D3D5D8"/><ellipse cx="71" cy="-29.5" rx="19.8" ry="9.9" fill="#6E737B"/></g><g class="layer" style="--cx:0px;--c:96px"><g data-k="wok"><polygon points="82,-128 112,-113 112,-108 82,-123" fill="#BEC1C6"/><polygon points="112,-113 118,-116 118,-111 112,-108" fill="#ABAFB5"/><polygon points="88,-131 118,-116 112,-113 82,-128" fill="#D3D5D8"/><path d="M71 -122.8L71 -112.8A25.5 12.7 0 0 1 45.5 -125.5L45.5 -135.5A25.5 12.7 0 0 0 71 -122.8Z" fill="#D6D8DB"/><path d="M71 -122.8L71 -112.8A25.5 12.7 0 0 0 96.5 -125.5L96.5 -135.5A25.5 12.7 0 0 1 71 -122.8Z" fill="#C5C8CC"/><ellipse cx="71" cy="-135.5" rx="25.5" ry="12.7" fill="#ECEDEF"/><ellipse cx="71" cy="-135.5" rx="19.8" ry="9.9" fill="#ABAFB5"/></g></g><g data-k="glass"><polygon points="-80,-4 8,40 8,84 -80,40" fill="#D6D8DB"/><polygon points="8,40 88,0 88,44 8,84" fill="#C5C8CC"/><polygon points="0,-44 88,0 8,40 -80,-4" fill="#ECEDEF"/><polygon points="-2,-39 34,-21 4,-6 -32,-24" fill="#ABAFB5"/><polygon points="42,-17 78,1 48,16 12,-2" fill="#ABAFB5"/><polygon points="-40,-20 -4,-2 -34,13 -70,-5" fill="#ABAFB5"/><polygon points="4,2 40,20 10,35 -26,17" fill="#ABAFB5"/></g><g class="layer" style="--cx:0px;--c:84px"><g data-k="deep"><polygon points="-32,-114 4,-96 4,-90 -32,-108" fill="#D6D8DB"/><polygon points="4,-96 34,-111 34,-105 4,-90" fill="#C5C8CC"/><polygon points="-2,-129 34,-111 4,-96 -32,-114" fill="#ECEDEF"/><polygon points="-2,-125 26,-111 4,-100 -24,-114" fill="#BEC1C6"/><polygon points="-6,-124 -1,-121.5 -1,-117.5 -6,-120" fill="#E3E4E6"/><polygon points="-1,-121.5 4,-124 4,-120 -1,-117.5" fill="#D3D5D8"/><polygon points="-1,-126.5 4,-124 -1,-121.5 -6,-124" fill="#FFFFFF"/><polygon points="-5,-116.5 0,-114 0,-110 -5,-112.5" fill="#E3E4E6"/><polygon points="0,-114 5,-116.5 5,-112.5 0,-110" fill="#D3D5D8"/><polygon points="0,-119 5,-116.5 0,-114 -5,-116.5" fill="#FFFFFF"/><polygon points="10,-116 15,-113.5 15,-109.5 10,-112" fill="#E3E4E6"/><polygon points="15,-113.5 20,-116 20,-112 15,-109.5" fill="#D3D5D8"/><polygon points="15,-118.5 20,-116 15,-113.5 10,-116" fill="#FFFFFF"/><polygon points="-20,-117 -15,-114.5 -15,-110.5 -20,-113" fill="#E3E4E6"/><polygon points="-15,-114.5 -10,-117 -10,-113 -15,-110.5" fill="#D3D5D8"/><polygon points="-15,-119.5 -10,-117 -15,-114.5 -20,-117" fill="#FFFFFF"/><polygon points="-4,-109 1,-106.5 1,-102.5 -4,-105" fill="#E3E4E6"/><polygon points="1,-106.5 6,-109 6,-105 1,-102.5" fill="#D3D5D8"/><polygon points="1,-111.5 6,-109 1,-106.5 -4,-109" fill="#FFFFFF"/><polygon points="12,-92 48,-74 48,-68 12,-86" fill="#D6D8DB"/><polygon points="48,-74 78,-89 78,-83 48,-68" fill="#C5C8CC"/><polygon points="42,-107 78,-89 48,-74 12,-92" fill="#ECEDEF"/><polygon points="42,-103 70,-89 48,-78 20,-92" fill="#BEC1C6"/><polygon points="38,-102 43,-99.5 43,-95.5 38,-98" fill="#E3E4E6"/><polygon points="43,-99.5 48,-102 48,-98 43,-95.5" fill="#D3D5D8"/><polygon points="43,-104.5 48,-102 43,-99.5 38,-102" fill="#FFFFFF"/><polygon points="39,-94.5 44,-92 44,-88 39,-90.5" fill="#E3E4E6"/><polygon points="44,-92 49,-94.5 49,-90.5 44,-88" fill="#D3D5D8"/><polygon points="44,-97 49,-94.5 44,-92 39,-94.5" fill="#FFFFFF"/><polygon points="54,-94 59,-91.5 59,-87.5 54,-90" fill="#E3E4E6"/><polygon points="59,-91.5 64,-94 64,-90 59,-87.5" fill="#D3D5D8"/><polygon points="59,-96.5 64,-94 59,-91.5 54,-94" fill="#FFFFFF"/><polygon points="24,-95 29,-92.5 29,-88.5 24,-91" fill="#E3E4E6"/><polygon points="29,-92.5 34,-95 34,-91 29,-88.5" fill="#D3D5D8"/><polygon points="29,-97.5 34,-95 29,-92.5 24,-95" fill="#FFFFFF"/><polygon points="40,-87 45,-84.5 45,-80.5 40,-83" fill="#E3E4E6"/><polygon points="45,-84.5 50,-87 50,-83 45,-80.5" fill="#D3D5D8"/><polygon points="45,-89.5 50,-87 45,-84.5 40,-87" fill="#FFFFFF"/></g><g data-k="rice"><polygon points="-70,-95 -34,-77 -34,-71 -70,-89" fill="#D6D8DB"/><polygon points="-34,-77 -4,-92 -4,-86 -34,-71" fill="#C5C8CC"/><polygon points="-40,-110 -4,-92 -34,-77 -70,-95" fill="#ECEDEF"/><polygon points="-62,-98 -34,-84 -34,-79 -62,-93" fill="#E3E4E6"/><polygon points="-34,-84 -12,-95 -12,-90 -34,-79" fill="#D3D5D8"/><polygon points="-40,-109 -12,-95 -34,-84 -62,-98" fill="#FFFFFF"/></g><g data-k="chicken"><polygon points="-26,-73 10,-55 10,-49 -26,-67" fill="#D6D8DB"/><polygon points="10,-55 40,-70 40,-64 10,-49" fill="#C5C8CC"/><polygon points="4,-88 40,-70 10,-55 -26,-73" fill="#ECEDEF"/><polygon points="-18,-75 10,-61 10,-57 -18,-71" fill="#24406A"/><polygon points="10,-61 32,-72 32,-68 10,-57" fill="#1C3356"/><polygon points="4,-86 32,-72 10,-61 -18,-75" fill="#2F4F7F"/><polygon points="-1,-84.5 5,-81.5 5,-77.5 -1,-80.5" fill="#24406A"/><polygon points="5,-81.5 11,-84.5 11,-80.5 5,-77.5" fill="#1C3356"/><polygon points="5,-87.5 11,-84.5 5,-81.5 -1,-84.5" fill="#2F4F7F"/><polygon points="10,-78 16,-75 16,-71 10,-74" fill="#24406A"/><polygon points="16,-75 22,-78 22,-74 16,-71" fill="#1C3356"/><polygon points="16,-81 22,-78 16,-75 10,-78" fill="#2F4F7F"/><polygon points="-7,-77.5 -1,-74.5 -1,-70.5 -7,-73.5" fill="#24406A"/><polygon points="-1,-74.5 5,-77.5 5,-73.5 -1,-70.5" fill="#1C3356"/><polygon points="-1,-80.5 5,-77.5 -1,-74.5 -7,-77.5" fill="#2F4F7F"/><polygon points="4,-71 10,-68 10,-64 4,-67" fill="#24406A"/><polygon points="10,-68 16,-71 16,-67 10,-64" fill="#1C3356"/><polygon points="10,-74 16,-71 10,-68 4,-71" fill="#2F4F7F"/></g></g><g class="layer" style="--cx:42px;--c:9px"><g data-k="glass"><polygon points="-110,-45 -106,-43 -106,-17 -110,-19" fill="#BEC1C6"/><polygon points="-106,-43 -102,-45 -102,-19 -106,-17" fill="#ABAFB5"/><polygon points="-106,-47 -102,-45 -106,-43 -110,-45" fill="#D3D5D8"/><polygon points="-26,-3 -22,-1 -22,25 -26,23" fill="#BEC1C6"/><polygon points="-22,-1 -18,-3 -18,23 -22,25" fill="#ABAFB5"/><polygon points="-22,-5 -18,-3 -22,-1 -26,-3" fill="#D3D5D8"/><polygon points="-126,-15 -38,29 -38,33 -126,-11" fill="#C5C8CC"/><polygon points="-126,-15 -38,29 -18,-3 -106,-47" fill="#FFFFFF"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="wok" aria-pressed="false"><span class="en">The wok<small>Real technique, real ingredients. Never fake the kitchen.</small></span><span class="zh" lang="zh">炒锅<small>真功夫，真食材。厨房不能造假。</small></span></button></li>
+<li><button type="button" data-key="deep" aria-pressed="false"><span class="en">Mapo tofu<small>The real menu, on offer all along. Where you take them next.</small></span><span class="zh" lang="zh">麻婆豆腐<small>地道菜一直在菜单上，是下一步带客人去的地方。</small></span></button></li>
+<li><button type="button" data-key="glass" aria-pressed="false"><span class="en">Glass counter<small>The menu is the product: you point at what you want.</small></span><span class="zh" lang="zh">玻璃柜台<small>菜单就是产品：想吃什么，指一下就行。</small></span></button></li>
+<li><button type="button" data-key="rice" aria-pressed="false"><span class="en">Fried rice<small>Start with what they already recognise.</small></span><span class="zh" lang="zh">炒饭<small>先从客人认得的东西开始。</small></span></button></li>
+<li><button type="button" data-key="chicken" aria-pressed="false"><span class="en">Orange chicken<small>The diffusion adapter: capability turned into an easy first order.</small></span><span class="zh" lang="zh">陈皮鸡<small>扩散的转接头：把能力变成敢点的第一道菜。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-general-tsos-chicken-theory"><span class="en">Same kitchen, a counter built for the first-time customer. Tap a part.</span><span class="zh" lang="zh">厨房不变，柜台为第一次来的客人而设计。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="diffusion-doesnt-just-happen">Diffusion Doesn&rsquo;t Just Happen</h2>
+<p>Dario&rsquo;s framework has two exponentials — capability and diffusion. What it&rsquo;s missing is the recognition that diffusion is not automatic. It doesn&rsquo;t follow from capability the way gravity follows from mass. Someone has to design it.</p>
+<p>Chinese food has been in America for more than a century. In that time, the cuisine has not lacked for capability. The technique, the depth, the regional diversity — it&rsquo;s all been here. And yet, without active intervention in how the food is presented, discovered, and experienced, the default has remained fried rice and General Tso&rsquo;s chicken for generations. Not because the real thing isn&rsquo;t available. Because nobody built the bridge between the kitchen and the customer who&rsquo;s never walked in before.</p>
+<p>The risk for AI is the same. If the industry relies on &ldquo;build it and they will come&rdquo; — just make the model smarter and wait — it risks the most likely outcome: an economy permanently stuck at the fried rice level of AI usage. Basic summarization. Simple Q&amp;A. The equivalent of ordering the one dish you recognize off a menu you can&rsquo;t read. Meanwhile, the transformative capabilities — the ones that restructure workflows, replace entire toolchains, compress weeks of work into hours — sit right there on the same menu, untouched.</p>
+<p>There is a counter. The difference between Chinese food and AI is speed. Food blogs, social media, and a generation of adventurous eaters have done more for Szechuan adoption in the last decade than the previous 140 years combined. Similarly, tools like Claude Code, Skills, and agentic workflows are compressing adoption timelines — but only because someone designed them as bridges, not just as capabilities.</p>
+<p>Dario is right that there are two exponentials. But there&rsquo;s a third variable he didn&rsquo;t name: someone has to build the path between them. Diffusion doesn&rsquo;t just happen. It&rsquo;s built — one orange chicken at a time.</p>
+<p><img alt="The diffusion bridge: capability and adoption connected by deliberate translation, built one orange chicken at a time" loading="lazy" src="/assets/illustration-diffusion-bridge-nBFioeCu.webp"></p>
+<hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Peng Chang-kuei created the original dish in Taiwan in the early 1950s for state banquets, then brought it to New York in 1973 where it was sweetened for American palates. See <a href="https://time.com/4591567/general-tsos-chicken-creator-peng-chang-kuei-chuck/">TIME</a> and <a href="https://www.smithsonianmag.com/smart-news/general-tsos-chicken-got-its-start-fine-dining-180956795/">Smithsonian</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Dwarkesh Patel, <a href="https://www.dwarkesh.com/p/dario-amodei-2">&ldquo;Dario Amodei — We Are Near the End of the Exponential&rdquo;</a>, February 13, 2026.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Amodei&rsquo;s full quote reported by <a href="https://fortune.com/2026/02/14/anthropic-ceo-dario-amodei-spending-capex-risk-ai-revenue-forecasts-bankruptcy/">Fortune</a> and <a href="https://the-decoder.com/anthropic-ceo-dario-amodei-suggests-openai-doesnt-really-understand-the-risks-theyre-taking/">The Decoder</a>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Humane raised approximately $230 million across three funding rounds. <a href="https://techcrunch.com/2025/02/18/humanes-ai-pin-is-dead-as-hp-buys-startups-assets-for-116m/">TechCrunch</a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Staff used ice packs to cool the device before demos due to laser display overheating. <a href="https://www.yahoo.com/tech/humane-ai-pins-laser-display-083124742.html">New York Times</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>HP acquired Humane&rsquo;s software platform, 300+ patents, and most employees for $116 million. <a href="https://techcrunch.com/2025/02/18/humanes-ai-pin-is-dead-as-hp-buys-startups-assets-for-116m/">TechCrunch</a>.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>All AI Pin devices ceased functioning on February 28, 2025, ten days after the acquisition announcement. <a href="https://www.engadget.com/ai/all-of-humanes-ai-pins-will-stop-working-in-10-days-225643798.html">Engadget</a>.&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Builder.ai raised approximately $445–450 million in total funding, peaking at a $1.5 billion valuation. <a href="https://finance.yahoo.com/news/builder-ais-shocking-450m-fall-170009323.html">Yahoo Finance</a>.&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>The Wall Street Journal reported in August 2019 that Engineer.ai (later Builder.ai) relied primarily on human engineers rather than AI. <a href="https://en.wikipedia.org/wiki/Builder.ai">Wikipedia</a>.&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p>Builder.ai filed for insolvency in late May 2025 after creditor Viola Credit seized $37 million from accounts. <a href="https://techcrunch.com/2025/05/20/once-worth-over-1b-microsoft-backed-builder-ai-is-running-out-of-money/">TechCrunch</a>.&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p>Locale.ai, founded 2019, wound down in 2025 after ~5.5 years. <a href="https://startupobituary.com/p/locale-ai">Startup Obituary</a>.&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12">
+<p>MIT NANDA, &ldquo;The GenAI Divide: State of AI in Business 2025.&rdquo; Based on 150 interviews, 350-person survey, and analysis of 300 public AI deployments. <a href="https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/">Fortune</a>.&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:13">
+<p>S&amp;P Global Market Intelligence survey of 1,000+ respondents in North America and Europe. <a href="https://www.ciodive.com/news/AI-project-fail-data-SPGlobal/742590/">CIO Dive</a>.&#160;<a href="#fnref:13" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:14">
+<p>RAND Corporation, &ldquo;The Root Causes of Failure for Artificial Intelligence Projects and How They Can Succeed.&rdquo; <a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html">RAND</a>.&#160;<a href="#fnref:14" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:15">
+<p><a href="https://fortune.com/2026/02/10/stocks-2-trillion-software-wipeout-ai-bull-market/">Fortune</a>, &ldquo;The $2 Trillion Software Wipeout,&rdquo; February 10, 2026.&#160;<a href="#fnref:15" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:16">
+<p>S3 Partners data reported by <a href="https://www.cnbc.com/2026/02/04/hedge-funds-made-24-billion-shorting-software-stocks-so-far-in-2026-and-they-are-increasing-the-bet.html">CNBC</a>, February 4, 2026.&#160;<a href="#fnref:16" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:17">
+<p>Jeffrey Favuzza, equity trading desk at Jefferies, quoted in <a href="https://finance.yahoo.com/news/traders-dump-software-stocks-ai-115502147.html">Bloomberg/Yahoo Finance</a>.&#160;<a href="#fnref:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:18">
+<p>Vivek Arya, Bank of America Managing Director and Senior Equity Research Analyst. <a href="https://finance.yahoo.com/news/tech-stock-free-fall-doesn-193944250.html">Yahoo Finance</a>.&#160;<a href="#fnref:18" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:19">
+<p>Gabriela Borges, Goldman Sachs Managing Director and Senior Software Equity Research Analyst. Reported by <a href="https://www.cnbc.com/2026/02/17/goldman-says-these-software-stocks-have-moats-that-can-thwart-ai-disruption.html">CNBC</a>, February 17, 2026.&#160;<a href="#fnref:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:20">
+<p>PitchBook, as cited in secondary analysis of the SaaSpocalypse. <a href="https://philippdubach.com/posts/the-saaspocalypse-paradox/">Philipp Dubach</a>.&#160;<a href="#fnref:20" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:21">
+<p>Technomic Top 500 report, 2025 edition. $6,199 million in U.S. systemwide sales (2024). <a href="https://www.restaurantbusinessonline.com/top-500-chains-2025/panda-express">Restaurant Business Online</a>.&#160;<a href="#fnref:21" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:22">
+<p>Panda Restaurant Group press release, July 2025. <a href="https://www.pandarg.com/panda-expressr-drops-highly-requested-hot-orange-chicken-igniting-swicy-summer-heat-wave-and">Panda Restaurant Group</a>.&#160;<a href="#fnref:22" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “The General Tso's Chicken Theory of AI Adoption”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/the-last-human-complaint-about-bureaucracy/"><span class="mono">← EARLIER · 2026-02-01</span><strong>The Last Human Complaint About Bureaucracy</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

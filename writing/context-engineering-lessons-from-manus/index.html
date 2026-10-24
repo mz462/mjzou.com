@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Context Engineering Lessons from Building Manus · MJ Zou</title>
+<meta name="description" content="Key insights from Manus's experience building AI agents - why context engineering has become the critical skill for 2025">
+<meta name="date" content="2025-07-20">
+<meta name="topic" content="Context engineering">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-07-20 · 4 min read</span>
+<h1>Context Engineering Lessons from Building Manus</h1>
+<p class="dek">Key insights from Manus's experience building AI agents - why context engineering has become the critical skill for 2025</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">context engineering</span><span class="chip">AI agents</span><span class="chip">product management</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>I just read an excellent deep dive from the Manus team about context engineering for AI agents, and it&rsquo;s packed with practical insights that anyone building AI systems should know about.</p>
+<h2 id="the-core-insight">The Core Insight</h2>
+<p>The Manus post<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> opens with a striking observation: <em>&ldquo;Most agent failures are not model failures anymore, they are context failures.&rdquo;</em> We&rsquo;ve moved past the era where model limitations were the primary bottleneck. Today&rsquo;s models are remarkably capable—the challenge is giving them the right information at the right time.</p>
+<p>They define context engineering as &ldquo;the discipline of designing and building dynamic systems that provides the right information and tools, in the right format, at the right time, to give a LLM everything it needs to accomplish a task.&rdquo; Notice that word: <em>dynamic</em>. This isn&rsquo;t about crafting perfect static prompts—it&rsquo;s about building systems that evolve context throughout an interaction.</p>
+<h2 id="the-hidden-meta-insight-agents-are-rep-loops-not-brains">The Hidden Meta-Insight: Agents Are REP Loops, Not Brains</h2>
+<p>After digesting the Manus post more deeply, I realized there&rsquo;s a fundamental meta-insight that runs throughout their approach but is never explicitly stated: <strong>Agents are REP Loops, not brains.</strong></p>
+<p>This isn&rsquo;t a minor technical detail—it&rsquo;s a complete paradigm shift in how we should think about AI agents. We need to stop thinking of them as autonomous entities with free will and start thinking of them as incredibly powerful REPL systems (Read-Eval-Print Loops):</p>
+<ul>
+<li><strong>Read</strong>: The carefully constructed context you provide</li>
+<li><strong>Eval</strong>: Based on that context, the agent decides its next action</li>
+<li><strong>Print</strong>: It outputs the action and results back into the context, starting the next loop</li>
+</ul>
+<p>You&rsquo;re not teaching a student—you&rsquo;re writing an input script for a supercomputer. All your work should revolve around making each step of this loop clear, predictable, and debuggable.</p>
+<h2 id="the-ultimate-framework-context-engineering--memory--environment--feedback">The Ultimate Framework: Context Engineering = Memory + Environment + Feedback</h2>
+<p>The Manus approach reveals a systematic framework built around three pillars:</p>
+<ul>
+<li><strong>Memory</strong>: How to efficiently store and retrieve successful and failed experiences, working in harmony with KV-Cache</li>
+<li><strong>Environment</strong>: Providing the agent with an interactive, persistent workspace (like a file system)</li>
+<li><strong>Feedback</strong>: Injecting the results of actions (whether successful or failed) as input for the next decision cycle</li>
+</ul>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-108 -304 216 428" role="img" aria-labelledby="fig-context-engineering-lessons-from-manus">
+<g class="layer" style="--cx:0px;--c:0px"><g data-k="0"><polygon points="-88,66 -82,69 -82,75 -88,72" fill="#6E737B"/><polygon points="-82,69 -76,66 -76,72 -82,75" fill="#6E737B"/><polygon points="-82,63 -76,66 -82,69 -88,66" fill="#6E737B"/><polygon points="-6,107 0,110 0,116 -6,113" fill="#6E737B"/><polygon points="0,110 6,107 6,113 0,116" fill="#6E737B"/><polygon points="0,104 6,107 0,110 -6,107" fill="#6E737B"/><polygon points="82,63 88,66 88,72 82,69" fill="#6E737B"/><polygon points="88,66 94,63 94,69 88,72" fill="#6E737B"/><polygon points="88,60 94,63 88,66 82,63" fill="#6E737B"/><polygon points="-100,50 0,100 0,116 -100,66" fill="#BEC1C6"/><polygon points="0,100 100,50 100,66 0,116" fill="#ABAFB5"/><polygon points="0,0 100,50 0,100 -100,50" fill="#D3D5D8"/><line x1="-18" y1="31" x2="38" y2="59" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-36" y1="40" x2="20" y2="68" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-54" y1="49" x2="-20" y2="66" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="0" cy="9" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="82" cy="50" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="-82" cy="50" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="0" cy="91" rx="4.9" ry="2.5" fill="#6E737B"/></g><g data-k="bolt"><rect class="rod" style="--s:0.0313" x="-2.5" y="-55" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="0" y="-55" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="79.5" y="-14" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="82" y="-14" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="-84.5" y="-14" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="-82" y="-14" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="-2.5" y="27" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="0" y="27" width="2.5" height="64" fill="#1C3356"/></g></g><g class="layer" style="--cx:0px;--c:62px"><g data-k="1"><polygon points="-100,-24 0,26 0,36 -100,-14" fill="#D6D8DB"/><polygon points="0,26 100,-24 100,-14 0,36" fill="#C5C8CC"/><polygon points="0,-74 100,-24 0,26 -100,-24" fill="#ECEDEF"/><polygon points="-34,-43 -19,-35.5 -19,-29.5 -34,-37" fill="#E3E4E6"/><polygon points="-19,-35.5 -3,-43.5 -3,-37.5 -19,-29.5" fill="#D3D5D8"/><polygon points="-18,-51 -3,-43.5 -19,-35.5 -34,-43" fill="#FFFFFF"/><polygon points="-60,-30 -45,-22.5 -45,-16.5 -60,-24" fill="#E3E4E6"/><polygon points="-45,-22.5 -29,-30.5 -29,-24.5 -45,-16.5" fill="#D3D5D8"/><polygon points="-44,-38 -29,-30.5 -45,-22.5 -60,-30" fill="#FFFFFF"/><polygon points="-12,-32 3,-24.5 3,-18.5 -12,-26" fill="#E3E4E6"/><polygon points="3,-24.5 19,-32.5 19,-26.5 3,-18.5" fill="#D3D5D8"/><polygon points="4,-40 19,-32.5 3,-24.5 -12,-32" fill="#FFFFFF"/><polygon points="-22,-21 -7,-13.5 -23,-5.5 -38,-13" fill="#BEC1C6"/><polygon points="26,-23 41,-15.5 25,-7.5 10,-15" fill="#BEC1C6"/><polygon points="-16,-8 -1,-0.5 -1,5.5 -16,-2" fill="#E3E4E6"/><polygon points="-1,-0.5 15,-8.5 15,-2.5 -1,5.5" fill="#D3D5D8"/><polygon points="0,-16 15,-8.5 -1,-0.5 -16,-8" fill="#FFFFFF"/><ellipse cx="0" cy="-65" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="82" cy="-24" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="-82" cy="-24" rx="4.9" ry="2.5" fill="#6E737B"/><ellipse cx="0" cy="17" rx="4.9" ry="2.5" fill="#6E737B"/></g><g data-k="bolt"><rect class="rod" style="--s:0.0313" x="-2.5" y="-129" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="0" y="-129" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="79.5" y="-88" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="82" y="-88" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="-84.5" y="-88" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="-82" y="-88" width="2.5" height="64" fill="#1C3356"/><rect class="rod" style="--s:0.0313" x="-2.5" y="-47" width="2.5" height="64" fill="#2F4F7F"/><rect class="rod" style="--s:0.0313" x="0" y="-47" width="2.5" height="64" fill="#1C3356"/></g></g><g class="layer" style="--cx:0px;--c:124px"><g data-k="2"><polygon points="-100,-98 0,-48 0,-38 -100,-88" fill="#D6D8DB"/><polygon points="0,-48 100,-98 100,-88 0,-38" fill="#C5C8CC"/><polygon points="0,-148 100,-98 0,-48 -100,-98" fill="#ECEDEF"/><polygon points="-37,-115.5 -24,-109 -24,-105 -37,-111.5" fill="#E3E4E6"/><polygon points="-24,-109 -7,-117.5 -7,-113.5 -24,-105" fill="#D3D5D8"/><polygon points="-20,-124 -7,-117.5 -24,-109 -37,-115.5" fill="#FFFFFF"/><polygon points="-20,-107 -7,-100.5 -7,-96.5 -20,-103" fill="#E3E4E6"/><polygon points="-7,-100.5 10,-109 10,-105 -7,-96.5" fill="#D3D5D8"/><polygon points="-3,-115.5 10,-109 -7,-100.5 -20,-107" fill="#FFFFFF"/><polygon points="-3,-98.5 10,-92 10,-88 -3,-94.5" fill="#E3E4E6"/><polygon points="10,-92 27,-100.5 27,-96.5 10,-88" fill="#D3D5D8"/><polygon points="14,-107 27,-100.5 10,-92 -3,-98.5" fill="#FFFFFF"/><polygon points="14,-90 27,-83.5 27,-79.5 14,-86" fill="#E3E4E6"/><polygon points="27,-83.5 44,-92 44,-88 27,-79.5" fill="#D3D5D8"/><polygon points="31,-98.5 44,-92 27,-83.5 14,-90" fill="#FFFFFF"/><polygon points="-63,-102.5 -50,-96 -50,-92 -63,-98.5" fill="#E3E4E6"/><polygon points="-50,-96 -33,-104.5 -33,-100.5 -50,-92" fill="#D3D5D8"/><polygon points="-46,-111 -33,-104.5 -50,-96 -63,-102.5" fill="#FFFFFF"/><polygon points="-46,-94 -33,-87.5 -33,-83.5 -46,-90" fill="#BEC1C6"/><polygon points="-33,-87.5 -16,-96 -16,-92 -33,-83.5" fill="#ABAFB5"/><polygon points="-29,-102.5 -16,-96 -33,-87.5 -46,-94" fill="#D3D5D8"/><line x1="-36" y1="-97.5" x2="-26" y2="-92.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="-26" y1="-97.5" x2="-36" y2="-92.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><polygon points="-12,-90 1,-83.5 -16,-75 -29,-81.5" fill="#D6D8DB"/><polygon points="5,-81.5 18,-75 1,-66.5 -12,-73" fill="#D6D8DB"/></g><g data-k="bolt"><ellipse cx="0" cy="-137" rx="7.1" ry="3.5" fill="#1C3356"/><ellipse cx="0" cy="-139" rx="7.1" ry="3.5" fill="#2F4F7F"/><ellipse cx="0" cy="-139" rx="2.5" ry="1.3" fill="#1C3356"/><ellipse cx="82" cy="-96" rx="7.1" ry="3.5" fill="#1C3356"/><ellipse cx="82" cy="-98" rx="7.1" ry="3.5" fill="#2F4F7F"/><ellipse cx="82" cy="-98" rx="2.5" ry="1.3" fill="#1C3356"/><ellipse cx="-82" cy="-96" rx="7.1" ry="3.5" fill="#1C3356"/><ellipse cx="-82" cy="-98" rx="7.1" ry="3.5" fill="#2F4F7F"/><ellipse cx="-82" cy="-98" rx="2.5" ry="1.3" fill="#1C3356"/><ellipse cx="0" cy="-55" rx="7.1" ry="3.5" fill="#1C3356"/><ellipse cx="0" cy="-57" rx="7.1" ry="3.5" fill="#2F4F7F"/><ellipse cx="0" cy="-57" rx="2.5" ry="1.3" fill="#1C3356"/></g></g><g class="layer" style="--cx:0px;--c:186px"><g data-k="3"><polygon points="-100,-172 0,-122 0,-112 -100,-162" fill="#D6D8DB"/><polygon points="0,-122 100,-172 100,-162 0,-112" fill="#C5C8CC"/><polygon points="0,-222 100,-172 0,-122 -100,-172" fill="#ECEDEF"/><polygon points="-22,-193 20,-172 20,-162 -22,-183" fill="#E3E4E6"/><polygon points="20,-172 28,-176 28,-166 20,-162" fill="#D3D5D8"/><polygon points="-14,-197 28,-176 20,-172 -22,-193" fill="#FFFFFF"/><line x1="-10" y1="-191" x2="14" y2="-179" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><polygon points="-50,-179 -8,-158 -8,-148 -50,-169" fill="#E3E4E6"/><polygon points="-8,-158 0,-162 0,-152 -8,-148" fill="#D3D5D8"/><polygon points="-42,-183 0,-162 -8,-158 -50,-179" fill="#FFFFFF"/><line x1="-38" y1="-177" x2="-14" y2="-165" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/></g></g><g class="layer" style="--cx:0px;--c:248px"><g data-k="4"><polygon points="-100,-246 0,-196 0,-186 -100,-236" fill="#E3E4E6"/><polygon points="0,-196 100,-246 100,-236 0,-186" fill="#D3D5D8"/><polygon points="0,-296 100,-246 0,-196 -100,-246" fill="#FFFFFF"/><polygon points="-18,-265 -8,-260 -18,-255 -28,-260" fill="#6E737B"/><line x1="-3" y1="-252.5" x2="33" y2="-234.5" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><polygon points="-36,-256 -26,-251 -36,-246 -46,-251" fill="#6E737B"/><line x1="-21" y1="-243.5" x2="15" y2="-225.5" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><polygon points="-54,-247 -44,-242 -54,-237 -64,-242" fill="#D6D8DB"/><line x1="-39" y1="-234.5" x2="-17" y2="-223.5" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="4" aria-pressed="false"><span class="en">todo.md, recited<small>The plan, rewritten at the end of every step.</small></span><span class="zh" lang="zh">todo.md，反复复述<small>每一步都在末尾重写一遍计划。</small></span></button></li>
+<li><button type="button" data-key="3" aria-pressed="false"><span class="en">Observations → files<small>Big pages go to disk; only the path stays.</small></span><span class="zh" lang="zh">观察结果 → 文件<small>大段内容存盘，上下文只留路径。</small></span></button></li>
+<li><button type="button" data-key="2" aria-pressed="false"><span class="en">History, append-only<small>Failures stay in: “tried A, got error X”.</small></span><span class="zh" lang="zh">历史记录，只追加<small>失败也留着：“试了 A，报错 X”。</small></span></button></li>
+<li><button type="button" data-key="1" aria-pressed="false"><span class="en">Tool definitions<small>All tools stay. Masked, never removed.</small></span><span class="zh" lang="zh">工具定义<small>全部保留，只遮蔽，不删除。</small></span></button></li>
+<li><button type="button" data-key="0" aria-pressed="false"><span class="en">System prompt<small>A stable prefix. No timestamps.</small></span><span class="zh" lang="zh">系统提示词<small>前缀固定，不放时间戳。</small></span></button></li>
+<li><button type="button" data-key="bolt" aria-pressed="false"><span class="en">Bolts = KV-cache<small>The bottom three are fastened: reused every step, never edited.</small></span><span class="zh" lang="zh">螺栓 = KV 缓存<small>下面三层拧在一起：每一步复用，从不改写。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-context-engineering-lessons-from-manus"><span class="en">The context window, oldest at the bottom. Tap a part.</span><span class="zh" lang="zh">上下文窗口，最早的在最下面。点一下看每一层。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="production-lessons-learned-the-hard-way">Production Lessons Learned the Hard Way</h2>
+<h3 id="1-design-for-kv-cache-above-all-else">1. Design for KV-Cache Above All Else</h3>
+<p>In production AI agents, there&rsquo;s one metric that matters more than anything: KV-Cache hit rate. Every step your agent takes grows the context massively, while outputs (usually tool calls) stay short. At Manus, this input-to-output token ratio is 100:1. Every cache miss means 10x cost explosion.</p>
+<p><strong>The costly mistakes:</strong></p>
+<ul>
+<li>Adding dynamic timestamps to system prompts kills cache hit rates to zero</li>
+<li>Unstable JSON serialization with changing key orders silently breaks caching</li>
+<li>Any character change in prompt prefixes invalidates the entire cache</li>
+</ul>
+<p><strong>The only way forward:</strong></p>
+<ul>
+<li>Keep prompt prefixes absolutely stable</li>
+<li>Make context append-only—never modify historical steps</li>
+<li>Ensure deterministic serialization</li>
+<li>Treat your context like a database index that needs optimization</li>
+</ul>
+<p>I&rsquo;m seeing this firsthand in my own rent roll cleaning tool for senior living properties. The Excel analysis instructions stay stable in the prompt prefix, while only the actual property data changes. This append-only approach dramatically reduces costs compared to reconstructing the entire analytical framework for each file - even though each rent roll looks completely different to the LLM despite following similar patterns to human eyes.</p>
+<h3 id="2-mask-tools-dont-remove-them">2. Mask Tools, Don&rsquo;t Remove Them</h3>
+<p>When an agent&rsquo;s tool library grows large, it gets &ldquo;confused&rdquo; and picks wrong tools. The natural instinct is to dynamically load only relevant tools.</p>
+<p><strong>Why this backfires:</strong></p>
+<ul>
+<li>Any change to tool definitions breaks KV-Cache for all subsequent requests</li>
+<li>When historical steps reference &ldquo;deleted&rdquo; tools, the model becomes completely confused</li>
+</ul>
+<p><strong>The surgical approach:</strong> Use masking during decoding to constrain tool selection while keeping all tool definitions stable in context. Control the action space through logit masking, not context manipulation.</p>
+<h3 id="3-file-system-as-infinite-context">3. File System as Infinite Context</h3>
+<p>Even 128K or 1M context windows get overwhelmed by a single webpage or PDF. Plus, model performance degrades in long contexts.</p>
+<p><strong>The breakthrough insight:</strong> Treat the file system as your ultimate context store. It&rsquo;s infinite, persistent, and the agent can manipulate it directly. When content is too long, remove it from context but preserve the file path. This &ldquo;recoverable compression&rdquo; maintains access to information without permanent loss.</p>
+<h3 id="4-use-recitation-to-control-attention">4. Use &ldquo;Recitation&rdquo; to Control Attention</h3>
+<p>In complex tasks requiring 50+ tool calls, models easily drift from original goals due to the &ldquo;lost-in-the-middle&rdquo; problem.</p>
+<p><strong>The attention hack:</strong> Force the agent to create and continuously update a todo.md file. Each step requires rewriting this file, which effectively &ldquo;recites&rdquo; the global plan to the end of context, keeping core objectives in the model&rsquo;s immediate attention span.</p>
+<h3 id="5-keep-failures-in-context">5. Keep Failures in Context</h3>
+<p>When agents fail, our instinct is to clean up the &ldquo;embarrassing&rdquo; records and retry.</p>
+<p><strong>Why this is counterproductive:</strong> You&rsquo;re paying for the model to repeat the same mistakes. Without failure context, it can&rsquo;t learn from errors.</p>
+<p><strong>The learning approach:</strong> Preserve error messages, stack traces, and failed attempts as &ldquo;observation results&rdquo; in context. When the model sees &ldquo;I tried A and failed with error X,&rdquo; it can reflect and choose B instead.</p>
+<h2 id="the-meta-lesson-context-engineering-is-experimental-science">The Meta-Lesson: Context Engineering is Experimental Science</h2>
+<p>Perhaps the most important takeaway from the Manus experience is that context engineering is fundamentally experimental. We&rsquo;re not trying to design perfect context upfront—we&rsquo;re building systems that can evolve and improve their context management over time.</p>
+<p>This means prioritizing adaptability over perfection, treating context as a &ldquo;dynamic, learnable environment.&rdquo; The REP Loop paradigm reinforces this: each iteration gives you data about what works and what doesn&rsquo;t, enabling continuous refinement of your context engineering approach.</p>
+<p>The future belongs to teams that master this experimental mindset, treating every agent interaction as a source of learning about better context design.</p>
+<hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Context Engineering for AI Agents: Lessons from Building Manus</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Context Engineering Lessons from Building Manus”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/blanked-out-claude-demo/"><span class="mono">← EARLIER · 2025-07-18</span><strong>Blanked Out During Claude's Demo. How Does It Just Work So Well?</strong></a><a class="card later" href="/writing/ai-meets-great-grandfathers-homework/"><span class="mono">LATER · 2025-07-23 →</span><strong>I Asked AI to Help Me Read My Great-Grandfather's Homework. It Failed Spectacularly.</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

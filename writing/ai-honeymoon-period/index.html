@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The AI Honeymoon Period: What Context Engineering Taught Me About Hype vs Reality · MJ Zou</title>
+<meta name="description" content="A Twitter debate about AI's transformative potential reveals the gap between honeymoon-period optimism and measured reality. Why agile methodology and product managers might be the real winners in this AI transition.">
+<meta name="date" content="2025-07-14">
+<meta name="topic" content="Context engineering">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-07-14 · 7 min read</span>
+<h1>The AI Honeymoon Period: What Context Engineering Taught Me About Hype vs Reality</h1>
+<p class="dek">A Twitter debate about AI's transformative potential reveals the gap between honeymoon-period optimism and measured reality. Why agile methodology and product managers might be the real winners in this AI transition.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">context engineering</span><span class="chip">product management</span><span class="chip">agile</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="when-optimists-meet-realists">When Optimists Meet Realists</h2>
+<p>Two posts crossed my timeline recently that perfectly captured the current moment in AI adoption. The first, from Yangyi, radiated the kind of infectious optimism you see from someone who just completed several projects with Claude Code:</p>
+<p><em>&ldquo;After using Claude Code to complete several projects today, I have a strong feeling that the changes we envisioned in 2023 have now crossed a leveraged qualitative change moment&hellip; We can quickly use Claude Code&rsquo;s Hook to complete long-process task planning and implementation. This means that 24-hour AI engineering teams will appear soon, and the entire process will accelerate exponentially.&rdquo;</em></p>
+<p>The response from 宝玉 (Baoyu) was more measured: <em>&ldquo;I call this the &lsquo;AI honeymoon period&rsquo;—usually the heartfelt excitement of programming newbies after trying AI to write a few small projects. I can completely understand it&hellip; but it&rsquo;s still too optimistic overall.&rdquo;</em></p>
+<p>Reading this exchange, I had a strange moment of recognition. Three months ago, I wrote about my fear of hitting &ldquo;tab, tab, tab&rdquo; on autocomplete without conscious thought. Six weeks ago, I reflected on the shift from prompt engineering to context engineering. A week ago, I dove deep into why LLMs struggle to say &ldquo;I don&rsquo;t know.&rdquo;</p>
+<p><strong>I&rsquo;ve been documenting this exact trajectory—from AI honeymoon to measured reality.</strong></p>
+<h2 id="the-research-confirms-the-reality-check">The Research Confirms the Reality Check</h2>
+<p>The data backing Baoyu&rsquo;s perspective is sobering. A July 2025 randomized controlled trial by METR found that experienced open-source developers using AI tools were actually <strong>19% slower</strong> than without AI—despite expecting a 24% speedup.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Even after experiencing the slowdown, they still believed AI had made them faster.</p>
+<p>This perception-reality gap is everywhere:</p>
+<ul>
+<li>Gartner confirms GenAI has moved from &ldquo;Peak of Inflated Expectations&rdquo; to &ldquo;Trough of Disillusionment&rdquo;<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li>Only 5.4% of firms have formally deployed GenAI as of early 2024<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+<li>80% of workers still don&rsquo;t use these tools regularly<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+<li>Despite $1.9 million average spend on GenAI, less than 30% of AI leaders report CEO satisfaction with ROI<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+</ul>
+<p>But here&rsquo;s what&rsquo;s fascinating: <strong>the research also reveals who&rsquo;s actually winning in this transition.</strong></p>
+<h2 id="the-unexpected-winners-product-managers">The Unexpected Winners: Product Managers</h2>
+<p>Yangyi mentioned that product managers and designers can now create MVPs faster—and this insight is backed by compelling data. There are currently 14,000+ AI product manager job openings globally, with salaries reaching $200,000 for senior roles.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> More importantly, &ldquo;80% of successful hires aren&rsquo;t programmers&rdquo; but technical literacy provides a significant advantage.</p>
+<p>This makes perfect sense when you consider what we learned about context engineering. Product managers are natural context engineers—we spend our days managing information flow, translating between stakeholders, and ensuring everyone has the right context to make decisions.</p>
+<p>But there&rsquo;s a deeper strategic advantage: <strong>coding is highly structured and well-maintained, which is exactly why LLM companies are targeting it with specialized coding agents.</strong> This creates a paradox for the industry.</p>
+<p>Programming languages have clear syntax, established patterns, and extensive documentation. LLM companies can build sophisticated coding agents because the problem space is well-defined. But this means it&rsquo;s actually <strong>easier for product managers to pick up coding POCs and MVPs than for programmers to pick up business context.</strong></p>
+<p>Think about it: A PM can learn enough Python or JavaScript fundamentals to prototype with AI assistance, because coding problems have clear right/wrong answers. But a developer trying to understand customer needs, market dynamics, or business strategy? That&rsquo;s infinitely more complex and contextual.</p>
+<p>Yangyi was right about the shift to &ldquo;constraint satisfaction&rdquo; design patterns, but the real insight is that PMs can more easily cross into the structured world of coding than developers can cross into the unstructured world of business context.</p>
+<h2 id="my-failed-experiment-that-taught-me-everything">My Failed Experiment That Taught Me Everything</h2>
+<p>Here&rsquo;s where personal experience validates the research. My attempt at &ldquo;vibe coding&rdquo;—trying to build without proper structure—failed spectacularly. But that failure taught me something called <strong>Test-Driven Development (TDD)</strong>.</p>
+<p>TDD focuses on building tests first, creating guardrails throughout development that act as checkpoints. The benefits go beyond just testing:</p>
+<ul>
+<li><strong>Quality Control</strong>: Tests define exactly what success looks like before any code is written</li>
+<li><strong>Faster Iteration</strong>: AI can generate both tests and implementation, accelerating development cycles</li>
+<li><strong>Risk Mitigation</strong>: As one 2024 study put it, &ldquo;Teams that build expertise in writing good tests will thrive with AI, while those chasing raw output without quality guardrails will drown in technical debt&rdquo;<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></li>
+</ul>
+<p>The 2024 research shows TDD is experiencing a &ldquo;renaissance in the AI era&rdquo; as the essential quality control mechanism.<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup> The test provides guardrails—AI can&rsquo;t wander into useless territory because the test specifies exactly what&rsquo;s required.</p>
+<h2 id="the-multiple-solutions-approach">The Multiple Solutions Approach</h2>
+<p>OpenAI Codex has a fascinating feature: it can generate multiple responses simultaneously for the same request.<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup> This capability points to an emerging methodology called &ldquo;Test-Driven Generation (TDG)&quot;—generate multiple solutions, test rapidly, pick what works, iterate fast.</p>
+<p>This is where agile methodology becomes crucial in an AI world. The research confirms that agile frameworks are &ldquo;well-suited to the highly iterative and data-driven nature of AI projects.&rdquo;<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> The key principles:</p>
+<ul>
+<li><strong>Shared context and alignment</strong> across cross-functional teams</li>
+<li><strong>Fast execution and iteration</strong> with MVP-first approaches</li>
+<li><strong>Quick failure and recovery</strong> through continuous testing</li>
+<li><strong>Performance monitoring</strong> with clear metrics and feedback loops</li>
+</ul>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-116 -198 232 310" role="img" aria-labelledby="fig-ai-honeymoon-period">
+<g data-k="box"><polygon points="-108,42 0,96 0,104 -108,50" fill="#BEC1C6"/><polygon points="0,96 108,42 108,50 0,104" fill="#ABAFB5"/><polygon points="0,-12 108,42 0,96 -108,42" fill="#D3D5D8"/><polygon points="-100,-14 0,36 0,92 -100,42" fill="#D6D8DB"/><polygon points="0,36 100,-14 100,42 0,92" fill="#C5C8CC"/><polygon points="0,-64 100,-14 0,36 -100,-14" fill="#ECEDEF"/></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="lid"><polygon points="-108,-72 0,-18 0,-6 -108,-60" fill="#E3E4E6"/><polygon points="0,-18 108,-72 108,-60 0,-6" fill="#D3D5D8"/><polygon points="0,-126 108,-72 0,-18 -108,-72" fill="#FFFFFF"/><ellipse cx="0" cy="-72" rx="21.2" ry="10.6" fill="#6E737B"/></g></g><g class="layer" style="--cx:0px;--c:116px"><g data-k="try"><polygon points="-90,-177 -64,-164 -64,-130 -90,-143" fill="#D6D8DB"/><polygon points="-64,-164 -38,-177 -38,-143 -64,-130" fill="#C5C8CC"/><polygon points="-64,-190 -38,-177 -64,-164 -90,-177" fill="#ECEDEF"/></g></g><g class="layer" style="--cx:0px;--c:118px"><g data-k="pass"><path d="M0 -166.8L0 -132.8A18.4 9.2 0 0 1 -18.4 -142L-18.4 -176A18.4 9.2 0 0 0 0 -166.8Z" fill="#24406A"/><path d="M0 -166.8L0 -132.8A18.4 9.2 0 0 0 18.4 -142L18.4 -176A18.4 9.2 0 0 1 0 -166.8Z" fill="#1C3356"/><ellipse cx="0" cy="-176" rx="18.4" ry="9.2" fill="#2F4F7F"/></g></g><g class="layer" style="--cx:0px;--c:116px"><g data-k="try"><polygon points="36,-142 64,-128 78,-169 50,-183" fill="#D6D8DB"/><polygon points="92,-142 64,-128 78,-169" fill="#C5C8CC"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="lid" aria-pressed="false"><span class="en">The test, written first<small>One hole that says exactly what success looks like.</small></span><span class="zh" lang="zh">先写的测试<small>只开一个孔，写明什么才算成功。</small></span></button></li>
+<li><button type="button" data-key="try" aria-pressed="false"><span class="en">Several candidates<small>Ask for several solutions at once, then test them fast.</small></span><span class="zh" lang="zh">一次生成多个<small>同时要几个方案，再快速测试。</small></span></button></li>
+<li><button type="button" data-key="pass" aria-pressed="false"><span class="en">The one that fits<small>Pick what passes and iterate. The rest never gets in.</small></span><span class="zh" lang="zh">能放进去的那个<small>挑通过的那个继续迭代，其余进不去。</small></span></button></li>
+<li><button type="button" data-key="box" aria-pressed="false"><span class="en">Guardrails<small>AI can’t wander into useless territory; only tested code lands here.</small></span><span class="zh" lang="zh">护栏<small>AI 没法乱跑，只有通过测试的代码能进来。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-ai-honeymoon-period"><span class="en">Write the test first, generate many answers, keep the one that fits. Tap a part.</span><span class="zh" lang="zh">先写测试，多生成几个方案，留下合格的那个。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-communication-skills-gap">The Communication Skills Gap</h2>
+<p>The METR study revealing that experienced developers are 19% slower with AI points to a deeper issue: effective AI collaboration requires communication and prompting skills that many programmers haven&rsquo;t developed. This isn&rsquo;t a criticism—it&rsquo;s a recognition that the skillset for effective AI partnership is different from traditional programming expertise.</p>
+<p>Traditional programmers excel at technical implementation but often struggle with:</p>
+<ul>
+<li><strong>Massive context switching costs</strong> in complex codebases</li>
+<li><strong>Legacy technical debt</strong> that AI doesn&rsquo;t understand</li>
+<li><strong>Environmental complexity</strong> that structured AI solutions can&rsquo;t easily navigate</li>
+<li><strong>Communication skill gaps</strong> around effective prompt engineering and requirement articulation</li>
+</ul>
+<p>Meanwhile, product managers are naturally positioned to excel because the role already requires:</p>
+<ul>
+<li><strong>Requirements gathering and specification</strong></li>
+<li><strong>Context management across stakeholders</strong></li>
+<li><strong>Iterative feedback incorporation</strong></li>
+<li><strong>Managing ambiguity and uncertainty</strong></li>
+</ul>
+<p>The challenge isn&rsquo;t that developers need to become product managers—it&rsquo;s that AI collaboration demands a blend of technical knowledge and communication clarity that spans both disciplines.</p>
+<p>This evolution is creating what some are calling &ldquo;AI-augmented engineers&rdquo;—developers who maintain strong foundational programming skills while mastering prompt engineering and AI optimization techniques.<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup> These engineers aren&rsquo;t being replaced by AI; they&rsquo;re becoming capability multipliers. But this transition requires developing new skills around AI collaboration that many experienced developers haven&rsquo;t yet acquired.</p>
+<p>The irony is that while AI makes basic coding more accessible to non-programmers, it makes <em>advanced</em> programming more communication-dependent for professionals.</p>
+<h2 id="the-agile-advantage-in-an-ai-world">The Agile Advantage in an AI World</h2>
+<p>This brings us to why agile methodology might be the best framework for AI development. The 2024 research emphasizes that successful AI projects require:</p>
+<ol>
+<li><strong>Cross-functional teams</strong> including data scientists, engineers, and business stakeholders<sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup></li>
+<li><strong>Iterative development</strong> with continuous testing and feedback incorporation</li>
+<li><strong>CI/CD integration</strong> for rapid deployment and updates</li>
+<li><strong>MVP-first approaches</strong> to mitigate risks and collect actionable data</li>
+</ol>
+<p>The pattern recognition is clear: whether it&rsquo;s software development, consulting, AI systems, or product management, <strong>the bottleneck is never the technical output—it&rsquo;s the context management, coordination, and communication.</strong></p>
+<h2 id="moving-beyond-the-honeymoon-period">Moving Beyond the Honeymoon Period</h2>
+<p>Baoyu&rsquo;s &ldquo;5-year timeline&rdquo; for these predictions feels right. We&rsquo;re moving from honeymoon-period excitement to practical implementation. The companies that will succeed are those that:</p>
+<ul>
+<li><strong>Combine AI capabilities with human oversight</strong> rather than pursuing full automation</li>
+<li><strong>Invest in agile processes and context engineering</strong> rather than just better models</li>
+<li><strong>Focus on structured problems</strong> where AI excels rather than fighting its limitations</li>
+<li><strong>Build quality guardrails</strong> through practices like TDD rather than accepting raw output</li>
+</ul>
+<p>The conscious effort I committed to in my first blog post—thinking deliberately about where AI helps versus where humans excel—isn&rsquo;t just personal development advice. It&rsquo;s becoming a competitive advantage.</p>
+<h2 id="the-real-transformation">The Real Transformation</h2>
+<p>Yangyi was partially right: we are seeing transformative potential. But the transformation isn&rsquo;t &ldquo;24-hour AI engineering teams&rdquo; replacing humans. It&rsquo;s the emergence of human-AI collaboration patterns that amplify our strengths while managing AI&rsquo;s limitations.</p>
+<p>Product managers who learn programming fundamentals combined with AI fluency aren&rsquo;t becoming developers—we&rsquo;re becoming the translators between human needs and AI capabilities. We&rsquo;re the context engineers who can rapidly prototype, test, and iterate on solutions.</p>
+<p>The future doesn&rsquo;t belong to generalists or specialists alone. It belongs to <strong>conscious practitioners</strong> who understand when to leverage AI acceleration and when to apply human judgment.</p>
+<p>Three months ago, I feared AI would make me think less. Instead, it&rsquo;s teaching me to think more deliberately about the parts that actually matter—the context, the communication, the conscious effort to manage uncertainty.</p>
+<p>The honeymoon period is ending. The real work is just beginning.</p>
+<hr>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>METR. (2025). &ldquo;Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.&rdquo; <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Human Risks. (2025). &ldquo;The Gen AI Hype Cycle: A Reality Check in 2025?&rdquo; <a href="https://humanrisks.com/blog/the-gen-ai-hype-cycle-a-reality-check-in-2025/">https://humanrisks.com/blog/the-gen-ai-hype-cycle-a-reality-check-in-2025/</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Akooda. (2025). &ldquo;Generative AI in 2025: Hype vs. Reality.&rdquo; <a href="https://www.akooda.co/blog/state-of-generative-ai-adoption">https://www.akooda.co/blog/state-of-generative-ai-adoption</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>The New Stack. (2025). &ldquo;Developer Productivity in 2025: More AI, but Mixed Results.&rdquo; <a href="https://thenewstack.io/developer-productivity-in-2025-more-ai-but-mixed-results/">https://thenewstack.io/developer-productivity-in-2025-more-ai-but-mixed-results/</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Human Risks. (2025). &ldquo;The Gen AI Hype Cycle: A Reality Check in 2025?&rdquo; <a href="https://humanrisks.com/blog/the-gen-ai-hype-cycle-a-reality-check-in-2025/">https://humanrisks.com/blog/the-gen-ai-hype-cycle-a-reality-check-in-2025/</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Product School. (2025). &ldquo;AI Product Managers Are the PMs That Matter in 2025.&rdquo; <a href="https://productschool.com/blog/artificial-intelligence/guide-ai-product-manager">https://productschool.com/blog/artificial-intelligence/guide-ai-product-manager</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Momentic. (2024). &ldquo;How AI Will Bring TDD Back from the Dead.&rdquo; <a href="https://momentic.ai/blog/test-driven-development">https://momentic.ai/blog/test-driven-development</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Tabnine. (2024). &ldquo;Test-driven development in the AI era.&rdquo; <a href="https://www.tabnine.com/blog/test-driven-development-in-the-ai-era/">https://www.tabnine.com/blog/test-driven-development-in-the-ai-era/</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>Chanwit Kaewkasi. (2024). &ldquo;Test-Driven Generation (TDG): Adopting TDD again this time with Gen AI.&rdquo; <a href="https://chanwit.medium.com/test-driven-generation-tdg-adopting-tdd-again-this-time-with-gen-ai-27f986bed6f8">https://chanwit.medium.com/test-driven-generation-tdg-adopting-tdd-again-this-time-with-gen-ai-27f986bed6f8</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p>Datics. (2024). &ldquo;How to Use Agile Methodologies for AI &amp; ML Projects in 2024.&rdquo; <a href="https://datics.ai/how-to-use-agile-methodologies-for-ai-ml-projects-in-2024/">https://datics.ai/how-to-use-agile-methodologies-for-ai-ml-projects-in-2024/</a>&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p>Best Blogs Dev. (2024). &ldquo;AI-Augmented Engineers: The Future of Software Development.&rdquo; <a href="https://www.bestblogs.dev/en/article/c5df0b">https://www.bestblogs.dev/en/article/c5df0b</a>&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12">
+<p>Invensis Learning. (2024). &ldquo;Simplifying AI in Agile Project Management for Success.&rdquo; <a href="https://www.invensislearning.com/blog/using-agile-in-ai-and-machine-learning-projects/">https://www.invensislearning.com/blog/using-agile-in-ai-and-machine-learning-projects/</a>&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “The AI Honeymoon Period: What Context Engineering Taught Me About Hype vs Reality”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/ai-productivity-paradox/"><span class="mono">← EARLIER · 2025-07-12</span><strong>The AI Productivity Paradox: Why Curiosity Beats Role</strong></a><a class="card later" href="/writing/blanked-out-claude-demo/"><span class="mono">LATER · 2025-07-18 →</span><strong>Blanked Out During Claude's Demo. How Does It Just Work So Well?</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

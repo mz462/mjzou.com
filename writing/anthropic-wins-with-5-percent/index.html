@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why Anthropic Wins with 5% of the Users · MJ Zou</title>
+<meta name="description" content="Claude has only 5% of ChatGPT's users but generates 40% of OpenAI's revenue. The secret? Anthropic's product team doesn't try to outrun OpenAI—they out-see them by finding combinations everyone else missed.">
+<meta name="date" content="2025-10-17">
+<meta name="topic" content="Product management">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-10-17 · 12 min read</span>
+<h1>Why Anthropic Wins with 5% of the Users</h1>
+<p class="dek">Claude has only 5% of ChatGPT's users but generates 40% of OpenAI's revenue. The secret? Anthropic's product team doesn't try to outrun OpenAI—they out-see them by finding combinations everyone else missed.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">product management</span><span class="chip">Anthropic</span><span class="chip">Claude</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>On October 16, 2025, while the tech world was still digesting OpenAI&rsquo;s Instant Checkout within ChatGPT, Anthropic quietly released something called &ldquo;Skills.&rdquo;</p>
+<p>No flashy demos. No performance charts comparing against GPT-5. Just a simple announcement about folders containing Markdown files and optional scripts.</p>
+<p>Within hours, Simon Willison—one of the most productive voices in AI development—called it &ldquo;maybe a bigger deal than MCP.&rdquo;</p>
+<p>Here&rsquo;s what makes this strange: <strong>Claude has only 5% of ChatGPT&rsquo;s user base. But it generates 40% of OpenAI&rsquo;s revenue.</strong></p>
+<p>How does a company that launched 3.5 months after ChatGPT, with a fraction of the users, keep forcing the industry leader to follow its playbook? How does the underdog with 18.9 million monthly users compete against a giant with 800 million weekly users—and somehow capture nearly half the revenue?</p>
+<p>The answer isn&rsquo;t about who has the best model. It&rsquo;s not about who ships features fastest, or who raises more funding, or who has the most compute.</p>
+<p>It&rsquo;s about something far more interesting: <strong>seeing combinations that everyone else missed.</strong></p>
+<h2 id="the-relentless-treadmill">The Relentless Treadmill</h2>
+<p>June 2024: Anthropic releases Artifacts—a split-screen interface that lets you edit code and documents while chatting with Claude.</p>
+<p>October 2024: OpenAI ships Canvas. Four months later. Same concept.</p>
+<p>September 2024: OpenAI launches o1, its first reasoning model that &ldquo;thinks&rdquo; before answering.</p>
+<p>February 2025: Claude releases Extended Thinking. Five months later. Same capability.</p>
+<p>February 2025: OpenAI introduces Deep Research—an agent that scours the web for comprehensive reports.</p>
+<p>April 2025: Claude ships its Research feature. Two months later.</p>
+<p><strong>This is what the AI arms race looks like in 2024-2025. A feature released today becomes table stakes in 2-5 months.</strong></p>
+<p>The pattern is relentless. It&rsquo;s exhausting just to watch. Here&rsquo;s the full timeline of how these two companies have traded punches:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Date</th>
+          <th>Company</th>
+          <th>Product/Feature</th>
+          <th>What It Does</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Nov 30, 2022</td>
+          <td>OpenAI</td>
+          <td>ChatGPT Launch</td>
+          <td>Conversational AI; reached 1M users in 5 days</td>
+      </tr>
+      <tr>
+          <td>Mar 14, 2023</td>
+          <td>OpenAI</td>
+          <td>GPT-4</td>
+          <td>Multimodal model with enhanced reasoning</td>
+      </tr>
+      <tr>
+          <td>Mar 14, 2023</td>
+          <td>Anthropic</td>
+          <td>Claude 1</td>
+          <td>First Claude release; 9K context window</td>
+      </tr>
+      <tr>
+          <td>Jul 11, 2023</td>
+          <td>Anthropic</td>
+          <td>Claude 2</td>
+          <td>100K token context window; public availability</td>
+      </tr>
+      <tr>
+          <td>Jul 6, 2023</td>
+          <td>OpenAI</td>
+          <td>Code Interpreter</td>
+          <td>Data analysis, code execution in containers</td>
+      </tr>
+      <tr>
+          <td>Aug 28, 2023</td>
+          <td>OpenAI</td>
+          <td>ChatGPT Enterprise</td>
+          <td>Unlimited GPT-4, 32K context, enterprise features</td>
+      </tr>
+      <tr>
+          <td>Sep 7, 2023</td>
+          <td>Anthropic</td>
+          <td>Claude Pro</td>
+          <td>$20/month subscription matching ChatGPT Plus</td>
+      </tr>
+      <tr>
+          <td>Nov 21, 2023</td>
+          <td>Anthropic</td>
+          <td>Claude 2.1</td>
+          <td>200K context window (2x GPT-4 Turbo)</td>
+      </tr>
+      <tr>
+          <td>Mar 4, 2024</td>
+          <td>Anthropic</td>
+          <td>Claude 3 Family</td>
+          <td>Three-tier models; 200K context; new benchmarks</td>
+      </tr>
+      <tr>
+          <td>May 13, 2024</td>
+          <td>OpenAI</td>
+          <td>GPT-4o</td>
+          <td>&ldquo;Omni&rdquo; multimodal; 2x faster, 50% cheaper</td>
+      </tr>
+      <tr>
+          <td>Jun 20, 2024</td>
+          <td>Anthropic</td>
+          <td>Claude 3.5 Sonnet + Artifacts</td>
+          <td>Split-screen collaborative editing</td>
+      </tr>
+      <tr>
+          <td>Sep 4, 2024</td>
+          <td>Anthropic</td>
+          <td>Claude Enterprise</td>
+          <td>500K context window; GitHub integration</td>
+      </tr>
+      <tr>
+          <td>Sep 12, 2024</td>
+          <td>OpenAI</td>
+          <td>o1-preview + o1-mini</td>
+          <td>Reasoning models with &ldquo;thinking&rdquo; capability</td>
+      </tr>
+      <tr>
+          <td>Oct 3, 2024</td>
+          <td>OpenAI</td>
+          <td>Canvas</td>
+          <td>Writing/coding collaboration interface</td>
+      </tr>
+      <tr>
+          <td>Oct 22, 2024</td>
+          <td>Anthropic</td>
+          <td>Computer Use</td>
+          <td>Control computers via screen/keyboard/mouse</td>
+      </tr>
+      <tr>
+          <td>Dec 5, 2024</td>
+          <td>OpenAI</td>
+          <td>ChatGPT Pro + o1 Full</td>
+          <td>$200/month plan; o1 out of preview</td>
+      </tr>
+      <tr>
+          <td>Feb 2, 2025</td>
+          <td>OpenAI</td>
+          <td>Deep Research</td>
+          <td>Autonomous research with web crawling</td>
+      </tr>
+      <tr>
+          <td>Feb 24, 2025</td>
+          <td>Anthropic</td>
+          <td>Claude 3.7 + Extended Thinking</td>
+          <td>Reasoning with visible step-by-step process</td>
+      </tr>
+      <tr>
+          <td>Apr 15, 2025</td>
+          <td>Anthropic</td>
+          <td>Claude Research</td>
+          <td>Multi-step research across internal/external sources</td>
+      </tr>
+      <tr>
+          <td>Sep 29, 2025</td>
+          <td>Anthropic</td>
+          <td>Claude Sonnet 4.5 + Code 2.0</td>
+          <td>Enhanced model; major CLI update</td>
+      </tr>
+      <tr>
+          <td>Oct 16, 2025</td>
+          <td>Anthropic</td>
+          <td>Skills</td>
+          <td>Customizable folders with instructions &amp; scripts</td>
+      </tr>
+  </tbody>
+</table>
+<p>Look at that table. The conventional wisdom is obvious: <strong>This is a speed contest.</strong> Whoever ships features fastest wins. The treadmill never stops. Innovation means being first.</p>
+<p>And on the surface, the numbers seem to confirm OpenAI&rsquo;s dominance. ChatGPT has 800 million weekly users. Claude has 18.9 million monthly users—roughly 5% of ChatGPT&rsquo;s scale.</p>
+<p>OpenAI raised billions. They have the compute. They have the users. They have the brand recognition.</p>
+<p>By every conventional metric, Anthropic is the underdog playing catch-up.</p>
+<p><strong>But zoom out, and a different story emerges.</strong></p>
+<p>Yes, both companies are matching each other&rsquo;s features with brutal efficiency. But look closer at <em>how</em> Anthropic innovates, and you&rsquo;ll notice something peculiar.</p>
+<p>They&rsquo;re not trying to outrun OpenAI.</p>
+<p><strong>They&rsquo;re trying to out-see them.</strong></p>
+<h2 id="the-evolution-that-reveals-everything">The Evolution That Reveals Everything</h2>
+<p>To understand what Anthropic is really doing, you need to look at how they approached one specific problem: code execution.</p>
+<p><strong>October 2024.</strong> Claude launched its first code execution feature, called the &ldquo;analysis tool.&rdquo;</p>
+<p>It wasn&rsquo;t Python in containers like OpenAI&rsquo;s Code Interpreter. It was JavaScript. Running in your browser.</p>
+<p>The code executed in a locked-down Web Worker that could only communicate back to the main page by intercepting messages sent to <code>console.log()</code>. It could read files you uploaded using <code>fs.readFile()</code>. It had access to Lodash and Papa Parse for working with data.</p>
+<p>That&rsquo;s it.</p>
+<p>Simon Willison, who has documented every major AI development since GPT-3, wrote detailed technical notes about it. The implementation was clever—secure, fast, no server costs. But compared to OpenAI&rsquo;s full Python environment with data analysis libraries?</p>
+<p><strong>It seemed&hellip; modest.</strong></p>
+<p><strong>September 2025.</strong> Claude pivoted entirely.</p>
+<p>Now it had server-side containers just like OpenAI: Ubuntu 24.04, Python 3.12, Node.js, 9GB of RAM, 5GB of disk space. The full setup. It could install packages from npm and PyPI. It could run shell commands.</p>
+<p>The browser JavaScript approach was gone. This was the real deal.</p>
+<p><strong>This looked like catching up.</strong> Like Anthropic finally admitted OpenAI&rsquo;s architecture was right and copied it.</p>
+<p><strong>October 16, 2025.</strong> Skills launched.</p>
+<p>And suddenly, the pattern became clear.</p>
+<p>Skills aren&rsquo;t just about running code in containers. They&rsquo;re about <strong>systematically initializing those containers with the files and tools users actually need.</strong></p>
+<p>Pre-installed LibreOffice for manipulating PowerPoint, Word, and Excel files. Automatic file management for office documents. Skills that can apply company branding to presentations. Skills that review contracts against legal policies. Skills that format Excel formulas to match corporate standards.</p>
+<p>Not just data analysis. <strong>Actual work.</strong></p>
+<p>Here&rsquo;s the insight that changes everything:</p>
+<p>OpenAI pioneered LLMs plus containers back in July 2023 with Code Interpreter. Andrej Karpathy called it &ldquo;your personal data analyst.&rdquo; Everyone saw the obvious use case: upload a CSV, generate charts, analyze data, create visualizations.</p>
+<p>Impressive. Worthy of a keynote demo.</p>
+<p>But Anthropic&rsquo;s product team asked a different question:</p>
+<p><strong>Where does work actually happen?</strong></p>
+<p>Not in Jupyter notebooks analyzing datasets. Not in creating one-off data visualizations.</p>
+<p>In PowerPoint decks for client presentations. In Word documents with tracked changes and legal reviews. In Excel spreadsheets with company-specific formulas and formatting standards.</p>
+<p>The technology—containers plus LLMs—already existed. <strong>The genius was seeing what to put inside.</strong></p>
+<p>This is the turning point. The moment where copying becomes innovating. Where &ldquo;catching up&rdquo; becomes &ldquo;leapfrogging.&rdquo;</p>
+<p>Because OpenAI solved for data scientists doing impressive things.</p>
+<p>Anthropic solved for everyone who&rsquo;s ever had to format a PowerPoint at 11 PM before a client meeting.</p>
+<h2 id="how-they-did-it">How They Did It</h2>
+<p>So how does a company with a fraction of the users compete against a giant? Not by trying to beat them at their own game. By playing a different game entirely.</p>
+<h3 id="start-where-its-easy-learn-what-matters">Start Where It&rsquo;s Easy, Learn What Matters</h3>
+<p>The browser JavaScript approach wasn&rsquo;t a compromise. It was a probe.</p>
+<p>Think about what Anthropic learned in October 2024: They shipped code execution in weeks, not months. No infrastructure complexity. No security nightmares from running arbitrary code on their servers. Just watch what users actually do with code execution and learn the patterns.</p>
+<p>This is classic product strategy: <strong>Start with the simplest thing that could possibly work.</strong></p>
+<p>While OpenAI had already spent over a year running Python containers at scale, Anthropic was learning something more valuable: <em>What do users actually need code execution for?</em></p>
+<p>Turns out, most people weren&rsquo;t running complex data science pipelines. They were doing simpler tasks. Parsing data. Formatting outputs. Generating structured content.</p>
+<p>The browser approach taught Anthropic what mattered. And what could wait.</p>
+<h3 id="match-the-table-stakes-build-the-foundation">Match the Table Stakes, Build the Foundation</h3>
+<p>By September 2025, containers became non-negotiable. Every serious AI assistant needed server-side code execution. The market had spoken.</p>
+<p>So Anthropic built it. Ubuntu containers. Python and Node.js. Package installation. The works.</p>
+<p>But here&rsquo;s what separates good product teams from great ones: While building container infrastructure, Anthropic wasn&rsquo;t asking &ldquo;how do we match Code Interpreter?&rdquo;</p>
+<p>They were asking: <strong>&ldquo;Now that we have containers, what becomes possible?&rdquo;</strong></p>
+<p>This is the difference between playing catch-up and playing chess. You match the table stakes not because you&rsquo;re copying, but because you&rsquo;re building the foundation for your next move.</p>
+<p>The container infrastructure wasn&rsquo;t the destination. It was the platform.</p>
+<h3 id="find-the-adjacent-possible">Find the Adjacent Possible</h3>
+<p>This is where Skills gets brilliant.</p>
+<p>The architecture is almost offensively simple. A Markdown file with YAML frontmatter. Optional scripts. Optional supporting documents. That&rsquo;s it.</p>
+<p>No complex protocol specifications like MCP (Model Context Protocol), which requires hosts, clients, servers, and multiple transport layers. No tens of thousands of tokens of protocol overhead. Just Markdown files that Claude can read and understand.</p>
+<p>But here&rsquo;s what makes it powerful:</p>
+<p><strong>Progressive disclosure.</strong> When you start a conversation with Claude, it scans available skills and reads just the names and brief descriptions—consuming only dozens of tokens per skill. Only when a skill becomes relevant does Claude load the full details. Compare this to MCP implementations that can consume tens of thousands of context tokens just for the protocol overhead, leaving limited space for actual work.</p>
+<p><strong>Portable by design.</strong> The same skill format works across Claude.ai, Claude Code CLI, and the API. No special infrastructure needed. If you can write a Markdown file, you can create a skill. Simon Willison predicts &ldquo;a Cambrian explosion in Skills&rdquo; precisely because the barrier to entry is so low.</p>
+<p><strong>Composable.</strong> Multiple skills load automatically when relevant. Claude coordinates them without you having to specify which ones to use. It&rsquo;s intelligent orchestration, not manual configuration.</p>
+<p><strong>Language-agnostic.</strong> Skills can include code in any language the container environment supports. Python for data processing. JavaScript for web interactions. Bash scripts for system operations. Whatever solves the problem.</p>
+<p>This is what &ldquo;finding the adjacent possible&rdquo; looks like in practice. The technology—containers, Markdown, YAML—all existed. <strong>The innovation was seeing how to combine them.</strong></p>
+<h3 id="solve-for-where-the-work-lives">Solve for Where the Work Lives</h3>
+<p>And here&rsquo;s the masterstroke: Pre-installing LibreOffice in the container environment.</p>
+<p>It sounds almost boring, doesn&rsquo;t it? LibreOffice? The open-source office suite?</p>
+<p>But think about what this unlocks:</p>
+<ul>
+<li>A skill that formats Excel formulas correctly and applies corporate financial models</li>
+<li>A skill that creates PowerPoint presentations from scratch or templates, with proper branding</li>
+<li>A skill that edits Word documents with tracked changes, following legal review processes</li>
+<li>A skill that fills PDF forms and extracts structured data</li>
+</ul>
+<p>These aren&rsquo;t edge cases. <strong>This is where work lives.</strong></p>
+<p>OpenAI&rsquo;s Code Interpreter solved for data scientists creating impressive visualizations. Important work. But niche.</p>
+<p>Skills solve for everyone who&rsquo;s ever needed to:</p>
+<ul>
+<li>Generate a client proposal in the company&rsquo;s PowerPoint template</li>
+<li>Review a contract and flag clauses that violate company policy</li>
+<li>Create a financial model in Excel with the right formulas and formatting</li>
+<li>Produce a report with tracked changes for legal review</li>
+</ul>
+<p>When Anthropic added LibreOffice to containers, they weren&rsquo;t adding features. They were <strong>unlocking workflows.</strong></p>
+<p>Because containers plus LLMs had existed for over two years. Everyone could have pre-installed LibreOffice. No one did.</p>
+<p>Why?</p>
+<p><strong>Because everyone was solving for the impressive demo, not the daily workflow.</strong></p>
+<p>Data analysis and chart generation make for great keynote presentations. Properly formatting PowerPoint slides with your company&rsquo;s brand guidelines? Boring. Unsexy.</p>
+<p>But that&rsquo;s where the revenue is. That&rsquo;s where businesses will pay. That&rsquo;s where Claude&rsquo;s 40% revenue share with 5% of the users comes from.</p>
+<p>Anthropic didn&rsquo;t invent new technology. <strong>They saw combinations others missed.</strong></p>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-68 -181 196 279" role="img" aria-labelledby="fig-anthropic-wins-with-5-percent">
+<g data-k="shell"><polygon points="-60,24 60,84 60,90 -60,30" fill="#BEC1C6"/><polygon points="60,84 120,54 120,60 60,90" fill="#ABAFB5"/><polygon points="0,-6 120,54 60,84 -60,24" fill="#D3D5D8"/><polygon points="-5,-57.5 115,2.5 115,56.5 -5,-3.5" fill="#D6D8DB"/><polygon points="115,2.5 120,0 120,54 115,56.5" fill="#C5C8CC"/><polygon points="0,-60 120,0 115,2.5 -5,-57.5" fill="#ECEDEF"/><polygon points="-55,-32.5 -50,-30 -50,24 -55,21.5" fill="#D6D8DB"/><polygon points="-50,-30 0,-55 0,-1 -50,24" fill="#C5C8CC"/><polygon points="-5,-57.5 0,-55 -50,-30 -55,-32.5" fill="#ECEDEF"/></g><g class="layer" style="--cx:0px;--c:50px"><g data-k="cargo"><polygon points="-38,-57 -8,-42 -8,-12 -38,-27" fill="#24406A"/><polygon points="-8,-42 28,-60 28,-30 -8,-12" fill="#1C3356"/><polygon points="-2,-75 28,-60 -8,-42 -38,-57" fill="#2F4F7F"/><polygon points="-23,-63.5 -18,-61 -18,-56 -23,-58.5" fill="#E3E4E6"/><polygon points="-18,-61 -13,-63.5 -13,-58.5 -18,-56" fill="#D3D5D8"/><polygon points="-18,-66 -13,-63.5 -18,-61 -23,-63.5" fill="#FFFFFF"/><polygon points="-12,-67 -7,-64.5 -7,-54.5 -12,-57" fill="#E3E4E6"/><polygon points="-7,-64.5 -2,-67 -2,-57 -7,-54.5" fill="#D3D5D8"/><polygon points="-7,-69.5 -2,-67 -7,-64.5 -12,-67" fill="#FFFFFF"/><polygon points="-1,-70.5 4,-68 4,-53 -1,-55.5" fill="#E3E4E6"/><polygon points="4,-68 9,-70.5 9,-55.5 4,-53" fill="#D3D5D8"/><polygon points="4,-73 9,-70.5 4,-68 -1,-70.5" fill="#FFFFFF"/><polygon points="-3,-39.5 27,-24.5 27,5.5 -3,-9.5" fill="#24406A"/><polygon points="27,-24.5 63,-42.5 63,-12.5 27,5.5" fill="#1C3356"/><polygon points="33,-57.5 63,-42.5 27,-24.5 -3,-39.5" fill="#2F4F7F"/><line x1="31" y1="-50.5" x2="49" y2="-41.5" stroke="#E3E4E6" stroke-width="2.6" stroke-linecap="round"/><line x1="22" y1="-46" x2="40" y2="-37" stroke="#E3E4E6" stroke-width="2.6" stroke-linecap="round"/><line x1="13" y1="-41.5" x2="24" y2="-36" stroke="#E3E4E6" stroke-width="2.6" stroke-linecap="round"/><polygon points="32,-22 62,-7 62,23 32,8" fill="#24406A"/><polygon points="62,-7 98,-25 98,5 62,23" fill="#1C3356"/><polygon points="68,-40 98,-25 62,-7 32,-22" fill="#2F4F7F"/><polygon points="68,-35 76,-31 68,-27 60,-31" fill="#E3E4E6"/><polygon points="78,-30 86,-26 78,-22 70,-26" fill="#E3E4E6"/><polygon points="58,-30 66,-26 58,-22 50,-26" fill="#FFFFFF"/><polygon points="68,-25 76,-21 68,-17 60,-21" fill="#FFFFFF"/><polygon points="48,-25 56,-21 48,-17 40,-21" fill="#FFFFFF"/><polygon points="58,-20 66,-16 58,-12 50,-16" fill="#FFFFFF"/></g></g><g data-k="shell"><polygon points="60,25 65,27.5 65,81.5 60,79" fill="#D6D8DB"/><polygon points="65,27.5 115,2.5 115,56.5 65,81.5" fill="#C5C8CC"/><polygon points="110,0 115,2.5 65,27.5 60,25" fill="#ECEDEF"/><line x1="96" y1="62" x2="96" y2="16" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="84" y1="68" x2="84" y2="22" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><polygon points="-60,-30 60,30 60,84 -60,24" fill="#D6D8DB"/><polygon points="60,30 65,27.5 65,81.5 60,84" fill="#C5C8CC"/><polygon points="-55,-32.5 65,27.5 60,30 -60,-30" fill="#ECEDEF"/><line x1="-48" y1="24" x2="-48" y2="-18" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-36" y1="30" x2="-36" y2="-12" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-24" y1="36" x2="-24" y2="-6" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="-12" y1="42" x2="-12" y2="0" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="0" y1="48" x2="0" y2="6" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="12" y1="54" x2="12" y2="12" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="24" y1="60" x2="24" y2="18" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="36" y1="66" x2="36" y2="24" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/><line x1="48" y1="72" x2="48" y2="30" stroke="#A9ADB3" stroke-width="2.6" stroke-linecap="round"/></g><g data-k="manifest"><polygon points="-18.1,29.1 17.9,47.1 17.9,23 -18.1,5" fill="#FFFFFF"/></g><g data-k="manifest"><line x1="-13.2" y1="23.6" x2="11.8" y2="36.1" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="-13.2" y1="15.6" x2="11.8" y2="28.1" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/></g><g data-k="castings"><polygon points="106,51 113,54.5 113,63.5 106,60" fill="#6E737B"/><polygon points="113,54.5 120,51 120,60 113,63.5" fill="#6E737B"/><polygon points="113,47.5 120,51 113,54.5 106,51" fill="#6E737B"/><polygon points="-60,21 -53,24.5 -53,33.5 -60,30" fill="#6E737B"/><polygon points="-53,24.5 -46,21 -46,30 -53,33.5" fill="#6E737B"/><polygon points="-53,17.5 -46,21 -53,24.5 -60,21" fill="#6E737B"/><polygon points="53,77.5 60,81 60,90 53,86.5" fill="#6E737B"/><polygon points="60,81 67,77.5 67,86.5 60,90" fill="#6E737B"/><polygon points="60,74 67,77.5 60,81 53,77.5" fill="#6E737B"/></g><g class="layer" style="--cx:0px;--c:105px"><g data-k="shell"><polygon points="-60,-141 60,-81 60,-75 -60,-135" fill="#D6D8DB"/><polygon points="60,-81 120,-111 120,-105 60,-75" fill="#C5C8CC"/><polygon points="0,-171 120,-111 60,-81 -60,-141" fill="#ECEDEF"/></g><g data-k="castings"><polygon points="-7,-169.5 0,-166 0,-158 -7,-161.5" fill="#6E737B"/><polygon points="0,-166 7,-169.5 7,-161.5 0,-158" fill="#6E737B"/><polygon points="0,-173 7,-169.5 0,-166 -7,-169.5" fill="#6E737B"/><polygon points="106,-113 113,-109.5 113,-101.5 106,-105" fill="#6E737B"/><polygon points="113,-109.5 120,-113 120,-105 113,-101.5" fill="#6E737B"/><polygon points="113,-116.5 120,-113 113,-109.5 106,-113" fill="#6E737B"/><polygon points="-60,-143 -53,-139.5 -53,-131.5 -60,-135" fill="#6E737B"/><polygon points="-53,-139.5 -46,-143 -46,-135 -53,-131.5" fill="#6E737B"/><polygon points="-53,-146.5 -46,-143 -53,-139.5 -60,-143" fill="#6E737B"/><polygon points="53,-86.5 60,-83 60,-75 53,-78.5" fill="#6E737B"/><polygon points="60,-83 67,-86.5 67,-78.5 60,-75" fill="#6E737B"/><polygon points="60,-90 67,-86.5 60,-83 53,-86.5" fill="#6E737B"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="shell" aria-pressed="false"><span class="en">The container<small>Ubuntu, Python, packages. Table stakes since 2023.</small></span><span class="zh" lang="zh">集装箱<small>Ubuntu、Python，能装依赖包。2023 年起就是标配。</small></span></button></li>
+<li><button type="button" data-key="cargo" aria-pressed="false"><span class="en">Cargo: office Skills<small>PowerPoint, Word, Excel, with LibreOffice preinstalled.</small></span><span class="zh" lang="zh">货：办公 Skills<small>PPT、Word、Excel，预装 LibreOffice。</small></span></button></li>
+<li><button type="button" data-key="manifest" aria-pressed="false"><span class="en">Manifest<small>Names and one-line descriptions first. Dozens of tokens each.</small></span><span class="zh" lang="zh">货单<small>先只读名字和一句话描述，每个几十个 token。</small></span></button></li>
+<li><button type="button" data-key="castings" aria-pressed="false"><span class="en">Corner castings<small>One format on Claude.ai, Claude Code and the API.</small></span><span class="zh" lang="zh">角件<small>同一格式，Claude.ai、Claude Code、API 通用。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-anthropic-wins-with-5-percent"><span class="en">Same box as everyone. Different cargo. Tap a part.</span><span class="zh" lang="zh">箱子都一样，货不一样。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-numbers-that-tell-the-real-story">The Numbers That Tell the Real Story</h2>
+<p>Let&rsquo;s return to that opening paradox: Claude has 18.9 million monthly active users. ChatGPT has 800 million weekly active users.</p>
+<p>Claude is 5% of ChatGPT&rsquo;s scale.</p>
+<p>Yet Anthropic hit $4 billion in annualized revenue by mid-2025—<strong>40% of OpenAI&rsquo;s revenue.</strong></p>
+<p>How?</p>
+<p><strong>Because the users Claude wins are the ones doing work, not exploration.</strong></p>
+<p>The data backs this up. Look at what people actually use each AI for:</p>
+<ul>
+<li><strong>36% of Claude conversations</strong> involve computer programming and software development</li>
+<li><strong>4.2% of ChatGPT conversations</strong> are coding-related</li>
+</ul>
+<p>ChatGPT is a consumer product. It&rsquo;s for creative writing, general questions, homework help, casual exploration. Eight hundred million people asking &ldquo;write me a poem about my cat.&rdquo;</p>
+<p>Claude is a productivity tool. It&rsquo;s for developers writing code. Product managers drafting specifications. Lawyers reviewing contracts. Consultants building client presentations at midnight.</p>
+<p><strong>This is the real competitive moat.</strong> Not who has more users, but who owns the workflows that businesses will pay for.</p>
+<h3 id="the-pattern-recognition-insight">The Pattern Recognition Insight</h3>
+<p>Look back at what Anthropic has pioneered over the past 18 months:</p>
+<p><strong>Artifacts</strong> (June 2024): A split-screen interface for iterative editing. Became a must-have so fast that OpenAI shipped Canvas four months later.</p>
+<p><strong>Computer Use</strong> (October 2024): The first frontier model that can control computers via screen, keyboard, and mouse interactions. Still industry-leading.</p>
+<p><strong>Skills</strong> (October 2025): Simon Willison predicts &ldquo;a Cambrian explosion&rdquo; in adoption, potentially exceeding MCP precisely because it&rsquo;s so simple.</p>
+<p>These aren&rsquo;t random features. They share a philosophy:</p>
+<p><strong>The best product teams don&rsquo;t invent new technology. They see combinations others missed.</strong></p>
+<p>Containers plus LLMs had existed for over two years. Anyone could have pre-installed LibreOffice. The technology was sitting there, waiting.</p>
+<p>But everyone was optimizing for the wrong thing.</p>
+<p>OpenAI optimized for the impressive demo—data analysis, chart generation, &ldquo;your personal data analyst.&rdquo; Perfect for a keynote. Perfect for going viral on Twitter.</p>
+<p>Anthropic optimized for the daily workflow—PowerPoint with company branding, Word documents with legal review, Excel with corporate formulas. Boring. Unsexy.</p>
+<p><strong>But that&rsquo;s where the money is.</strong></p>
+<h3 id="two-diverging-paths">Two Diverging Paths</h3>
+<p>Here&rsquo;s what&rsquo;s becoming clear as we enter late 2025: <strong>These companies are no longer competing for the same game.</strong></p>
+<p>OpenAI is doubling down on consumer scale. The recent App SDK lets developers build custom applications on top of ChatGPT. The Memory feature learns your preferences across conversations. They&rsquo;re building a platform for 800 million users to do&hellip; more things. More broadly. More consumer-facing.</p>
+<p>It&rsquo;s the <strong>toC (to-Consumer) playbook</strong>: Maximize reach, viral features, everyday use cases. Be the AI everyone has heard of.</p>
+<p>Anthropic is sharpening its focus on business workflows. Skills aren&rsquo;t designed for casual users—they&rsquo;re for companies that need Claude to follow specific procedures. Computer Use isn&rsquo;t for browsing memes—it&rsquo;s for automating business processes. Extended Thinking with visible reasoning isn&rsquo;t for fun—it&rsquo;s for enterprise customers who need to audit AI decisions.</p>
+<p>It&rsquo;s the <strong>toB (to-Business) playbook</strong>: Maximize value per user, workflow integration, enterprise requirements. Be the AI that companies can&rsquo;t live without.</p>
+<p>This explains the revenue paradox perfectly. OpenAI has the users. Anthropic has the <strong>paying users.</strong></p>
+<p>ChatGPT is building to be ubiquitous. Claude is building to be indispensable.</p>
+<h3 id="what-this-means-for-the-ai-race">What This Means for the AI Race</h3>
+<p>The lesson from Anthropic&rsquo;s trajectory isn&rsquo;t about playing catch-up or moving faster. It&rsquo;s about <strong>pattern recognition as competitive strategy.</strong></p>
+<p>In early 2023, when Claude launched 3.5 months after ChatGPT&rsquo;s viral explosion, the obvious path was: Copy what works. Match features. Compete on speed.</p>
+<p>Instead, Anthropic asked different questions:</p>
+<ul>
+<li>Not &ldquo;how do we make data analysis impressive?&rdquo; but &ldquo;where does work actually happen?&rdquo;</li>
+<li>Not &ldquo;how do we get more users?&rdquo; but &ldquo;which users will pay for this?&rdquo;</li>
+<li>Not &ldquo;how do we beat OpenAI&rsquo;s features?&rdquo; but &ldquo;what combinations are they missing?&rdquo;</li>
+</ul>
+<p><strong>This is product strategy at its finest.</strong> Seeing what already exists. Recognizing patterns others overlook. Combining pieces in ways that unlock new value.</p>
+<p>The technology for Skills—containers, Markdown files, YAML, LibreOffice—was all there. The insight was asking: <em>What if we systematically initialized containers with business tools instead of just data science libraries?</em></p>
+<p>One question. One combination. A $4 billion revenue run rate.</p>
+<h3 id="the-bigger-game">The Bigger Game</h3>
+<p>The AI race isn&rsquo;t about who builds the biggest model. It&rsquo;s not about who ships features fastest. It&rsquo;s not even about who has the most users.</p>
+<p><strong>It&rsquo;s about who sees where the work actually lives—and builds for that.</strong></p>
+<p>For two years, everyone with containers and LLMs solved for data scientists making charts. Important work. But narrow.</p>
+<p>Anthropic looked at the same technology and saw PowerPoint presentations. Word documents. Excel spreadsheets. The unglamorous, everyday work that businesses actually pay for.</p>
+<p>They saw the combination everyone else missed.</p>
+<p>And now, with only 5% of the users, they&rsquo;re capturing 40% of the revenue.</p>
+<p><strong>The next wave of AI won&rsquo;t be won by who has the most compute or the largest context window.</strong></p>
+<p><strong>It will be won by who recognizes patterns others can&rsquo;t see. Who finds combinations that unlock work others aren&rsquo;t even looking at.</strong></p>
+<p>Anthropic isn&rsquo;t trying to outrun OpenAI in a features race.</p>
+<p>They&rsquo;re playing a different game entirely.</p>
+<p><strong>And judging by the numbers?</strong></p>
+<p><strong>They&rsquo;re winning.</strong></p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Why Anthropic Wins with 5% of the Users”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/writing-is-thinking/"><span class="mono">← EARLIER · 2025-07-28</span><strong>Writing is Thinking</strong></a><a class="card later" href="/writing/ai-architecture-pattern/"><span class="mono">LATER · 2025-11-17 →</span><strong>From Two Subscriptions to One Weekend Build: The AI Architecture Pattern Everyone's Missing</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

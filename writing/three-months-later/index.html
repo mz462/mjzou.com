@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Three Months Later: From Prompt Engineering to Context Engineering (And Why I've Been Doing It With Humans All Along) · MJ Zou</title>
+<meta name="description" content="A three-month reflection on AI developments, the shift from prompt to context engineering, and how Product Management taught me to debug human communication.">
+<meta name="date" content="2025-07-08">
+<meta name="topic" content="Product management">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-07-08 · 4 min read</span>
+<h1>Three Months Later: From Prompt Engineering to Context Engineering (And Why I've Been Doing It With Humans All Along)</h1>
+<p class="dek">A three-month reflection on AI developments, the shift from prompt to context engineering, and how Product Management taught me to debug human communication.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">product management</span><span class="chip">communication</span><span class="chip">context engineering</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="the-fear-was-right-but-not-for-the-reason-i-expected">The Fear Was Right, But Not For The Reason I Expected</h2>
+<p>Three months ago, I wrote about my fear of losing the ability to think independently in an age of AI automation. I was worried about the urge to just hit &ldquo;tab, tab, tab&rdquo; and accept every autocompletion without conscious thought. Looking back now, that fear was prophetic—but not in the way I expected.</p>
+<p>The past three months have been a whirlwind of AI developments. GPT-5 was announced for summer 2025, Google released Imagen 4, Claude got integrations, and the AI market is projected to grow from $189 billion to $4.8 trillion by 2033. The acceleration is real, and it&rsquo;s happening faster than anyone predicted.</p>
+<p>But here&rsquo;s what I discovered: <strong>the bottleneck was never where I thought it was.</strong></p>
+<h2 id="the-real-bottleneck-context-not-code">The Real Bottleneck: Context, Not Code</h2>
+<p>A blog post that resonated deeply with me during this period was <a href="https://ordep.dev/posts/writing-code-was-never-the-bottleneck">&ldquo;Writing Code Was Never The Bottleneck&rdquo;</a>. The author argues that software development&rsquo;s true constraints have always been human-centric: code reviews, knowledge transfer, testing, debugging, and coordination. While AI tools make code generation faster, they don&rsquo;t solve the fundamental challenges of understanding, reviewing, and maintaining code.</p>
+<p>This insight extends far beyond software development. It&rsquo;s about where value actually lives in knowledge work.</p>
+<p>Think about consulting firms. They don&rsquo;t charge $500/hour because they can analyze data faster than their clients. They get paid because they can <strong>translate complex problems into executive-digestible insights.</strong> The bottleneck isn&rsquo;t the analysis—it&rsquo;s the communication, stakeholder management, and organizational change.</p>
+<h2 id="my-accidental-discovery-context-engineering-for-humans">My Accidental Discovery: Context Engineering For Humans</h2>
+<p>As a Senior Product Manager, my role involves constant context management. Surprisingly, AI didn&rsquo;t replace my thinking—it taught me to get better at &ldquo;prompting humans.&rdquo;</p>
+<p>I&rsquo;ve developed a habit of holding off 3-6 seconds before I speak. During that pause, I:</p>
+<ul>
+<li>Line up my ask against their previous conversation</li>
+<li>Check if I&rsquo;m missing any facts that could cause confusion</li>
+<li>Ensure I have enough context to make my request clear</li>
+</ul>
+<p>I realized I was applying LLM principles to human communication. In LLMs, missing context causes hallucination. In humans, it causes misunderstanding, frustration, and decision paralysis.</p>
+<p>That 3-6 second pause became my &ldquo;context validation layer&rdquo; before human interaction.</p>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-80 -140 213 244.5" role="img" aria-labelledby="fig-three-months-later">
+<g data-k="frame"><path d="M0 65.5L0 75.5A50.9 25.5 0 0 1 -50.9 50L-50.9 40A50.9 25.5 0 0 0 0 65.5Z" fill="#BEC1C6"/><path d="M0 65.5L0 75.5A50.9 25.5 0 0 0 50.9 50L50.9 40A50.9 25.5 0 0 1 0 65.5Z" fill="#ABAFB5"/><ellipse cx="0" cy="40" rx="50.9" ry="25.5" fill="#D3D5D8"/></g><g data-k="posts"><polygon points="-6,-76 0,-73 0,23 -6,20" fill="#D6D8DB"/><polygon points="0,-73 6,-76 6,20 0,23" fill="#C5C8CC"/><polygon points="0,-79 6,-76 0,-73 -6,-76" fill="#ECEDEF"/></g><g class="layer" style="--cx:-85px;--c:-42.5px"><g data-k="bottom"><path d="M85 88.4L85 92.4A19.8 9.9 0 0 1 65.2 82.5L65.2 78.5A19.8 9.9 0 0 0 85 88.4Z" fill="#E3E4E6"/><path d="M85 88.4L85 92.4A19.8 9.9 0 0 0 104.8 82.5L104.8 78.5A19.8 9.9 0 0 1 85 88.4Z" fill="#D3D5D8"/><ellipse cx="85" cy="78.5" rx="19.8" ry="9.9" fill="#FFFFFF"/><path d="M85 85.2L85 91.2A25.5 12.7 0 0 1 59.5 78.5L59.5 72.5A25.5 12.7 0 0 0 85 85.2Z" fill="#E3E4E6"/><path d="M85 85.2L85 91.2A25.5 12.7 0 0 0 110.5 78.5L110.5 72.5A25.5 12.7 0 0 1 85 85.2Z" fill="#D3D5D8"/><ellipse cx="85" cy="72.5" rx="25.5" ry="12.7" fill="#FFFFFF"/><path d="M85 70.6L85 86.6A28.3 14.1 0 0 1 56.7 72.5L56.7 56.5A28.3 14.1 0 0 0 85 70.6Z" fill="#E3E4E6"/><path d="M85 70.6L85 86.6A28.3 14.1 0 0 0 113.3 72.5L113.3 56.5A28.3 14.1 0 0 1 85 70.6Z" fill="#D3D5D8"/><ellipse cx="85" cy="56.5" rx="28.3" ry="14.1" fill="#FFFFFF"/><path d="M85 63.2L85 69.2A25.5 12.7 0 0 1 59.5 56.5L59.5 50.5A25.5 12.7 0 0 0 85 63.2Z" fill="#E3E4E6"/><path d="M85 63.2L85 69.2A25.5 12.7 0 0 0 110.5 56.5L110.5 50.5A25.5 12.7 0 0 1 85 63.2Z" fill="#D3D5D8"/><ellipse cx="85" cy="50.5" rx="25.5" ry="12.7" fill="#FFFFFF"/><path d="M85 55.4L85 60.4A19.8 9.9 0 0 1 65.2 50.5L65.2 45.5A19.8 9.9 0 0 0 85 55.4Z" fill="#E3E4E6"/><path d="M85 55.4L85 60.4A19.8 9.9 0 0 0 104.8 50.5L104.8 45.5A19.8 9.9 0 0 1 85 55.4Z" fill="#D3D5D8"/><ellipse cx="85" cy="45.5" rx="19.8" ry="9.9" fill="#FFFFFF"/><path d="M85 47.6L85 52.6A14.1 7.1 0 0 1 70.9 45.5L70.9 40.5A14.1 7.1 0 0 0 85 47.6Z" fill="#E3E4E6"/><path d="M85 47.6L85 52.6A14.1 7.1 0 0 0 99.1 45.5L99.1 40.5A14.1 7.1 0 0 1 85 47.6Z" fill="#D3D5D8"/><ellipse cx="85" cy="40.5" rx="14.1" ry="7.1" fill="#FFFFFF"/></g><g data-k="neck"><path d="M85 32.7L85 44.7A8.5 4.2 0 0 1 76.5 40.5L76.5 28.5A8.5 4.2 0 0 0 85 32.7Z" fill="#24406A"/><path d="M85 32.7L85 44.7A8.5 4.2 0 0 0 93.5 40.5L93.5 28.5A8.5 4.2 0 0 1 85 32.7Z" fill="#1C3356"/><ellipse cx="85" cy="28.5" rx="8.5" ry="4.2" fill="#2F4F7F"/></g><g data-k="top"><path d="M85 30.6L85 35.6A14.1 7.1 0 0 1 70.9 28.5L70.9 23.5A14.1 7.1 0 0 0 85 30.6Z" fill="#E3E4E6"/><path d="M85 30.6L85 35.6A14.1 7.1 0 0 0 99.1 28.5L99.1 23.5A14.1 7.1 0 0 1 85 30.6Z" fill="#D3D5D8"/><ellipse cx="85" cy="23.5" rx="14.1" ry="7.1" fill="#FFFFFF"/><path d="M85 28.4L85 33.4A19.8 9.9 0 0 1 65.2 23.5L65.2 18.5A19.8 9.9 0 0 0 85 28.4Z" fill="#E3E4E6"/><path d="M85 28.4L85 33.4A19.8 9.9 0 0 0 104.8 23.5L104.8 18.5A19.8 9.9 0 0 1 85 28.4Z" fill="#D3D5D8"/><ellipse cx="85" cy="18.5" rx="19.8" ry="9.9" fill="#FFFFFF"/><path d="M85 25.2L85 31.2A25.5 12.7 0 0 1 59.5 18.5L59.5 12.5A25.5 12.7 0 0 0 85 25.2Z" fill="#E3E4E6"/><path d="M85 25.2L85 31.2A25.5 12.7 0 0 0 110.5 18.5L110.5 12.5A25.5 12.7 0 0 1 85 25.2Z" fill="#D3D5D8"/><ellipse cx="85" cy="12.5" rx="25.5" ry="12.7" fill="#FFFFFF"/><path d="M85 10.6L85 26.6A28.3 14.1 0 0 1 56.7 12.5L56.7 -3.5A28.3 14.1 0 0 0 85 10.6Z" fill="#E3E4E6"/><path d="M85 10.6L85 26.6A28.3 14.1 0 0 0 113.3 12.5L113.3 -3.5A28.3 14.1 0 0 1 85 10.6Z" fill="#D3D5D8"/><ellipse cx="85" cy="-3.5" rx="28.3" ry="14.1" fill="#FFFFFF"/><path d="M85 3.2L85 9.2A25.5 12.7 0 0 1 59.5 -3.5L59.5 -9.5A25.5 12.7 0 0 0 85 3.2Z" fill="#E3E4E6"/><path d="M85 3.2L85 9.2A25.5 12.7 0 0 0 110.5 -3.5L110.5 -9.5A25.5 12.7 0 0 1 85 3.2Z" fill="#D3D5D8"/><ellipse cx="85" cy="-9.5" rx="25.5" ry="12.7" fill="#FFFFFF"/><path d="M85 -3.6L85 0.4A19.8 9.9 0 0 1 65.2 -9.5L65.2 -13.5A19.8 9.9 0 0 0 85 -3.6Z" fill="#E3E4E6"/><path d="M85 -3.6L85 0.4A19.8 9.9 0 0 0 104.8 -9.5L104.8 -13.5A19.8 9.9 0 0 1 85 -3.6Z" fill="#D3D5D8"/><ellipse cx="85" cy="-13.5" rx="19.8" ry="9.9" fill="#FFFFFF"/></g></g><g data-k="posts"><polygon points="-40,-46 -34,-43 -34,53 -40,50" fill="#D6D8DB"/><polygon points="-34,-43 -28,-46 -28,50 -34,53" fill="#C5C8CC"/><polygon points="-34,-49 -28,-46 -34,-43 -40,-46" fill="#ECEDEF"/><polygon points="28,-46 34,-43 34,53 28,50" fill="#D6D8DB"/><polygon points="34,-43 40,-46 40,50 34,53" fill="#C5C8CC"/><polygon points="34,-49 40,-46 34,-43 28,-46" fill="#ECEDEF"/></g><g class="layer" style="--cx:0px;--c:30px"><g data-k="frame"><path d="M0 -70.5L0 -60.5A50.9 25.5 0 0 1 -50.9 -86L-50.9 -96A50.9 25.5 0 0 0 0 -70.5Z" fill="#BEC1C6"/><path d="M0 -70.5L0 -60.5A50.9 25.5 0 0 0 50.9 -86L50.9 -96A50.9 25.5 0 0 1 0 -70.5Z" fill="#ABAFB5"/><ellipse cx="0" cy="-96" rx="50.9" ry="25.5" fill="#D3D5D8"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="top" aria-pressed="false"><span class="en">What you know<small>The ask, the last conversation, the facts.</small></span><span class="zh" lang="zh">你脑子里的<small>要问的事、上次聊的、手上的事实。</small></span></button></li>
+<li><button type="button" data-key="neck" aria-pressed="false"><span class="en">The neck: context<small>The real bottleneck. Not the code, not the prompt.</small></span><span class="zh" lang="zh">瓶颈：上下文<small>真正卡住的地方。不是代码，也不是提示词。</small></span></button></li>
+<li><button type="button" data-key="bottom" aria-pressed="false"><span class="en">What they get<small>Missing context means hallucination in a model, misunderstanding in a person.</small></span><span class="zh" lang="zh">对方收到的<small>缺了上下文，模型会幻觉，人会误解。</small></span></button></li>
+<li><button type="button" data-key="posts" aria-pressed="false"><span class="en">Three checks<small>Match the last talk, find missing facts, make the ask clear.</small></span><span class="zh" lang="zh">三项检查<small>对上次的话，补缺的事实，把请求说清。</small></span></button></li>
+<li><button type="button" data-key="frame" aria-pressed="false"><span class="en">The 3–6 seconds<small>A pause before speaking: a context validation layer.</small></span><span class="zh" lang="zh">那 3–6 秒<small>开口前停一下，先校验上下文。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-three-months-later"><span class="en">The pause before speaking. Tap a part.</span><span class="zh" lang="zh">开口之前的那几秒。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-industry-catches-up-context-engineering-is-the-new-trend">The Industry Catches Up: Context Engineering is The New Trend</h2>
+<p>Just as I was discovering this personally, the AI industry began shifting from &ldquo;prompt engineering&rdquo; to &ldquo;context engineering.&rdquo; According to recent trends in 2025:</p>
+<ul>
+<li><strong>Context engineering</strong> is being defined as &ldquo;building dynamic systems to provide the right information and tools in the right format such that the LLM can plausibly accomplish the task&rdquo;<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>Andrej Karpathy describes it as: &ldquo;Context engineering is the delicate art and science of filling the context window with just the right information for the next step&rdquo;<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li>Shopify CEO Tobi Lutke calls it &ldquo;the art of providing all the context for the task to be plausibly solvable by the LLM&rdquo;<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+</ul>
+<p>The insight that&rsquo;s driving this shift? Most agent performance issues stem from inadequate context, not model limitations. Context engineering addresses failures when agents are missing critical contextual information, have poorly formatted context, or lack appropriate tools.<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<h2 id="the-pattern-recognition">The Pattern Recognition</h2>
+<p>The parallels are striking:</p>
+<ul>
+<li><strong>Software development</strong>: The bottleneck isn&rsquo;t writing code, it&rsquo;s context—understanding, reviewing, coordinating</li>
+<li><strong>Consulting</strong>: The bottleneck isn&rsquo;t analysis, it&rsquo;s context—translating insights for decision-makers</li>
+<li><strong>AI systems</strong>: The bottleneck isn&rsquo;t the model, it&rsquo;s context—providing the right information at the right time</li>
+<li><strong>Product management</strong>: The bottleneck isn&rsquo;t having ideas, it&rsquo;s context—aligning stakeholders and managing information flow</li>
+</ul>
+<h2 id="what-this-means-going-forward">What This Means Going Forward</h2>
+<p>My original fear about &ldquo;tab, tab, tab&rdquo; automation was valid, but I was worried about the wrong thing. The real risk isn&rsquo;t that AI will make me lazy at the easy parts—it&rsquo;s that by automating the &ldquo;easy&rdquo; parts, the human parts become exponentially more valuable.</p>
+<p>The 3-6 second rule isn&rsquo;t just a communication technique; it&rsquo;s a form of conscious effort applied where it actually matters. Instead of fighting AI tools, I&rsquo;m learning to be more deliberate about context management—whether that&rsquo;s with humans, systems, or AI agents.</p>
+<p>As the industry moves toward context engineering, I realize I&rsquo;ve been inadvertently training for this shift. Product managers are natural context engineers. We spend our days managing information flow, translating between stakeholders, and ensuring everyone has the right context to make good decisions.</p>
+<h2 id="the-irony">The Irony</h2>
+<p>Here&rsquo;s the beautiful irony: I feared AI would make me think less. Instead, it taught me to think more deliberately about the parts that actually matter. The conscious effort I committed to isn&rsquo;t about resisting automation—it&rsquo;s about focusing human intelligence where it creates the most value.</p>
+<p>The flying wheel I wrote about three months ago—providing context to get better answers, then asking for clarification to provide better context—isn&rsquo;t just how you prompt AI effectively. It&rsquo;s how you build successful products, lead teams, and create value in an automated world.</p>
+<p>The bottleneck was never the code. It was never the analysis. It was never the prompt.</p>
+<p><strong>The bottleneck is context. It always has been.</strong></p>
+<p>And that&rsquo;s exactly where humans excel—if we choose to think consciously about it.</p>
+<hr>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>LangChain. (2025, June). &ldquo;The Rise of Context Engineering.&rdquo; <a href="https://blog.langchain.com/the-rise-of-context-engineering/">https://blog.langchain.com/the-rise-of-context-engineering/</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Karpathy, A. (2025). Referenced in Simon Willison. &ldquo;Context Engineering.&rdquo; <a href="https://simonwillison.net/2025/Jun/27/context-engineering/">https://simonwillison.net/2025/Jun/27/context-engineering/</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Lutke, T. (2025). Referenced in Philipp Schmid. &ldquo;The New Skill in AI is Not Prompting, It&rsquo;s Context Engineering.&rdquo; <a href="https://www.philschmid.de/context-engineering">https://www.philschmid.de/context-engineering</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Three Months Later: From Prompt Engineering to Context Engineering (And Why I've Been Doing It With Humans All Along)”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/my-first-post/"><span class="mono">← EARLIER · 2025-04-05</span><strong>Starting This Blog: Musings on AI, Learning, and Conscious Effort</strong></a><a class="card later" href="/writing/why-cant-llms-say-i-dont-know/"><span class="mono">LATER · 2025-07-09 →</span><strong>Why Can't LLMs Say 'I Don't Know'?</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

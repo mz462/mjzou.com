@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why I Had to Rewrite My MCP Server from Python to TypeScript · MJ Zou</title>
+<meta name="description" content="I tried deploying a Python MCP server to Cloudflare Workers. It didn't work. Here's what I learned about remote MCP deployment.">
+<meta name="date" content="2025-12-27">
+<meta name="topic" content="MCP">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-12-27 · 3 min read</span>
+<h1>Why I Had to Rewrite My MCP Server from Python to TypeScript</h1>
+<p class="dek">I tried deploying a Python MCP server to Cloudflare Workers. It didn't work. Here's what I learned about remote MCP deployment.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">MCP</span><span class="chip">Cloudflare Workers</span><span class="chip">Python</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>I had a working Python MCP server with 24 tools for accessing Fannie Mae mortgage data. I wanted to deploy it remotely so Claude could access it from anywhere—not just my local machine.</p>
+<p>Cloudflare Workers seemed perfect. They&rsquo;d just announced Python support. Easy, right?</p>
+<p><strong>It wasn&rsquo;t.</strong></p>
+<hr>
+<h2 id="the-python-attempt">The Python Attempt</h2>
+<p>My server used <code>httpx</code> for API calls and the <code>mcp</code> SDK with <code>FastMCP</code>. Standard stuff:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@mcp.tool</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">get_loan_limits_by_location</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;/v1/loan-limits/state/</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">/county/</span><span class="si">{</span><span class="n">county</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>I configured <code>wrangler.jsonc</code> for Python Workers, ran <code>pywrangler deploy</code>, and&hellip; the health check worked!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://my-mcp-server.username.workers.dev/health
+</span></span><span class="line"><span class="cl"><span class="c1"># {&#34;status&#34;: &#34;healthy&#34;, &#34;server&#34;: &#34;My MCP Server&#34;}</span>
+</span></span></code></pre></div><p>Then I hit the MCP endpoint:</p>
+<pre tabindex="0"><code>PythonError: Pyodide fatal error: Cannot import anyio
+</code></pre><hr>
+<h2 id="the-wall">The Wall</h2>
+<p>Cloudflare&rsquo;s Python Workers run on <strong>Pyodide</strong>—Python compiled to WebAssembly. The problem: MCP SDK depends on <code>starlette</code>, which depends on <code>anyio</code> for async handling.</p>
+<p><strong><code>anyio</code> doesn&rsquo;t work in WebAssembly.</strong></p>
+<p>The health check worked because it&rsquo;s just a simple JSON response. But the moment Pyodide tried to load the MCP server&rsquo;s async dependencies, it crashed.</p>
+<p>I tried various workarounds—different compatibility flags, lazy imports, alternative patterns. Nothing worked. The async stack MCP needs simply isn&rsquo;t compatible with Pyodide&rsquo;s runtime.</p>
+<hr>
+<h2 id="the-rewrite">The Rewrite</h2>
+<p>TypeScript it is. The conversion was straightforward—same 24 tools, different syntax:</p>
+<p><strong>Python:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@mcp.tool</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">get_loan_limits_by_location</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">county</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;/v1/loan-limits/state/</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">/county/</span><span class="si">{</span><span class="n">county</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p><strong>TypeScript:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="k">this</span><span class="p">.</span><span class="nx">server</span><span class="p">.</span><span class="nx">tool</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;get_loan_limits_by_location&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">state</span>: <span class="kt">z.string</span><span class="p">().</span><span class="nx">describe</span><span class="p">(</span><span class="s2">&#34;Two-letter state code&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">county</span>: <span class="kt">z.string</span><span class="p">().</span><span class="nx">describe</span><span class="p">(</span><span class="s2">&#34;County name&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">async</span> <span class="p">({</span> <span class="nx">state</span><span class="p">,</span> <span class="nx">county</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">makeRequest</span><span class="p">(</span><span class="sb">`/v1/loan-limits/state/</span><span class="si">${</span><span class="nx">state</span><span class="si">}</span><span class="sb">/county/</span><span class="si">${</span><span class="nx">county</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span> <span class="nx">content</span><span class="o">:</span> <span class="p">[{</span> <span class="kr">type</span><span class="o">:</span> <span class="s2">&#34;text&#34;</span><span class="p">,</span> <span class="nx">text</span>: <span class="kt">JSON.stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">}]</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span></code></pre></div><p>Key conversions:</p>
+<ul>
+<li><code>httpx</code> → <code>fetch()</code></li>
+<li><code>@mcp.tool()</code> decorator → <code>this.server.tool()</code> method</li>
+<li><code>FastMCP</code> → Cloudflare&rsquo;s <code>McpAgent</code> with Durable Objects</li>
+</ul>
+<p>~800 lines of TypeScript replaced ~830 lines of Python.</p>
+<hr>
+<h2 id="typescript-had-its-own-surprises">TypeScript Had Its Own Surprises</h2>
+<p>Even after rewriting, deployment wasn&rsquo;t smooth:</p>
+<p><strong>1. Node.js compatibility flag</strong></p>
+<p>The <code>agents</code> package uses Node APIs. Without <code>nodejs_compat</code>, you get:</p>
+<pre tabindex="0"><code>The package &#34;node:async_hooks&#34; wasn&#39;t found on the file system
+</code></pre><p>Fix: Add to <code>wrangler.toml</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">compatibility_flags</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;nodejs_compat&#34;</span><span class="p">]</span>
+</span></span></code></pre></div><p><strong>2. Package naming confusion</strong></p>
+<p>The MCP agent package has been renamed multiple times:</p>
+<ul>
+<li><code>@cloudflare/agents</code> → deprecated</li>
+<li><code>agents-sdk</code> → deprecated</li>
+<li><code>agents</code> → current</li>
+</ul>
+<p>I installed the wrong one twice before finding the right package.</p>
+<p><strong>3. Durable Object migrations</strong></p>
+<p>My Python deployment created a Durable Object class called <code>FannieMaeMCPServer</code>. The TypeScript version used <code>FannieMaeMCP</code>. Cloudflare refused to deploy:</p>
+<pre tabindex="0"><code>New version does not export class &#39;FannieMaeMCPServer&#39; which is depended on by existing Durable Objects
+</code></pre><p>Fix: Add a rename migration:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">migrations</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">tag</span> <span class="p">=</span> <span class="s2">&#34;v2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">renamed_classes</span> <span class="p">=</span> <span class="p">[{</span> <span class="nx">from</span> <span class="p">=</span> <span class="s2">&#34;FannieMaeMCPServer&#34;</span><span class="p">,</span> <span class="nx">to</span> <span class="p">=</span> <span class="s2">&#34;FannieMaeMCP&#34;</span> <span class="p">}]</span>
+</span></span></code></pre></div><hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-58 -132 196 230" role="img" aria-labelledby="fig-mcp-python-to-typescript">
+<g data-k="strip"><polygon points="-50,3 80,68 80,90 -50,25" fill="#BEC1C6"/><polygon points="80,68 130,43 130,65 80,90" fill="#ABAFB5"/><polygon points="0,-22 130,43 80,68 -50,3" fill="#D3D5D8"/><polygon points="16,-8 46,7 20,20 -10,5" fill="#D6D8DB"/><polygon points="19,-1.5 22,0 10,6 7,4.5" fill="#6E737B"/><polygon points="29,3.5 32,5 20,11 17,9.5" fill="#6E737B"/><polygon points="58,13 88,28 62,41 32,26" fill="#D6D8DB"/><polygon points="61,19.5 64,21 52,27 49,25.5" fill="#6E737B"/><polygon points="71,24.5 74,26 62,32 59,30.5" fill="#6E737B"/></g><g data-k="flag"><polygon points="70,45 86,53 86,57 70,49" fill="#D6D8DB"/><polygon points="86,53 108,42 108,46 86,57" fill="#C5C8CC"/><polygon points="92,34 108,42 86,53 70,45" fill="#ECEDEF"/><polygon points="70,40 78,44 78,49 70,45" fill="#E3E4E6"/><polygon points="78,44 100,33 100,38 78,49" fill="#D3D5D8"/><polygon points="92,29 100,33 78,44 70,40" fill="#FFFFFF"/></g><g data-k="prongs"><rect class="rod" style="--s:0" x="13" y="-67.2" width="2.5" height="70" fill="#2F4F7F"/><rect class="rod" style="--s:0" x="15.5" y="-67.2" width="2.5" height="70" fill="#1C3356"/><rect class="rod" style="--s:0" x="23" y="-62.2" width="2.5" height="70" fill="#2F4F7F"/><rect class="rod" style="--s:0" x="25.5" y="-62.2" width="2.5" height="70" fill="#1C3356"/></g><g class="layer" style="--cx:0px;--c:70px"><g data-k="plug"><polygon points="46,-94 54,-90 54,-81 46,-85" fill="#D6D8DB"/><polygon points="54,-90 114,-120 114,-111 54,-81" fill="#C5C8CC"/><polygon points="106,-124 114,-120 54,-90 46,-94" fill="#ECEDEF"/></g><g data-k="tag"><polygon points="78,-99 81,-97.5 81,-77.5 78,-79" fill="#E3E4E6"/><polygon points="81,-97.5 99,-106.5 99,-86.5 81,-77.5" fill="#D3D5D8"/><polygon points="96,-108 99,-106.5 81,-97.5 78,-99" fill="#FFFFFF"/></g><g data-k="plug"><polygon points="-12,-88 24,-70 24,-48 -12,-66" fill="#E3E4E6"/><polygon points="24,-70 66,-91 66,-69 24,-48" fill="#D3D5D8"/><polygon points="30,-109 66,-91 24,-70 -12,-88" fill="#FFFFFF"/><line x1="-8" y1="-70" x2="20" y2="-56" stroke="#A9ADB3" stroke-width="2" stroke-linecap="round"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="tag" aria-pressed="false"><span class="en">Renamed class<small>A migration maps the old Durable Object name to the new one.</small></span><span class="zh" lang="zh">改名标签<small>加一条迁移，把旧的 Durable Object 类名映射到新名字。</small></span></button></li>
+<li><button type="button" data-key="plug" aria-pressed="false"><span class="en">The MCP server<small>Same 24 tools, same logic, different syntax.</small></span><span class="zh" lang="zh">MCP 服务器<small>还是那 24 个工具，逻辑不变，只换了语法。</small></span></button></li>
+<li><button type="button" data-key="flag" aria-pressed="false"><span class="en">nodejs_compat<small>One flag on, so the agents package finds Node APIs.</small></span><span class="zh" lang="zh">nodejs_compat<small>打开这个开关，agents 包才找得到 Node API。</small></span></button></li>
+<li><button type="button" data-key="strip" aria-pressed="false"><span class="en">Cloudflare Workers<small>Python runs here only as Pyodide, and anyio won’t load.</small></span><span class="zh" lang="zh">Cloudflare Workers<small>Python 在这里只能跑在 Pyodide 上，anyio 加载不了。</small></span></button></li>
+<li><button type="button" data-key="prongs" aria-pressed="false"><span class="en">TypeScript<small>The one shape this socket takes: fetch() in place of httpx.</small></span><span class="zh" lang="zh">TypeScript<small>这个插座只认这种形状：用 fetch() 替掉 httpx。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-mcp-python-to-typescript"><span class="en">Same server, a plug the socket accepts. Tap a part.</span><span class="zh" lang="zh">服务器没变，换了个插得进去的插头。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-result">The Result</h2>
+<p>After the rewrite, everything works:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Health check</span>
+</span></span><span class="line"><span class="cl">curl https://my-mcp-server.username.workers.dev/health
+</span></span><span class="line"><span class="cl"><span class="c1"># {&#34;status&#34;: &#34;healthy&#34;, &#34;server&#34;: &#34;My MCP Server&#34;}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># MCP tools list - 26 tools registered</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Live API call - LA County 2025 loan limits</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1 Unit: $1,209,750</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2 Units: $1,548,975</span>
+</span></span></code></pre></div><p>26 MCP tools accessing Fannie Mae&rsquo;s public APIs for loan limits, economic forecasts, housing indicators, and opportunity zones—all callable from Claude anywhere.</p>
+<hr>
+<h2 id="the-lesson">The Lesson</h2>
+<p><strong>For remote MCP servers on Cloudflare Workers, TypeScript is currently the only viable path.</strong></p>
+<p>Python MCP works great for:</p>
+<ul>
+<li>Local development</li>
+<li>Claude Desktop integration</li>
+<li>Platforms with full Python support (AWS Lambda, Cloud Run)</li>
+</ul>
+<p>But if you want Cloudflare&rsquo;s edge deployment with Durable Objects and SSE transport, you need TypeScript.</p>
+<p>The good news: the conversion is mechanical. Same tools, same logic, different syntax. If you have a working Python MCP server, you can port it in an afternoon.</p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Why I Had to Rewrite My MCP Server from Python to TypeScript”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/ai-era-gp-tech-stack/"><span class="mono">← EARLIER · 2025-12-23</span><strong>What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era?</strong></a><a class="card later" href="/writing/quitting-claude/"><span class="mono">LATER · 2026-01-10 →</span><strong>I'm Quitting Claude (But Not What You Think)</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

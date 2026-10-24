@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Manus Paradox: What the Fastest-Growing AI Company Reveals About Agentic AI · MJ Zou</title>
+<meta name="description" content="Manus went from zero to $100M ARR in 8 months—then got cloned in 3 hours. What this paradox reveals about where value actually lies in autonomous AI agents.">
+<meta name="date" content="2025-12-19">
+<meta name="topic" content="Agentic AI">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-12-19 · 7 min read</span>
+<h1>The Manus Paradox: What the Fastest-Growing AI Company Reveals About Agentic AI</h1>
+<p class="dek">Manus went from zero to $100M ARR in 8 months—then got cloned in 3 hours. What this paradox reveals about where value actually lies in autonomous AI agents.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">agentic AI</span><span class="chip">product management</span><span class="chip">context engineering</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="the-three-hour-clone">The Three-Hour Clone</h2>
+<p>In March 2025, Manus AI launched with a demo video that racked up 200,000 views in 24 hours. Within a week, two million people had joined the waitlist. Invitation codes were reselling for up to $13,500. Jack Dorsey called it &ldquo;excellent.&rdquo; Economists were declaring it &ldquo;ahead of its American counterparts.&rdquo;</p>
+<p>Eight months later, the company announced it had hit $100 million in annual recurring revenue—the fastest journey from zero to $100M ARR in startup history.</p>
+<p>Here&rsquo;s the twist: within three hours of launch, the MetaGPT team had replicated Manus&rsquo;s core functionality in an open-source project called OpenManus. It quickly garnered over 23,000 GitHub stars.</p>
+<p><strong>The fastest-growing AI company in history was cloned in three hours. That&rsquo;s not a bug—it&rsquo;s a feature.</strong></p>
+<p>This paradox tells us something important about where we actually are with autonomous AI agents—and where value will accrue as this space matures. If you&rsquo;re a product manager, executive, or anyone evaluating agentic AI for your organization, the Manus story offers three critical lessons about what matters and what doesn&rsquo;t.</p>
+<hr>
+<h2 id="the-wrapper-wars">The Wrapper Wars</h2>
+<p>&ldquo;Extreme repackaging.&rdquo;</p>
+<p>That&rsquo;s how CEO Xiao Hong describes what Manus does. He calls it &ldquo;kitbashing&rdquo;—a model-building term for combining existing parts into something new. Critics use harsher language: they say Manus is &ldquo;essentially repackaging existing technologies rather than introducing novel solutions.&rdquo;</p>
+<p>The technical reality supports both views. Under the hood, Manus dynamically invokes Anthropic&rsquo;s Claude 3.5/3.7 Sonnet and fine-tuned versions of Alibaba&rsquo;s Qwen. It doesn&rsquo;t train its own foundation models. It orchestrates existing ones.</p>
+<p>This triggered what I&rsquo;ve started calling the Wrapper Wars—a debate that&rsquo;s now playing out across the AI industry. Is orchestration valuable, or is it just plumbing? Should companies build their own AI capabilities, buy platforms like Manus, or wait for the inevitable commoditization?</p>
+<p>For product managers, this debate feels familiar. It&rsquo;s the classic build-vs-buy decision, but with higher stakes and faster timelines. And it connects directly to something I&rsquo;ve been thinking about since writing about AI hallucinations: if Manus uses Claude / Qwen underneath, it inherits their limitations. The ground level hallucination rate doesn&rsquo;t disappear because you&rsquo;ve wrapped it in a pretty interface.</p>
+<p>So why is Manus still growing?</p>
+<hr>
+<h2 id="what-openmanus-got-wrong">What OpenManus Got Wrong</h2>
+<p>OpenManus proved an important point: the models aren&rsquo;t the moat. You can replicate the concept of an autonomous agent calling Claude and browsing the web in a weekend hackathon.</p>
+<p>But there&rsquo;s a gap between replicating a concept and building a production system. And that gap is where the real work—and the real value—lives.</p>
+<p>Manus&rsquo;s architecture involves five specialized sub-agents working in concert: a Planning Agent for generating task chains, an Information Retrieval Agent for knowledge gathering, a Code Generation Agent, a Tool Execution Agent managing browser and shell operations, and a Verification Agent implementing dual-verification for reliability. These agents operate within an isolated Ubuntu Linux sandbox, averaging 50 tool calls per task.</p>
+<p>The key innovation isn&rsquo;t calling Claude. It&rsquo;s the CodeAct paradigm—generating executable Python scripts that can flexibly combine tools, implement conditional logic, and self-debug iteratively. This is based on 2024 research showing that executable code outperforms fixed JSON tool templates for agent actions.</p>
+<p>It&rsquo;s the difference between a prototype and a production line. OpenManus showed that anyone can build a prototype. Manus showed that turning a prototype into a product that handles edge cases, manages errors gracefully, and scales to 147 trillion tokens processed—that&rsquo;s where the engineering challenge actually lies.</p>
+<p>This mirrors something I wrote about in my post on context engineering: <strong>the bottleneck is context, not code.</strong> In agentic AI, the corollary is clear: <strong>the bottleneck is orchestration, not models.</strong></p>
+<hr>
+<h2 id="three-lessons-from-the-manus-story">Three Lessons from the Manus Story</h2>
+<h3 id="consumer-ux-beats-raw-capability">Consumer UX Beats Raw Capability</h3>
+<p>While OpenAI&rsquo;s Operator emphasizes precision with human confirmations and Anthropic&rsquo;s Computer Use targets developers through APIs, Manus made a different bet: go consumer-first with an intuitive, fully autonomous experience.</p>
+<p>The result is &ldquo;Manus&rsquo;s Computer&rdquo;—a transparent interface where users watch the agent work in real-time, seeing browser activity, terminal commands, and code edits simultaneously. Sessions are replayable. Tasks continue asynchronously even when you close your laptop. One-click deployment can build and host full-stack applications.</p>
+<p>Xiao Hong put it simply: <strong>&ldquo;The most powerful AI is the one that actually gets used. Not the one with the best model, but the one that fits into your life.&rdquo;</strong></p>
+<p>This is the same lesson we&rsquo;ve learned repeatedly in enterprise software. Features don&rsquo;t win—usability does. The best technology that sits unused loses to the &ldquo;good enough&rdquo; technology that becomes habitual. Brazil, surprisingly, comprises 33% of Manus&rsquo;s user base—not because Brazilians have better AI infrastructure, but because the product actually works for their workflows.</p>
+<h3 id="the-moat-is-in-the-plumbing">The Moat Is in the Plumbing</h3>
+<p>If OpenManus can replicate the concept in three hours, where&rsquo;s the defensibility?</p>
+<p>It&rsquo;s in the boring parts. The 29+ specialized tool integrations spanning browser control, shell execution, file management, and third-party APIs. The error handling that prevents infinite loops. The retry logic that recovers from failures. The verification agent that catches mistakes before they compound.</p>
+<p>Every production AI system I&rsquo;ve seen follows the same pattern: 20% of the effort goes into the &ldquo;AI&rdquo; part, and 80% goes into the infrastructure that makes it reliable. The orchestration layer—the &ldquo;plumbing&rdquo;—is where months of engineering accumulate into competitive advantage.</p>
+<p>This connects directly to my earlier writing on context engineering. Just as the bottleneck in knowledge work isn&rsquo;t analysis but context management, the bottleneck in agentic AI isn&rsquo;t the model but the orchestration. <strong>The wrapper isn&rsquo;t a limitation—it&rsquo;s the product.</strong></p>
+<h3 id="pricing-signals-commoditization">Pricing Signals Commoditization</h3>
+<p>Manus costs roughly $2 per task—approximately one-tenth the price of comparable OpenAI offerings. The free tier offers 300 daily credits. Starter plans run $39/month.</p>
+<p>This aggressive pricing tells us something important: the orchestration layer is commoditizing faster than anyone expected. If Manus can profitably offer 10x cheaper pricing, it means the underlying costs (API calls to Claude and Qwen, compute for sandboxes) are dropping rapidly. And if orchestration commoditizes, what&rsquo;s left?</p>
+<p><strong>When the technology commoditizes, the wrapper becomes the product.</strong> Brand, trust, integrations, and user experience become the differentiators. This is why Manus invested heavily in Discord community building (138,000+ members), regional expansion (Japan, Middle East, Brazil), and ecosystem integrations (Google Drive Connector, Nano Banana Pro for slides).</p>
+<p>The race isn&rsquo;t for better models. It&rsquo;s for better distribution.</p>
+<hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-124 -200.5 236 310.5" role="img" aria-labelledby="fig-manus-paradox">
+<g data-k="cab"><polygon points="-70,29 30,79 30,85 -70,35" fill="#BEC1C6"/><polygon points="30,79 100,44 100,50 30,85" fill="#ABAFB5"/><polygon points="0,-6 100,44 30,79 -70,29" fill="#D3D5D8"/><polygon points="-4,-62 96,-12 96,46 -4,-4" fill="#D6D8DB"/><polygon points="96,-12 100,-14 100,44 96,46" fill="#C5C8CC"/><polygon points="0,-64 100,-14 96,-12 -4,-62" fill="#ECEDEF"/><polygon points="-70,-29 -66,-27 -66,31 -70,29" fill="#D6D8DB"/><polygon points="-66,-27 4,-62 4,-4 -66,31" fill="#C5C8CC"/><polygon points="0,-64 4,-62 -66,-27 -70,-29" fill="#ECEDEF"/></g><g data-k="main"><polygon points="-26,2 -17,6.5 -17,15.5 -26,11" fill="#BEC1C6"/><polygon points="-17,6.5 23,-13.5 23,-4.5 -17,15.5" fill="#ABAFB5"/><polygon points="14,-18 23,-13.5 -17,6.5 -26,2" fill="#D3D5D8"/><path d="M-21.5 0.2L-21.5 18.2A9.9 4.9 0 0 1 -31.4 13.3L-31.4 -4.7A9.9 4.9 0 0 0 -21.5 0.2Z" fill="#BEC1C6"/><path d="M-21.5 0.2L-21.5 18.2A9.9 4.9 0 0 0 -11.6 13.3L-11.6 -4.7A9.9 4.9 0 0 1 -21.5 0.2Z" fill="#ABAFB5"/><ellipse cx="-21.5" cy="-4.7" rx="9.9" ry="4.9" fill="#D3D5D8"/></g><g class="layer" style="--cx:0px;--c:60px"><g data-k="pipes"><polygon points="-31,-90.5 -22,-86 -22,-60 -31,-64.5" fill="#24406A"/><polygon points="-22,-86 -13,-90.5 -13,-64.5 -22,-60" fill="#1C3356"/><polygon points="-22,-95 -13,-90.5 -22,-86 -31,-90.5" fill="#2F4F7F"/><polygon points="32,-55 41,-50.5 41,-41.5 32,-46" fill="#24406A"/><polygon points="41,-50.5 65,-62.5 65,-53.5 41,-41.5" fill="#1C3356"/><polygon points="56,-67 65,-62.5 41,-50.5 32,-55" fill="#2F4F7F"/><polygon points="31,-54.5 40,-50 40,-25 31,-29.5" fill="#24406A"/><polygon points="40,-50 49,-54.5 49,-29.5 40,-25" fill="#1C3356"/><polygon points="40,-59 49,-54.5 40,-50 31,-54.5" fill="#2F4F7F"/><polygon points="8,-27 17,-22.5 17,-13.5 8,-18" fill="#24406A"/><polygon points="17,-22.5 49,-38.5 49,-29.5 17,-13.5" fill="#1C3356"/><polygon points="40,-43 49,-38.5 17,-22.5 8,-27" fill="#2F4F7F"/><polygon points="8,-68 17,-63.5 17,-13.5 8,-18" fill="#24406A"/><polygon points="17,-63.5 26,-68 26,-18 17,-13.5" fill="#1C3356"/><polygon points="17,-72.5 26,-68 17,-63.5 8,-68" fill="#2F4F7F"/></g></g><g data-k="cab"><polygon points="26,19 30,21 30,79 26,77" fill="#D6D8DB"/><polygon points="30,21 100,-14 100,44 30,79" fill="#C5C8CC"/><polygon points="96,-16 100,-14 30,21 26,19" fill="#ECEDEF"/></g><g class="layer" style="--cx:50px;--c:-25px"><g data-k="cab"><polygon points="-116,0 -70,23 -70,79 -116,56" fill="#D6D8DB"/><polygon points="-70,23 -66,21 -66,77 -70,79" fill="#C5C8CC"/><polygon points="-112,-2 -66,21 -70,23 -116,0" fill="#ECEDEF"/><polygon points="-82,29 -78,31 -78,43 -82,41" fill="#BEC1C6"/><polygon points="-78,31 -76,30 -76,42 -78,43" fill="#ABAFB5"/><polygon points="-80,28 -76,30 -78,31 -82,29" fill="#D3D5D8"/><polygon points="-70,23 -24,46 -24,102 -70,79" fill="#D6D8DB"/><polygon points="-24,46 -20,44 -20,100 -24,102" fill="#C5C8CC"/><polygon points="-66,21 -20,44 -24,46 -70,23" fill="#ECEDEF"/><polygon points="-66,37 -62,39 -62,51 -66,49" fill="#BEC1C6"/><polygon points="-62,39 -60,38 -60,50 -62,51" fill="#ABAFB5"/><polygon points="-64,36 -60,38 -62,39 -66,37" fill="#D3D5D8"/><line x1="-70" y1="75" x2="-70" y2="27" stroke="#A9ADB3" stroke-width="2" stroke-linecap="round"/></g></g><g class="layer" style="--cx:0px;--c:120px"><g data-k="tap"><polygon points="-74,-155 30,-103 30,-97 -74,-149" fill="#E3E4E6"/><polygon points="30,-103 104,-140 104,-134 30,-97" fill="#D3D5D8"/><polygon points="0,-192 104,-140 30,-103 -74,-155" fill="#FFFFFF"/><polygon points="28,-158 64,-140 24,-120 -12,-138" fill="#ABAFB5"/><path d="M-8 -182.3L-8 -156.3A8.5 4.2 0 0 1 -16.5 -160.5L-16.5 -186.5A8.5 4.2 0 0 0 -8 -182.3Z" fill="#D6D8DB"/><path d="M-8 -182.3L-8 -156.3A8.5 4.2 0 0 0 0.5 -160.5L0.5 -186.5A8.5 4.2 0 0 1 -8 -182.3Z" fill="#C5C8CC"/><ellipse cx="-8" cy="-186.5" rx="8.5" ry="4.2" fill="#ECEDEF"/><polygon points="-14,-186 18,-170 18,-164 -14,-180" fill="#D6D8DB"/><polygon points="18,-170 27,-174.5 27,-168.5 18,-164" fill="#C5C8CC"/><polygon points="-5,-190.5 27,-174.5 18,-170 -14,-186" fill="#ECEDEF"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="tap" aria-pressed="false"><span class="en">The faucet<small>What users see. OpenManus copied it in three hours.</small></span><span class="zh" lang="zh">水龙头<small>用户看得见的部分，OpenManus 三小时就仿了出来。</small></span></button></li>
+<li><button type="button" data-key="cab" aria-pressed="false"><span class="en">Cabinet = wrapper<small>Once the parts commoditize, the wrapper is the product.</small></span><span class="zh" lang="zh">柜子 = 外壳<small>零件都成了大路货，外面这层柜子就是产品。</small></span></button></li>
+<li><button type="button" data-key="main" aria-pressed="false"><span class="en">The water main<small>Claude and Qwen: the same supply for everyone, and getting cheaper fast.</small></span><span class="zh" lang="zh">进水管<small>Claude 和 Qwen：人人接的都是同一路水，而且价格降得飞快。</small></span></button></li>
+<li><button type="button" data-key="pipes" aria-pressed="false"><span class="en">The plumbing<small>Error handling, retries, a verification step. This is the moat.</small></span><span class="zh" lang="zh">管道<small>错误处理、重试、校验。护城河在这里。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-manus-paradox"><span class="en">Anyone can copy the faucet. Tap a part.</span><span class="zh" lang="zh">水龙头谁都能仿。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-intelligent-intern-problem">The Intelligent Intern Problem</h2>
+<p>Before anyone gets too excited, let&rsquo;s talk about what Manus actually is—and isn&rsquo;t.</p>
+<p>MIT Technology Review&rsquo;s hands-on testing positioned it as &ldquo;a highly intelligent and efficient intern.&rdquo; TechCrunch&rsquo;s Kyle Wiggers described initial performance as &ldquo;disappointing,&rdquo; noting struggles with &ldquo;consistent accuracy and deeper analytical tasks.&rdquo; Users report infinite loops, error messages, and system freezes. The team acknowledges relatively high failure rates compared to simpler systems like ChatGPT.</p>
+<p>The GAIA benchmark scores look impressive (86.5% on Level 1 tasks), but real-world testing reveals performance gaps. MIT found the system sometimes &ldquo;got lazy&rdquo; and took shortcuts on complex analytical tasks.</p>
+<p>This matters for enterprise adoption. Manus works well for research synthesis, data visualization, travel planning, and prototyping—tasks where occasional errors are acceptable and human review is expected. It&rsquo;s not ready for mission-critical applications where reliability matters more than speed.</p>
+<p>The &ldquo;intelligent intern&rdquo; framing is apt. You wouldn&rsquo;t give an intern unsupervised access to customer communications or financial transactions. The same logic applies to current agentic AI systems.</p>
+<hr>
+<h2 id="the-real-moat">The Real Moat</h2>
+<p>The Manus story reveals where value actually accrues in the agentic AI era—and it&rsquo;s not where most people are looking.</p>
+<p><strong>Models are commoditizing.</strong> Meta releases Llama, Alibaba releases Qwen, and Google and OpenAI race to the bottom on API pricing. The foundation layer is becoming table stakes.</p>
+<p><strong>Orchestration is commoditizing too, but slower.</strong> OpenManus proved the concept is replicable; Manus proved the production version requires substantial engineering. This is where companies can still build temporary competitive advantages.</p>
+<p><strong>What remains?</strong> Distribution, brand, and trust. Manus&rsquo;s Discord community, regional expansion, and ecosystem integrations aren&rsquo;t afterthoughts—they&rsquo;re the strategy. When the technology commoditizes, relationships become the moat.</p>
+<p>This mirrors the lesson from my previous posts on context engineering. I wrote that &ldquo;the bottleneck is context, not code&rdquo;—that in knowledge work, the value isn&rsquo;t in generating ideas but in managing information flow, aligning stakeholders, and building systems that surface the right context at the right time.</p>
+<p>In agentic AI, the parallel is clear. The value isn&rsquo;t in the model. It&rsquo;s in the orchestration that makes the model useful, the UX that makes it accessible, and the trust that makes enterprises willing to adopt it.</p>
+<p><strong>In the age of commoditized intelligence, execution becomes everything.</strong></p>
+<hr>
+<h2 id="what-this-means-for-you">What This Means for You</h2>
+<p>If you&rsquo;re evaluating agentic AI for your organization, the Manus story offers practical guidance:</p>
+<ol>
+<li>
+<p><strong>Don&rsquo;t wait for perfect.</strong> Current systems are &ldquo;intelligent interns,&rdquo; not autonomous experts. Use them for intern-appropriate tasks: research, data synthesis, prototyping, first drafts.</p>
+</li>
+<li>
+<p><strong>Evaluate orchestration, not models.</strong> When comparing platforms, ask about error handling, retry logic, and verification systems. The &ldquo;AI&rdquo; is increasingly commoditized; the plumbing differentiates.</p>
+</li>
+<li>
+<p><strong>Plan for commoditization.</strong> Whatever advantage you build today will erode. Focus on proprietary data, workflow integration, and user adoption—the parts that compound over time.</p>
+</li>
+<li>
+<p><strong>Watch the pricing signals.</strong> Manus at $2/task tells you that OpenAI at $20/task will face pressure. Build your cost models accordingly.</p>
+</li>
+</ol>
+<p>The Manus paradox—fastest growth, fastest clone—isn&rsquo;t a contradiction. It&rsquo;s a preview of how the entire AI market will evolve. The models commoditize. The orchestration commoditizes more slowly. And the human elements—design, trust, relationships—become exponentially more valuable.</p>
+<p>Same lesson as always. The bottleneck is never where you think it is.</p>
+<hr>
+<h2 id="references">References</h2>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “The Manus Paradox: What the Fastest-Growing AI Company Reveals About Agentic AI”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/vibe-coding-ios-app/"><span class="mono">← EARLIER · 2025-12-14</span><strong>I Vibe Coded an AI App — But There's No AI Inside</strong></a><a class="card later" href="/writing/ai-era-gp-tech-stack/"><span class="mono">LATER · 2025-12-23 →</span><strong>What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era?</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

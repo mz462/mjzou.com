@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why Can't LLMs Say 'I Don't Know'? · MJ Zou</title>
+<meta name="description" content="A deep dive into why AI models struggle with uncertainty, what Anthropic discovered about hallucination mechanisms, and practical strategies for reducing AI hallucinations in both personal and enterprise contexts.">
+<meta name="date" content="2025-07-09">
+<meta name="topic" content="LLM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-07-09 · 11 min read</span>
+<h1>Why Can't LLMs Say 'I Don't Know'?</h1>
+<p class="dek">A deep dive into why AI models struggle with uncertainty, what Anthropic discovered about hallucination mechanisms, and practical strategies for reducing AI hallucinations in both personal and enterprise contexts.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">LLM</span><span class="chip">hallucination</span><span class="chip">product management</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="opening">Opening</h2>
+<p>&ldquo;The downside of using deep research is that we can&rsquo;t control the credibility of the sources, and it could lead to heavy hallucination.&rdquo;</p>
+<p>My tech lead paused after saying this during our POC discussion. We were debating whether to integrate OpenAI&rsquo;s new deep research models—o3-deep-research and o4-mini-deep-research—into our product, and the conversation had taken that familiar turn—the one where everyone nods knowingly about &ldquo;hallucinations&rdquo; without really understanding what&rsquo;s happening under the hood.</p>
+<p>After some back-and-forth, we agreed the solution was &ldquo;setting expectations with users.&rdquo; Classic product management: when you can&rsquo;t solve the technical problem, manage the human problem.</p>
+<p>But as I walked away from that meeting, I remembered reading something from Anthropic about hallucinations that challenged my assumptions. That evening, I fell into a rabbit hole of research papers and blog posts, chasing a simple question that had been nagging at me:</p>
+<p><strong>If LLMs work like humans, why can humans confidently say &ldquo;I don&rsquo;t know&rdquo; but LLMs seem to struggle with it?</strong></p>
+<p>What I discovered was both more fascinating and more practical than I expected.</p>
+<h2 id="what-anthropic-actually-found">What Anthropic Actually Found</h2>
+<p>Here&rsquo;s where things get interesting. I expected to find research about making LLMs smarter or more cautious. Instead, Anthropic&rsquo;s 2025 research revealed something counter-intuitive: <strong>Claude&rsquo;s default behavior is actually to decline answering questions.</strong><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>Let me repeat that: the model&rsquo;s natural inclination is to <em>not</em> answer.</p>
+<p>According to their paper &ldquo;Tracing the thoughts of a large language model,&rdquo; Claude has internal neural circuits that act like a decision-making system. Think of it as an internal debate: &ldquo;Do I know enough about this to respond, or should I stay quiet?&rdquo;</p>
+<p>The researchers found that Claude only answers questions when something actively <em>inhibits</em> this default reluctance. It&rsquo;s like having a naturally shy person who only speaks up when they&rsquo;re really confident about something.</p>
+<p>So if that&rsquo;s the case, why do we still get hallucinations?</p>
+<p><strong>The circuit misfires.</strong></p>
+<p>Through intervention experiments, Anthropic could artificially activate the &ldquo;known answer&rdquo; features in Claude&rsquo;s neural network. When they did this, they could make the model consistently hallucinate that &ldquo;Michael Batkin plays chess&rdquo; (a fictional fact). Sometimes, this sort of &ldquo;misfire&rdquo; happens naturally, without any intervention—and that&rsquo;s when we get hallucinations.</p>
+<p>It&rsquo;s not that the model is trying to be helpful by making things up. It&rsquo;s that the internal system responsible for saying &ldquo;I don&rsquo;t know&rdquo; occasionally gets it wrong and thinks it knows something it doesn&rsquo;t.</p>
+<p>This discovery flipped my understanding completely. The problem isn&rsquo;t that LLMs are too eager to answer—it&rsquo;s that their internal &ldquo;should I answer this?&rdquo; mechanism sometimes malfunctions.</p>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-78 -290 350 495.6" role="img" aria-labelledby="fig-why-cant-llms-say-i-dont-know">
+<g data-k="plug"><polygon points="-35.9,2.4 -38.9,1.2 -42.3,0.8 -46.1,1.5 -50,3 -53.9,5.4 -57.7,8.5 -61.1,12.3 -64.1,16.5 45.9,71.5 48.9,67.3 52.3,63.5 56.1,60.4 60,58 63.9,56.5 67.7,55.8 71.1,56.2 74.1,57.4" fill="#FFFFFF"/><polygon points="-64.1,16.5 -66.6,21.1 -68.5,25.8 -69.6,30.5 -70,35 -69.6,39.1 -68.5,42.7 -66.6,45.5 -64.1,47.6 45.9,102.6 43.4,100.5 41.5,97.7 40.4,94.1 40,90 40.4,85.5 41.5,80.8 43.4,76.1 45.9,71.5" fill="#E3E4E6"/><polygon points="80,70 79.6,65.9 78.5,62.3 76.6,59.5 74.1,57.4 71.1,56.2 67.7,55.8 63.9,56.5 60,58 56.1,60.4 52.3,63.5 48.9,67.3 45.9,71.5 43.4,76.1 41.5,80.8 40.4,85.5 40,90 40.4,94.1 41.5,97.7 43.4,100.5 45.9,102.6 48.9,103.8 52.3,104.2 56.1,103.5 60,102 63.9,99.6 67.7,96.5 71.1,92.7 74.1,88.5 76.6,83.9 78.5,79.2 79.6,74.5" fill="#D3D5D8"/></g><g class="layer" style="--cx:0px;--c:24px"><g data-k="pins"><path d="M-35 -26.4L-35 -10.4A14.1 7.1 0 0 1 -49.1 -17.5L-49.1 -33.5A14.1 7.1 0 0 0 -35 -26.4Z" fill="#E3E4E6"/><path d="M-35 -26.4L-35 -10.4A14.1 7.1 0 0 0 -20.9 -17.5L-20.9 -33.5A14.1 7.1 0 0 1 -35 -26.4Z" fill="#D3D5D8"/><ellipse cx="-35" cy="-33.5" rx="14.1" ry="7.1" fill="#FFFFFF"/><path d="M-8 -26.9L-8 3.1A14.1 7.1 0 0 1 -22.1 -4L-22.1 -34A14.1 7.1 0 0 0 -8 -26.9Z" fill="#E3E4E6"/><path d="M-8 -26.9L-8 3.1A14.1 7.1 0 0 0 6.1 -4L6.1 -34A14.1 7.1 0 0 1 -8 -26.9Z" fill="#D3D5D8"/><ellipse cx="-8" cy="-34" rx="14.1" ry="7.1" fill="#FFFFFF"/><path d="M19 -3.4L19 16.6A14.1 7.1 0 0 1 4.9 9.5L4.9 -10.5A14.1 7.1 0 0 0 19 -3.4Z" fill="#E3E4E6"/><path d="M19 -3.4L19 16.6A14.1 7.1 0 0 0 33.1 9.5L33.1 -10.5A14.1 7.1 0 0 1 19 -3.4Z" fill="#D3D5D8"/><ellipse cx="19" cy="-10.5" rx="14.1" ry="7.1" fill="#FFFFFF"/><path d="M46 -3.9L46 30.1A14.1 7.1 0 0 1 31.9 23L31.9 -11A14.1 7.1 0 0 0 46 -3.9Z" fill="#E3E4E6"/><path d="M46 -3.9L46 30.1A14.1 7.1 0 0 0 60.1 23L60.1 -11A14.1 7.1 0 0 1 46 -3.9Z" fill="#D3D5D8"/><ellipse cx="46" cy="-11" rx="14.1" ry="7.1" fill="#FFFFFF"/></g></g><g class="layer" style="--cx:0px;--c:72px"><g data-k="default"><path d="M-35 -98.4L-35 -72.4A14.1 7.1 0 0 1 -49.1 -79.5L-49.1 -105.5A14.1 7.1 0 0 0 -35 -98.4Z" fill="#D6D8DB"/><path d="M-35 -98.4L-35 -72.4A14.1 7.1 0 0 0 -20.9 -79.5L-20.9 -105.5A14.1 7.1 0 0 1 -35 -98.4Z" fill="#C5C8CC"/><ellipse cx="-35" cy="-105.5" rx="14.1" ry="7.1" fill="#ECEDEF"/><path d="M-8 -84.9L-8 -58.9A14.1 7.1 0 0 1 -22.1 -66L-22.1 -92A14.1 7.1 0 0 0 -8 -84.9Z" fill="#D6D8DB"/><path d="M-8 -84.9L-8 -58.9A14.1 7.1 0 0 0 6.1 -66L6.1 -92A14.1 7.1 0 0 1 -8 -84.9Z" fill="#C5C8CC"/><ellipse cx="-8" cy="-92" rx="14.1" ry="7.1" fill="#ECEDEF"/><path d="M19 -71.4L19 -45.4A14.1 7.1 0 0 1 4.9 -52.5L4.9 -78.5A14.1 7.1 0 0 0 19 -71.4Z" fill="#D6D8DB"/><path d="M19 -71.4L19 -45.4A14.1 7.1 0 0 0 33.1 -52.5L33.1 -78.5A14.1 7.1 0 0 1 19 -71.4Z" fill="#C5C8CC"/><ellipse cx="19" cy="-78.5" rx="14.1" ry="7.1" fill="#ECEDEF"/><path d="M46 -57.9L46 -31.9A14.1 7.1 0 0 1 31.9 -39L31.9 -65A14.1 7.1 0 0 0 46 -57.9Z" fill="#D6D8DB"/><path d="M46 -57.9L46 -31.9A14.1 7.1 0 0 0 60.1 -39L60.1 -65A14.1 7.1 0 0 1 46 -57.9Z" fill="#C5C8CC"/><ellipse cx="46" cy="-65" rx="14.1" ry="7.1" fill="#ECEDEF"/></g></g><g class="layer" style="--cx:0px;--c:104px"><g data-k="default"><path d="M-35 -156.6L-35 -126.6A9.9 4.9 0 0 1 -44.9 -131.5L-44.9 -161.5A9.9 4.9 0 0 0 -35 -156.6Z" fill="#D6D8DB"/><path d="M-35 -156.6L-35 -126.6A9.9 4.9 0 0 0 -25.1 -131.5L-25.1 -161.5A9.9 4.9 0 0 1 -35 -156.6Z" fill="#C5C8CC"/><ellipse cx="-35" cy="-161.5" rx="9.9" ry="4.9" fill="#ECEDEF"/><line x1="-25" y1="-138.5" x2="-45" y2="-138.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="-25" y1="-146.5" x2="-45" y2="-146.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="-25" y1="-154.5" x2="-45" y2="-154.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><path d="M-8 -143.1L-8 -113.1A9.9 4.9 0 0 1 -17.9 -118L-17.9 -148A9.9 4.9 0 0 0 -8 -143.1Z" fill="#D6D8DB"/><path d="M-8 -143.1L-8 -113.1A9.9 4.9 0 0 0 1.9 -118L1.9 -148A9.9 4.9 0 0 1 -8 -143.1Z" fill="#C5C8CC"/><ellipse cx="-8" cy="-148" rx="9.9" ry="4.9" fill="#ECEDEF"/><line x1="2" y1="-125" x2="-18" y2="-125" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="-133" x2="-18" y2="-133" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="-141" x2="-18" y2="-141" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><path d="M19 -129.6L19 -99.6A9.9 4.9 0 0 1 9.1 -104.5L9.1 -134.5A9.9 4.9 0 0 0 19 -129.6Z" fill="#D6D8DB"/><path d="M19 -129.6L19 -99.6A9.9 4.9 0 0 0 28.9 -104.5L28.9 -134.5A9.9 4.9 0 0 1 19 -129.6Z" fill="#C5C8CC"/><ellipse cx="19" cy="-134.5" rx="9.9" ry="4.9" fill="#ECEDEF"/><line x1="29" y1="-111.5" x2="9" y2="-111.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="29" y1="-119.5" x2="9" y2="-119.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="29" y1="-127.5" x2="9" y2="-127.5" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><path d="M46 -116.1L46 -86.1A9.9 4.9 0 0 1 36.1 -91L36.1 -121A9.9 4.9 0 0 0 46 -116.1Z" fill="#D6D8DB"/><path d="M46 -116.1L46 -86.1A9.9 4.9 0 0 0 55.9 -91L55.9 -121A9.9 4.9 0 0 1 46 -116.1Z" fill="#C5C8CC"/><ellipse cx="46" cy="-121" rx="9.9" ry="4.9" fill="#ECEDEF"/><line x1="56" y1="-98" x2="36" y2="-98" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="56" y1="-106" x2="36" y2="-106" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/><line x1="56" y1="-114" x2="36" y2="-114" stroke="#6E737B" stroke-width="2" stroke-linecap="round"/></g></g><g class="layer" style="--cx:0px;--c:204px"><g data-k="default"><polygon points="-68,-264 42,-209 42,-137 -68,-192" fill="#BEC1C6"/><polygon points="42,-209 78,-227 78,-155 42,-137" fill="#ABAFB5"/><polygon points="-32,-282 78,-227 42,-209 -68,-264" fill="#D3D5D8"/></g></g><g data-k="plug"><polygon points="74.1,57.4 71.1,56.2 67.7,55.8 63.9,56.5 60,58 56.1,60.4 52.3,63.5 48.9,67.3 45.9,71.5 67.9,82.5 70.9,78.3 74.3,74.5 78.1,71.4 82,69 85.9,67.5 89.7,66.8 93.1,67.2 96.1,68.4" fill="#FFFFFF"/><polygon points="45.9,71.5 43.4,76.1 41.5,80.8 40.4,85.5 40,90 40.4,94.1 41.5,97.7 43.4,100.5 45.9,102.6 67.9,113.6 65.4,111.5 63.5,108.7 62.4,105.1 62,101 62.4,96.5 63.5,91.8 65.4,87.1 67.9,82.5" fill="#E3E4E6"/><polygon points="102,81 101.6,76.9 100.5,73.3 98.6,70.5 96.1,68.4 93.1,67.2 89.7,66.8 85.9,67.5 82,69 78.1,71.4 74.3,74.5 70.9,78.3 67.9,82.5 65.4,87.1 63.5,91.8 62.4,96.5 62,101 62.4,105.1 63.5,108.7 65.4,111.5 67.9,113.6 70.9,114.8 74.3,115.2 78.1,114.5 82,113 85.9,110.6 89.7,107.5 93.1,103.7 96.1,99.5 98.6,94.9 100.5,90.2 101.6,85.5" fill="#D3D5D8"/><polygon points="84.5,103.8 79.5,106.3 79.5,78.3 84.5,75.8" fill="#6E737B"/></g><g class="layer" style="--cx:-138px;--c:-69px"><g data-k="key"><polygon points="92.5,97.8 216.5,159.8 216.5,175.8 92.5,113.8" fill="#24406A"/><polygon points="216.5,159.8 223.5,156.3 223.5,172.3 216.5,175.8" fill="#1C3356"/><polygon points="99.5,94.2 223.5,156.3 216.5,159.8 92.5,97.8" fill="#2F4F7F"/><polygon points="92.5,86.5 106.5,93.5 106.5,104.7 92.5,97.7" fill="#24406A"/><polygon points="106.5,93.5 113.5,90 113.5,101.2 106.5,104.7" fill="#1C3356"/><polygon points="99.5,83 113.5,90 106.5,93.5 92.5,86.5" fill="#2F4F7F"/><polygon points="119.5,90.2 133.5,97.2 133.5,118.2 119.5,111.2" fill="#24406A"/><polygon points="133.5,97.2 140.5,93.7 140.5,114.7 133.5,118.2" fill="#1C3356"/><polygon points="126.5,86.7 140.5,93.7 133.5,97.2 119.5,90.2" fill="#2F4F7F"/><polygon points="146.5,110.7 160.5,117.8 160.5,131.8 146.5,124.7" fill="#24406A"/><polygon points="160.5,117.8 167.5,114.2 167.5,128.2 160.5,131.8" fill="#1C3356"/><polygon points="153.5,107.3 167.5,114.2 160.5,117.8 146.5,110.7" fill="#2F4F7F"/><polygon points="173.5,114.5 187.5,121.5 187.5,145.3 173.5,138.3" fill="#24406A"/><polygon points="187.5,121.5 194.5,118 194.5,141.8 187.5,145.3" fill="#1C3356"/><polygon points="180.5,111 194.5,118 187.5,121.5 173.5,114.5" fill="#2F4F7F"/><polygon points="257.6,191.9 260.3,189.6 262.3,186.4 263.6,182.5 264,178 263.6,173.1 262.3,167.9 260.3,162.7 257.6,157.7 249.6,161.7 252.3,166.7 254.3,171.9 255.6,177.1 256,182 255.6,186.5 254.3,190.4 252.3,193.6 249.6,195.9" fill="#1C3356"/><polygon points="257.6,157.7 254.2,153 250.4,148.9 246.3,145.4 242,142.8 237.7,141.1 233.6,140.4 229.8,140.8 226.4,142.1 218.4,146.1 221.8,144.8 225.6,144.4 229.7,145.1 234,146.8 238.3,149.4 242.4,152.9 246.2,157 249.6,161.7" fill="#2F4F7F"/><polygon points="256,182 255.6,177.1 254.3,171.9 252.3,166.7 249.6,161.7 246.2,157 242.4,152.9 238.3,149.4 234,146.8 229.7,145.1 225.6,144.4 221.8,144.8 218.4,146.1 215.7,148.4 213.7,151.6 212.4,155.5 212,160 212.4,164.9 213.7,170.1 215.7,175.3 218.4,180.3 221.8,185 225.6,189.1 229.7,192.6 234,195.2 238.3,196.9 242.4,197.6 246.2,197.2 249.6,195.9 252.3,193.6 254.3,190.4 255.6,186.5" fill="#24406A"/><polygon points="238.9,178.9 239.8,178.2 240.5,177.2 240.9,175.9 241,174.5 240.9,172.9 240.5,171.3 239.8,169.6 238.9,168 237.9,166.5 236.7,165.2 235.4,164.1 234,163.3 232.6,162.8 231.3,162.5 230.1,162.7 229.1,163.1 228.1,163.6 229.1,163.2 230.3,163 231.6,163.3 233,163.8 234.4,164.6 235.7,165.7 236.9,167 237.9,168.5 238.8,170.1 239.5,171.8 239.9,173.4 240,175 239.9,176.4 239.5,177.7 238.8,178.7 237.9,179.4" fill="#6E737B"/><polygon points="240,175 239.9,173.4 239.5,171.8 238.8,170.1 237.9,168.5 236.9,167 235.7,165.7 234.4,164.6 233,163.8 231.6,163.3 230.3,163 229.1,163.2 228.1,163.6 227.2,164.3 226.5,165.3 226.1,166.6 226,168 226.1,169.6 226.5,171.2 227.2,172.9 228.1,174.5 229.1,176 230.3,177.3 231.6,178.4 233,179.2 234.4,179.7 235.7,180 236.9,179.8 237.9,179.4 238.8,178.7 239.5,177.7 239.9,176.4" fill="#6E737B"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="default" aria-pressed="false"><span class="en">Default: decline<small>Springs hold the pins down, so the model stays quiet unless something pushes back.</small></span><span class="zh" lang="zh">默认：不回答<small>弹簧把销子压住，没有外力，模型就不开口。</small></span></button></li>
+<li><button type="button" data-key="pins" aria-pressed="false"><span class="en">“Do I know this?”<small>Each pin is the check: answer, or stay quiet?</small></span><span class="zh" lang="zh">“我知道吗”<small>每颗销子都是一道检查：答，还是不答？</small></span></button></li>
+<li><button type="button" data-key="plug" aria-pressed="false"><span class="en">The answer<small>It turns only once every pin is lifted clear.</small></span><span class="zh" lang="zh">回答<small>销子全部顶开，才转得动。</small></span></button></li>
+<li><button type="button" data-key="key" aria-pressed="false"><span class="en">Known-answer features<small>A familiar name lifts the pins. When they fire on something it doesn’t really know, that’s a hallucination.</small></span><span class="zh" lang="zh">“已知答案”特征<small>熟悉的名字把销子顶起；其实不知道的也顶起来了，就是幻觉。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-why-cant-llms-say-i-dont-know"><span class="en">Locked by default; only a known answer turns it. Tap a part.</span><span class="zh" lang="zh">默认锁着，只有“知道答案”才能拧开。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-fundamental-difference-human-vs-llm-hallucination">The Fundamental Difference: Human vs. LLM &ldquo;Hallucination&rdquo;</h2>
+<p>But this raised an even bigger question for me: if LLMs have mechanisms similar to humans for deciding when to speak, why do humans seem so much better at saying &ldquo;I don&rsquo;t know&rdquo;?</p>
+<p>The answer lies in a fundamental misunderstanding of what&rsquo;s actually happening when LLMs &ldquo;hallucinate.&rdquo;</p>
+<h3 id="its-not-really-hallucination">It&rsquo;s Not Really Hallucination</h3>
+<p>Cognitive scientists have been pushing back on the term &ldquo;hallucination&rdquo; for LLMs. In humans, hallucination involves perceiving things that aren&rsquo;t there—seeing, hearing, or feeling something that doesn&rsquo;t exist in reality. But LLMs don&rsquo;t perceive anything. They don&rsquo;t have sensory experiences.</p>
+<p>A more accurate term might be &ldquo;confabulation&rdquo;—when someone fills in gaps in their memory with plausible but false information.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> This happens to humans too, but the underlying mechanisms are completely different.</p>
+<h3 id="system-1-vs-system-2-thinking">System 1 vs. System 2 Thinking</h3>
+<p>Remember Daniel Kahneman&rsquo;s &ldquo;Thinking, Fast and Slow&rdquo;? He describes two modes of human cognition:</p>
+<ul>
+<li><strong>System 1</strong>: Fast, automatic, intuitive responses</li>
+<li><strong>System 2</strong>: Slow, deliberate, analytical thinking</li>
+</ul>
+<p>When humans say &ldquo;I don&rsquo;t know,&rdquo; we&rsquo;re often engaging System 2—we pause, reflect on our knowledge, and make a conscious decision about our certainty level.</p>
+<p>LLMs, on the other hand, are essentially stuck in System 1. They generate responses by predicting the most likely next word based on patterns in their training data. There&rsquo;s no deliberate reflection, no stepping back to assess confidence levels.</p>
+<h3 id="but-waitwhat-about-reasoning-models">But Wait—What About Reasoning Models?</h3>
+<p>Here&rsquo;s where things get really interesting, and frankly, concerning. You&rsquo;d think that reasoning models like OpenAI&rsquo;s o1 and o3—the ones that can engage in &ldquo;System 2&rdquo; thinking—would be better at saying &ldquo;I don&rsquo;t know,&rdquo; right?</p>
+<p><strong>They&rsquo;re actually worse.</strong></p>
+<p>According to OpenAI&rsquo;s own internal testing, their newer reasoning models hallucinate <em>more</em> frequently than their predecessors:<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<ul>
+<li><strong>o1</strong>: 16% hallucination rate on PersonQA benchmark</li>
+<li><strong>o3</strong>: 33% hallucination rate (roughly double)</li>
+<li><strong>o4-mini</strong>: 48% hallucination rate</li>
+</ul>
+<p>For comparison, the non-reasoning GPT-4o had a 30% hallucination rate, while GPT-4.5 achieved 19%.</p>
+<p>This completely breaks the historical trend where each new model incrementally hallucinated less than the previous one. OpenAI admits they don&rsquo;t really know why this is happening, writing in their technical report that &ldquo;more research is needed&rdquo; to understand why hallucinations are getting worse as they scale up reasoning models.</p>
+<p>The working theory? The reinforcement learning used for reasoning models may amplify issues that are usually mitigated by standard training pipelines. Because these models generate more detailed responses, they make &ldquo;more accurate claims as well as more inaccurate/hallucinated claims.&rdquo;</p>
+<p>It&rsquo;s like giving someone more time to think makes them more confident in both their correct <em>and</em> incorrect answers.</p>
+<h3 id="the-training-data-problem">The Training Data Problem</h3>
+<p>Here&rsquo;s where it gets really interesting. LLMs struggle with &ldquo;I don&rsquo;t know&rdquo; partly because of how they&rsquo;re trained. Think about it: when you&rsquo;re browsing the internet (where most training data comes from), you either find information about a topic or you don&rsquo;t. People rarely write &ldquo;I don&rsquo;t know&rdquo; about things they don&rsquo;t know—they just don&rsquo;t write about them at all.</p>
+<p>So LLMs rarely see examples of confident uncertainty in their training data. They&rsquo;re optimized to always generate something, because that&rsquo;s what their training taught them to do.</p>
+<h3 id="the-business-pressure-factor">The Business Pressure Factor</h3>
+<p>There&rsquo;s also a more pragmatic reason: user expectations. Companies deploying AI want their models to be helpful. A chatbot that frequently says &ldquo;I don&rsquo;t know&rdquo; might be seen as ineffective. Users often prefer a model that tries to help, even if it occasionally gets things wrong, over one that regularly admits ignorance.</p>
+<p>As one researcher put it: &ldquo;Users will say your model is lazy and doesn&rsquo;t even try, whereas if you train it to be more likely to produce something that looks like a solution more often, people will think &lsquo;wow, the AI solved this problem I couldn&rsquo;t solve.&rsquo;&rdquo;<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<h3 id="the-metacognitive-gap-and-why-humans-arent-perfect-either">The Metacognitive Gap (And Why Humans Aren&rsquo;t Perfect Either)</h3>
+<p>But here&rsquo;s the key difference: humans have metacognitive awareness. We can think about our own thinking. When you ask me about quantum physics, I can reflect on my knowledge and confidently say &ldquo;I don&rsquo;t know much about that.&rdquo; I have a sense of the boundaries of my knowledge.</p>
+<p><strong>But let&rsquo;s be honest—humans make plenty of mistakes too.</strong></p>
+<p>Research shows that human error rates are often surprisingly high. In medical diagnosis, primary care doctors misdiagnose about 5% of patients. In journalism, American newspapers had factual errors in 61% of stories. When humans claimed to be 100% certain in knowledge tasks, they were still wrong 20% of the time.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>By comparison, ChatGPT hallucinates about 27% of the time according to 2023 estimates—not dramatically different from human error rates in many domains.</p>
+<p><strong>The crucial difference isn&rsquo;t accuracy—it&rsquo;s uncertainty acknowledgment.</strong></p>
+<p>When Columbia Journalism Review tested ChatGPT on 200 quotes, it falsely attributed 76% of them but only indicated uncertainty in 7 out of 153 cases where it was wrong.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> Humans, despite our overconfidence bias, still retain the capacity to say &ldquo;I don&rsquo;t know&rdquo; when we recognize we&rsquo;re at the limits of our knowledge.</p>
+<p>LLMs don&rsquo;t have this self-awareness. They can&rsquo;t step back and assess their own knowledge state. They&rsquo;re pattern-matching machines that generate the most statistically likely next word based on their training, without any real understanding of what they do or don&rsquo;t &ldquo;know.&rdquo;</p>
+<p>The goal isn&rsquo;t perfection—it&rsquo;s building AI systems that can acknowledge their limitations as humans naturally do, even if imperfectly.</p>
+<h2 id="what-can-we-muggles-do-about-it">What Can We Muggles Do About It?</h2>
+<p>So here we are: reasoning models that hallucinate more than their predecessors, training data that rarely includes &ldquo;I don&rsquo;t know,&rdquo; and business pressures that reward confident responses over cautious ones.</p>
+<p>Sounds hopeless? It&rsquo;s not. While we can&rsquo;t fix the underlying architecture, we can dramatically improve our interactions with these systems through better prompting techniques. Think of it as context engineering for uncertainty management.</p>
+<h3 id="1-">1. <strong>&ldquo;According to&hellip;&rdquo; Prompting</strong></h3>
+<p>This is probably the easiest and most effective technique. Instead of asking &ldquo;What causes climate change?&rdquo; try &ldquo;According to scientific consensus, what causes climate change?&rdquo;</p>
+<p>This guides the model to ground its response in specific sources rather than generating from general training patterns. It&rsquo;s like giving the model a specific knowledge base to draw from rather than asking it to freestyle.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>❌ &ldquo;How do vaccines work?&rdquo;</li>
+<li>✅ &ldquo;According to medical literature, how do vaccines work?&rdquo;</li>
+</ul>
+<h3 id="2-progressive-prompting">2. <strong>Progressive Prompting</strong></h3>
+<p>Start broad, then narrow down. This helps you identify when the model is moving from confident territory into speculation.<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>First: &ldquo;What do you know about renewable energy policy?&rdquo;</li>
+<li>Then: &ldquo;What specific policies were implemented in Germany in 2023?&rdquo;</li>
+<li>Finally: &ldquo;What was the exact impact on household electricity costs?&rdquo;</li>
+</ul>
+<p>Watch for the point where responses become vague or overly general—that&rsquo;s often where hallucination risk increases.</p>
+<h3 id="3-role-based-prompting">3. <strong>Role-Based Prompting</strong></h3>
+<p>Ask the AI to respond as a specific expert who would naturally acknowledge limitations.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>❌ &ldquo;Explain this medical condition.&rdquo;</li>
+<li>✅ &ldquo;As a medical researcher, explain this condition, including what aspects are well-understood and what remains uncertain.&rdquo;</li>
+</ul>
+<h3 id="4-set-output-constraints">4. <strong>Set Output Constraints</strong></h3>
+<p>Shorter, more focused answers reduce the chances of drift into hallucination territory.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>❌ &ldquo;Tell me everything about artificial intelligence.&rdquo;</li>
+<li>✅ &ldquo;In 100 words, explain the main types of machine learning.&rdquo;</li>
+</ul>
+<h3 id="5-the-3-6-second-rule-applied-to-ai">5. <strong>The 3-6 Second Rule (Applied to AI)</strong></h3>
+<p>Remember that 3-6 second pause I developed for human communication? It works for AI too. Before hitting send, pause and ask yourself:</p>
+<ul>
+<li>Am I providing enough context for this request?</li>
+<li>Could this question be interpreted in multiple ways?</li>
+<li>Am I asking for information that might not exist or be verifiable?</li>
+</ul>
+<p>This connects directly to the context engineering insights from my previous post—better context leads to better responses, whether you&rsquo;re &ldquo;prompting&rdquo; humans or machines.</p>
+<h2 id="enterprise-implications-when-stakes-are-higher">Enterprise Implications: When Stakes Are Higher</h2>
+<p>While these prompting techniques help individual users, enterprises dealing with customer support, financial research, or technical documentation need more systematic approaches. This is where architectural solutions become crucial.</p>
+<h3 id="retrieval-augmented-generation-rag-the-double-edged-sword">Retrieval-Augmented Generation (RAG): The Double-Edged Sword</h3>
+<p>I&rsquo;ll admit, I&rsquo;m usually skeptical when people immediately jump to RAG as the solution for everything. But for hallucination reduction, it&rsquo;s actually one of the most effective approaches we have.</p>
+<p>RAG works by giving the model access to specific, verified information sources before it generates a response. Instead of relying purely on training data, the model can &ldquo;look up&rdquo; relevant information and ground its responses in those sources.</p>
+<p><strong>The results are significant</strong>: A 2024 Stanford study found that combining RAG with other techniques led to a 96% reduction in hallucinations compared to baseline models. In healthcare, RAG-powered tools reduced diagnostic errors by 15%.<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup></p>
+<p><strong>But there&rsquo;s a catch</strong>: &ldquo;hallucination with citations.&rdquo; Models can still confidently generate incorrect responses while citing real sources that don&rsquo;t actually support their claims. It&rsquo;s like having a research assistant who finds the right papers but misunderstands what they say.</p>
+<h3 id="grounding-and-attribution-technologies">Grounding and Attribution Technologies</h3>
+<p>This is where newer approaches like Contextual AI&rsquo;s &ldquo;groundedness&rdquo; technology become interesting. Instead of just retrieving information, these systems are designed to &ldquo;stick to the knowledge sources you give them.&rdquo;<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup></p>
+<p>Key features include:</p>
+<ul>
+<li><strong>Inline attributions</strong>: Source citations integrated directly into responses</li>
+<li><strong>Faithfulness prioritization</strong>: Prioritizing retrieved knowledge over training data</li>
+<li><strong>Controllable groundedness</strong>: Settings to manage how strictly the model adheres to sources</li>
+</ul>
+<p>Think of it as the difference between a research assistant who paraphrases everything in their own words versus one who quotes directly from sources and tells you exactly where each piece of information came from.</p>
+<h3 id="the-enterprise-trade-off">The Enterprise Trade-off</h3>
+<p>For enterprises, the calculation is different than for individual users. When a hallucination could mean misrepresenting company policy to customers or providing incorrect financial advice, the cost of verification becomes worth it.</p>
+<p>But these solutions aren&rsquo;t magic bullets. They require:</p>
+<ul>
+<li><strong>High-quality data sources</strong> (garbage in, garbage out)</li>
+<li><strong>Robust data governance</strong> (who maintains the knowledge base?)</li>
+<li><strong>Clear attribution chains</strong> (can we trace claims back to sources?)</li>
+<li><strong>Regular auditing</strong> (are our sources current and accurate?)</li>
+</ul>
+<p>The enterprise lesson? Reducing hallucinations isn&rsquo;t just about better prompting—it&rsquo;s about building systems that can reliably distinguish between what they know and what they&rsquo;re guessing.</p>
+<h2 id="the-bigger-picture">The Bigger Picture</h2>
+<p>Understanding hallucination mechanisms doesn&rsquo;t just make us better at using AI—it makes us better at recognizing our own cognitive limitations. When I catch myself confidently stating something I&rsquo;m not sure about, I think of Claude&rsquo;s misfiring circuits. When I see a colleague jumping to conclusions without enough context, I think about System 1 vs. System 2 thinking.</p>
+<p>The goal isn&rsquo;t to eliminate uncertainty—it&rsquo;s to become more conscious about when we&rsquo;re operating in uncertain territory, whether we&rsquo;re human or machine.</p>
+<hr>
+<p><strong>So why can&rsquo;t LLMs say &ldquo;I don&rsquo;t know&rdquo;?</strong> Because they&rsquo;re designed to always generate something, trained on data that rarely models uncertainty, and rewarded for helpfulness over accuracy. But more importantly, they lack the metacognitive awareness that allows humans to recognize the boundaries of their knowledge.</p>
+<p>The solution isn&rsquo;t waiting for perfect AI. It&rsquo;s becoming better context engineers—for both humans and machines.</p>
+<p>Back in that POC meeting, when my tech lead mentioned hallucination concerns, we were right to take them seriously. But now I understand that &ldquo;setting expectations with users&rdquo; isn&rsquo;t just about disclaimers—it&rsquo;s about building systems and processes that acknowledge uncertainty as a feature, not a bug.</p>
+<p>Whether we&rsquo;re implementing RAG systems, training users on better prompting techniques, or just having more honest conversations about AI limitations, the path forward requires the same conscious effort I committed to in my first blog post.</p>
+<p>The conscious effort to think deliberately about where the boundaries of knowledge lie—and to say &ldquo;I don&rsquo;t know&rdquo; when we&rsquo;re crossing them.</p>
+<hr>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Anthropic. (2025). &ldquo;Tracing the thoughts of a large language model.&rdquo; <a href="https://www.anthropic.com/research/tracing-thoughts-language-model">https://www.anthropic.com/research/tracing-thoughts-language-model</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Integrative Psychology. (2025). &ldquo;Hallucination vs. Confabulation: Rethinking AI Error Terminology.&rdquo; <a href="https://www.integrative-psych.org/resources/confabulation-not-hallucination-ai-errors">https://www.integrative-psych.org/resources/confabulation-not-hallucination-ai-errors</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>TechCrunch. (2025). &ldquo;OpenAI&rsquo;s new reasoning AI models hallucinate more.&rdquo; <a href="https://techcrunch.com/2025/04/18/openais-new-reasoning-ai-models-hallucinate-more/">https://techcrunch.com/2025/04/18/openais-new-reasoning-ai-models-hallucinate-more/</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Hacker News. (2023). &ldquo;Why isn&rsquo;t it possible to design LLMs that say &lsquo;I don&rsquo;t know&rsquo;?&rdquo; <a href="https://news.ycombinator.com/item?id=37126823">https://news.ycombinator.com/item?id=37126823</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>CSIRO. (2023). &ldquo;Both humans and AI hallucinate — but not in the same way.&rdquo; <a href="https://www.csiro.au/en/news/all/articles/2023/june/humans-and-ai-hallucinate">https://www.csiro.au/en/news/all/articles/2023/june/humans-and-ai-hallucinate</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Columbia Journalism Review. (2024). Referenced in various studies on AI accuracy in journalism.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>God of Prompt AI. (2024). &ldquo;9 Prompt Engineering Methods to Reduce Hallucinations.&rdquo; <a href="https://www.godofprompt.ai/blog/9-prompt-engineering-methods-to-reduce-hallucinations-proven-tips">https://www.godofprompt.ai/blog/9-prompt-engineering-methods-to-reduce-hallucinations-proven-tips</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Vellum AI. (2024). &ldquo;3 Recommended Strategies to Reduce LLM Hallucinations.&rdquo; <a href="https://www.vellum.ai/blog/how-to-reduce-llm-hallucinations">https://www.vellum.ai/blog/how-to-reduce-llm-hallucinations</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>Contextual AI. (2024). &ldquo;Introducing Grounded Language Model.&rdquo; <a href="https://contextual.ai/blog/introducing-grounded-language-model/">https://contextual.ai/blog/introducing-grounded-language-model/</a>&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Why Can't LLMs Say 'I Don't Know'?”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/three-months-later/"><span class="mono">← EARLIER · 2025-07-08</span><strong>Three Months Later: From Prompt Engineering to Context Engineering (And Why I've Been Doing It With Humans All Along)</strong></a><a class="card later" href="/writing/the-best-interview-question-for-ai-product-managers/"><span class="mono">LATER · 2025-07-10 →</span><strong>The Best Interview Question for AI Product Managers</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

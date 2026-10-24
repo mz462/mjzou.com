@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blanked Out During Claude's Demo. How Does It Just Work So Well? · MJ Zou</title>
+<meta name="description" content="From a jarring product demo to reverse engineering insights: why Anthropic's 'one model, many tools' philosophy creates seemingly effortless AI experiences.">
+<meta name="date" content="2025-07-18">
+<meta name="topic" content="Product management">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-07-18 · 6 min read</span>
+<h1>Blanked Out During Claude's Demo. How Does It Just Work So Well?</h1>
+<p class="dek">From a jarring product demo to reverse engineering insights: why Anthropic's 'one model, many tools' philosophy creates seemingly effortless AI experiences.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">product management</span><span class="chip">architecture</span><span class="chip">Claude</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>I had that sinking feeling during Anthropic&rsquo;s product demo last week. You know the one—when you&rsquo;re supposed to be the expert in the room, the person who knows Claude inside and out, but suddenly everything feels foreign.</p>
+<p>The Anthropic team was walking through their enterprise offerings: Projects, Knowledge, the new Financial Services Analyst. Each feature seemed isolated, almost mundane when presented individually. Projects were just &ldquo;workspaces to house user uploaded documents.&rdquo; Knowledge was simply &ldquo;parsing PDFs into markdown.&rdquo; The Financial Services Analyst was just &ldquo;MCP with enterprise support.&rdquo;</p>
+<p>I found myself nodding along, but internally struggling. <em>This is it? This is what I&rsquo;ve been raving about?</em></p>
+<p>But then something clicked. Maybe it wasn&rsquo;t about the individual components at all.</p>
+<h2 id="when-simple-parts-create-something-magical">When Simple Parts Create Something Magical</h2>
+<p>Later that day, I stumbled across a GitHub repository analyzing Claude Code&rsquo;s internals—a reverse engineering effort that revealed something extraordinary hidden beneath the surface<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. What I discovered made me realize why I had blanked out during the demo. I was looking at the trees instead of the forest.</p>
+<p>Claude&rsquo;s architecture isn&rsquo;t impressive because of any single component. It&rsquo;s impressive because of how these seemingly isolated parts combine to create emergent complexity.</p>
+<p>Take Projects: on the surface, it&rsquo;s just a workspace for documents. Knowledge appears to be simple PDF parsing. The Financial Services Analyst looks like basic MCP integration. Each component seems almost trivial when presented individually.</p>
+<p>But then they presented &ldquo;Deep Research,&rdquo; and everything clicked. I was brought back from blanking out as I watched everything connect on top of this feature. Now the agent could tap into the project knowledge, search the internet, use MCP tools—finding everything useful to a research topic. Suddenly, those isolated components weren&rsquo;t isolated anymore.</p>
+<p>Here&rsquo;s what I missed during the demo: these simple components complement each other perfectly. When combined with Sonnet&rsquo;s dynamic planning capabilities, everything becomes possible. Projects provide the context, Knowledge gives the AI access to information, MCP connects to external systems, Deep Research orchestrates comprehensive analysis—and Sonnet conducts it all in real-time.</p>
+<p>This is &ldquo;Applied AI&rdquo; at its finest. Instead of building specialized models for each use case, Anthropic is saying their base model is already good enough. They just need to explore the most out of it through intelligent architecture and tooling.</p>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-93 -88 216 196" role="img" aria-labelledby="fig-blanked-out-claude-demo">
+<g data-k="case"><polygon points="-85,28.5 30,86 30,100 -85,42.5" fill="#BEC1C6"/><polygon points="30,86 115,43.5 115,57.5 30,100" fill="#ABAFB5"/><polygon points="0,-14 115,43.5 30,86 -85,28.5" fill="#D3D5D8"/><ellipse cx="-3" cy="4.5" rx="12" ry="6" fill="#ABAFB5"/><ellipse cx="21" cy="16.5" rx="14.1" ry="7.1" fill="#ABAFB5"/><ellipse cx="48" cy="30" rx="16.3" ry="8.1" fill="#ABAFB5"/><polygon points="84,38 94,43 28,76 18,71" fill="#ABAFB5"/><polygon points="-46,19 20,52 4,60 -62,27" fill="#ABAFB5"/></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="projects"><path d="M-3 -67.2L-3 -36.2A10.6 5.3 0 0 1 -13.6 -41.5L-13.6 -72.5A10.6 5.3 0 0 0 -3 -67.2Z" fill="#E3E4E6"/><path d="M-3 -67.2L-3 -36.2A10.6 5.3 0 0 0 7.6 -41.5L7.6 -72.5A10.6 5.3 0 0 1 -3 -67.2Z" fill="#D3D5D8"/><ellipse cx="-3" cy="-72.5" rx="10.6" ry="5.3" fill="#FFFFFF"/><ellipse cx="-3" cy="-72.5" rx="5.3" ry="2.7" fill="#6E737B"/></g></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="knowledge"><path d="M21 -55.9L21 -23.1A12.7 6.4 0 0 1 8.3 -29.5L8.3 -62.3A12.7 6.4 0 0 0 21 -55.9Z" fill="#E3E4E6"/><path d="M21 -55.9L21 -23.1A12.7 6.4 0 0 0 33.7 -29.5L33.7 -62.3A12.7 6.4 0 0 1 21 -55.9Z" fill="#D3D5D8"/><ellipse cx="21" cy="-62.3" rx="12.7" ry="6.4" fill="#FFFFFF"/><ellipse cx="21" cy="-62.3" rx="6.4" ry="3.2" fill="#6E737B"/></g></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="mcp"><path d="M48 -43.2L48 -8.6A14.8 7.4 0 0 1 33.2 -16L33.2 -50.6A14.8 7.4 0 0 0 48 -43.2Z" fill="#E3E4E6"/><path d="M48 -43.2L48 -8.6A14.8 7.4 0 0 0 62.8 -16L62.8 -50.6A14.8 7.4 0 0 1 48 -43.2Z" fill="#D3D5D8"/><ellipse cx="48" cy="-50.6" rx="14.8" ry="7.4" fill="#FFFFFF"/><ellipse cx="48" cy="-50.6" rx="7.4" ry="3.7" fill="#6E737B"/></g></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="research"><polygon points="22,17 29,20.5 29,28.5 22,25" fill="#D6D8DB"/><polygon points="29,20.5 91,-10.5 91,-2.5 29,28.5" fill="#C5C8CC"/><polygon points="84,-14 91,-10.5 29,20.5 22,17" fill="#ECEDEF"/><polygon points="20.5,15.3 28.5,19.3 28.5,31.3 20.5,27.3" fill="#D6D8DB"/><polygon points="28.5,19.3 37.5,14.7 37.5,26.7 28.5,31.3" fill="#C5C8CC"/><polygon points="29.5,10.8 37.5,14.7 28.5,19.3 20.5,15.3" fill="#ECEDEF"/></g></g><g class="layer" style="--cx:0px;--c:46px"><g data-k="model"><polygon points="-42,-22 6,2 6,11 -42,-13" fill="#24406A"/><polygon points="6,2 14,-2 14,7 6,11" fill="#1C3356"/><polygon points="-34,-26 14,-2 6,2 -42,-22" fill="#2F4F7F"/><path d="M-46 -24.9L-46 -11.9A14.1 7.1 0 0 1 -60.1 -19L-60.1 -32A14.1 7.1 0 0 0 -46 -24.9Z" fill="#24406A"/><path d="M-46 -24.9L-46 -11.9A14.1 7.1 0 0 0 -31.9 -19L-31.9 -32A14.1 7.1 0 0 1 -46 -24.9Z" fill="#1C3356"/><ellipse cx="-46" cy="-32" rx="14.1" ry="7.1" fill="#2F4F7F"/><ellipse cx="-46" cy="-32" rx="5.7" ry="2.8" fill="#6E737B"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="projects" aria-pressed="false"><span class="en">Projects<small>“Just workspaces” for uploaded documents.</small></span><span class="zh" lang="zh">Projects<small>“不过是”放上传文档的工作区。</small></span></button></li>
+<li><button type="button" data-key="knowledge" aria-pressed="false"><span class="en">Knowledge<small>“Just” PDFs parsed into markdown.</small></span><span class="zh" lang="zh">Knowledge<small>“不过是”把 PDF 转成 markdown。</small></span></button></li>
+<li><button type="button" data-key="mcp" aria-pressed="false"><span class="en">MCP connectors<small>“Just MCP with enterprise support.”</small></span><span class="zh" lang="zh">MCP 连接器<small>“不过是”带企业支持的 MCP。</small></span></button></li>
+<li><button type="button" data-key="research" aria-pressed="false"><span class="en">Deep Research<small>The extension bar: reaches knowledge, the web and MCP in one run.</small></span><span class="zh" lang="zh">深度研究<small>加长杆：一次就能够到知识库、网页和 MCP。</small></span></button></li>
+<li><button type="button" data-key="model" aria-pressed="false"><span class="en">Ratchet = Sonnet<small>One model turns every part. No specialized variants.</small></span><span class="zh" lang="zh">棘轮 = Sonnet<small>一个模型带动所有部件，不另做专用模型。</small></span></button></li>
+<li><button type="button" data-key="case" aria-pressed="false"><span class="en">Case = architecture<small>Architecture and tooling, built around one base model.</small></span><span class="zh" lang="zh">工具盒 = 架构<small>围着一个基础模型搭起来的架构和工具。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-blanked-out-claude-demo"><span class="en">Plain parts, one handle. Tap a part.</span><span class="zh" lang="zh">零件普通，手柄一个。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="why-are-we-making-this-so-hard">Why Are We Making This So Hard?</h2>
+<p>The reverse engineering analysis revealed why Claude Code feels so effortless to use, despite being incredibly sophisticated under the hood. But it also made me question something that&rsquo;s been bothering me for months in my day job.</p>
+<p>I can&rsquo;t count how many meetings I&rsquo;ve sat through where colleagues debate RAG implementations, vector database architectures, and custom frameworks. &ldquo;We need to build a knowledge base system,&rdquo; they&rsquo;ll say, then immediately dive into Pinecone vs. Weaviate, embedding models, chunking strategies, retrieval mechanisms. By the time we&rsquo;re done planning, we&rsquo;ve architected a system that would take months to build.</p>
+<p>Meanwhile, Anthropic just says: &ldquo;Upload your documents to Projects. Ask questions.&rdquo; Done.</p>
+<p>The Claude Code architecture is a masterclass in this philosophy. At its core, it runs on a multi-agent system with a 6-stage tool execution pipeline<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. When you ask it to do something, it orchestrates an entire symphony of processes—agent loops, three-tier memory systems, intelligent compression algorithms that preserve 92% of key information, concurrency control that spawns up to 10 simultaneous sub-agents<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>But here&rsquo;s the thing: you never see any of that complexity. You just get results.</p>
+<p>This is what frustrates me about our approach to AI projects. We don&rsquo;t have first-hand knowledge of LLM capabilities, yet we immediately jump to complex architectures. Why are we trapping ourselves in such heavy burdens when simple POC/MVP approaches seem so straightforward and easy with tools like Claude?</p>
+<p>We&rsquo;re planning two steps down the road when we haven&rsquo;t even figured out step one. Meanwhile, Anthropic demonstrates that one powerful base model, enhanced by thoughtful architecture, can handle use cases we&rsquo;re still debating how to build.</p>
+<h2 id="one-model-vs-many-models-a-philosophy-clash">One Model vs. Many Models: A Philosophy Clash</h2>
+<p>This architectural philosophy puts Anthropic in stark contrast with OpenAI&rsquo;s approach. While OpenAI has proliferated models for every use case—GPT-4.1 for general tasks, GPT-4o for multimodal capabilities, o3-mini for reasoning, o4-mini-deep-research for research tasks, the new autonomous Codex agent for software engineering, DALL-E 3 for images, Whisper for audio—Anthropic doubles down on making one model incredibly versatile.</p>
+<p>OpenAI&rsquo;s strategy feels like the old software approach: build specialized tools for specialized tasks. Need image generation? Use DALL-E 3. Need autonomous coding? Use the new Codex agent. Need reasoning? Use o3-mini. Need deep research? Use o4-mini-deep-research. Need multimodal capabilities? Use GPT-4o. Each model is optimized for its domain, but the cognitive overhead of managing multiple models is significant.</p>
+<p>Anthropic&rsquo;s philosophy is fundamentally different: if your base model is good enough, you don&rsquo;t need specialized variants. You need better architecture. Claude Code, Projects, Knowledge, Deep Research—they&rsquo;re all powered by the same Sonnet and Opus models. The magic isn&rsquo;t in having different models; it&rsquo;s in having different ways to leverage the same powerful foundation.</p>
+<p>This reminds me of Unix philosophy: &ldquo;Do one thing and do it well.&rdquo; But Anthropic flips it: &ldquo;Do one thing incredibly well, then use elegant architecture to make it do everything else.&rdquo;</p>
+<p>The reverse engineering analysis shows this philosophy in action. Claude Code doesn&rsquo;t succeed because it&rsquo;s a specialized coding model—it succeeds because it&rsquo;s Sonnet with an incredibly thoughtful multi-agent architecture, intelligent context management, and seamless tool integration.</p>
+<p>From a business perspective, this is profound. Instead of training separate models for different enterprise use cases, Anthropic can focus on perfecting their base models and building better tooling around them. It&rsquo;s more scalable, more maintainable, and frankly, more elegant.</p>
+<h2 id="the-power-of-good-architecture">The Power of Good Architecture</h2>
+<p>That sinking feeling I had during the demo? It wasn&rsquo;t because I didn&rsquo;t know Claude&rsquo;s features—I use them daily for 2-3 hours. It was because hearing someone else introduce tools I already knew made me think about them differently. I introduce these features to other people all the time, but this was the first time I actually heard them explained and thought about what they really were.</p>
+<p>When you use something intuitively, you don&rsquo;t think about its architecture. When you use Claude Code, you&rsquo;re not thinking about the 6-stage tool execution pipeline or the intelligent compression algorithms. You&rsquo;re just coding, and it works. When you use Deep Research, you&rsquo;re not marveling at the multi-agent orchestration—you&rsquo;re getting comprehensive insights seamlessly.</p>
+<p>But hearing it described formally—&ldquo;Projects are workspaces,&rdquo; &ldquo;Knowledge is PDF parsing,&rdquo; &ldquo;Financial Analyst is MCP with enterprise support&rdquo;—suddenly made the magic visible. These weren&rsquo;t separate features at all. They were carefully designed components of a unified system.</p>
+<p>This is what great product design looks like: complexity that serves the user so well that it becomes invisible. But Anthropic doesn&rsquo;t just hide complexity—they make human-in-the-loop interactions feel natural. Deep Research requires a button press that makes you think before the agent runs for 10-30 minutes. Extended Thinking is tucked away in option menus so users don&rsquo;t accidentally enable it (and can be easily retired if the model gets smarter and no longer needs it).</p>
+<p>The entire Anthropic experience feels unified and elegant—I&rsquo;m running out of words for it. Anthropic could have built separate models for coding, research, document analysis, and financial services. Instead, they built one excellent model and surrounded it with thoughtful architecture.</p>
+<p>The lesson for the rest of us building AI products? Maybe we should stop adding more models and start building better systems. Stop debating vector databases and start thinking about user experience. Stop planning two steps down the road and start building simple, elegant solutions that work today.</p>
+<p>Because at the end of the day, users don&rsquo;t care about your architecture—they care about results. And sometimes, the most sophisticated thing you can do is make complexity invisible.</p>
+<hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/shareAI-lab/analysis_claude_code">Analysis of Claude Code - shareAI-lab</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://github.com/shareAI-lab/analysis_claude_code/blob/main/claude_code_v_1.0.33/stage1_analysis_workspace/Claude_Code_Agent%E7%B3%BB%E7%BB%9F%E5%AE%8C%E6%95%B4%E6%8A%80%E6%9C%AF%E8%A7%A3%E6%9E%90.md">Claude Code Agent System Technical Analysis</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://www.anthropic.com/news/model-context-protocol">Model Context Protocol (MCP) Documentation</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “Blanked Out During Claude's Demo. How Does It Just Work So Well?”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/ai-honeymoon-period/"><span class="mono">← EARLIER · 2025-07-14</span><strong>The AI Honeymoon Period: What Context Engineering Taught Me About Hype vs Reality</strong></a><a class="card later" href="/writing/context-engineering-lessons-from-manus/"><span class="mono">LATER · 2025-07-20 →</span><strong>Context Engineering Lessons from Building Manus</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

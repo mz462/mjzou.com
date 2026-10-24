@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I Vibe Coded an AI App — But There's No AI Inside · MJ Zou</title>
+<meta name="description" content="I spent two Saturdays building an iOS app with 98% AI-generated code. It exports running data for AI analysis and generates art prompts — but has zero AI features itself. Here's why that's the point.">
+<meta name="date" content="2025-12-14">
+<meta name="topic" content="Vibe coding">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-12-14 · 4 min read</span>
+<h1>I Vibe Coded an AI App — But There's No AI Inside</h1>
+<p class="dek">I spent two Saturdays building an iOS app with 98% AI-generated code. It exports running data for AI analysis and generates art prompts — but has zero AI features itself. Here's why that's the point.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">vibe coding</span><span class="chip">iOS</span><span class="chip">Claude</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="the-paradox">The Paradox</h2>
+<p>I just shipped an iOS app. It helps runners get AI-powered analysis of their workouts and generate shareable art from their stats.</p>
+<p><strong>But the app itself has no AI.</strong></p>
+<p>No GPT integration. No on-device model. No API calls to Claude or Gemini. Zero intelligence inside.</p>
+<p>And that&rsquo;s exactly why it works.</p>
+<p><img alt="Context Bridge Concept Art" loading="lazy" src="/assets/banner-DjgQK8wv.webp"></p>
+<hr>
+<h2 id="the-backstory">The Backstory</h2>
+<p>Last month, I replaced $200/year in fitness subscriptions with a weekend project — an AI system that gave me personalized coaching by connecting Claude to my running database. (<a href="/writing/ai-architecture-pattern/">That story here.</a>)</p>
+<p>At the end, I wrote: <em>&ldquo;I&rsquo;m exploring building this into an iOS app.&rdquo;</em></p>
+<p>Two Saturdays later, I did. <strong>98% AI-generated code. Zero AI inside.</strong></p>
+<hr>
+<h2 id="what-the-app-actually-does">What the App Actually Does</h2>
+<p>The app has two core features:</p>
+<h3 id="1-export-fit-files-for-analysis">1. Export .fit Files for Analysis</h3>
+<p>The app reads your workouts from Apple Health and exports them as <code>.fit</code> files — a universal workout format that Garmin, Strava, and other fitness platforms understand. You can then share these files directly to Claude (or any AI), where my custom running analysis prompt turns raw data into personalized coaching.</p>
+<p><strong>The app&rsquo;s role</strong>: Extract context from Apple Health.<br>
+<strong>Claude&rsquo;s role</strong>: Apply expertise and generate insights.</p>
+<h3 id="2-generate-art-prompts-for-sharing">2. Generate Art Prompts for Sharing</h3>
+<p>Choose an art style — Ghibli, HD-2D pixel art, Chinese 古风, isometric cityscape — and the app constructs an image generation prompt using your run stats (distance, pace, heart rate, location).</p>
+<p>Then you pick your AI: <strong>Gemini, Claude, ChatGPT, or just copy the prompt.</strong></p>
+<p><img alt="Isometric cityscape art style with run stats" loading="lazy" src="/assets/app-banana-style-DeD2XRYJ.webp"></p>
+<p><strong>The app&rsquo;s role</strong>: Build the prompt with your data.<br>
+<strong>You decide</strong>: Which AI generates the image.</p>
+<p><img alt="Send Prompt modal showing AI options" loading="lazy" src="/assets/app-send-prompt-DeXoIlYZ.webp"></p>
+<hr>
+<h2 id="why-no-ai-inside">Why No AI Inside?</h2>
+<p>Here&rsquo;s the mental model that changed how I think about building apps:</p>
+<h3 id="the-old-model-app--the-experience">The Old Model: App = The Experience</h3>
+<p>Traditional apps try to own everything — the UI, the intelligence, the insights. Data flows <em>into</em> the app. Users live <em>inside</em> the app.</p>
+<p>If you wanted AI features, you&rsquo;d integrate OpenAI&rsquo;s API, pay per token, handle rate limits, build fallbacks.</p>
+<h3 id="the-new-model-app--context-exporter">The New Model: App = Context Exporter</h3>
+<p>My app doesn&rsquo;t try to be smart. It tries to be <em>useful to smart things</em>.</p>
+<ul>
+<li><strong>For analysis</strong>: It exports <code>.fit</code> files so Claude can do the heavy lifting.</li>
+<li><strong>For art</strong>: It exports prompts so users can choose their preferred AI.</li>
+</ul>
+<p>The app is a <strong>context bridge</strong> — it liberates data trapped in Apple Health and packages it for AI consumption.</p>
+<p><strong>Don&rsquo;t wrap AI. Export context.</strong></p>
+<hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-98 -168 318 291" role="img" aria-labelledby="fig-vibe-coding-ios-app">
+<g data-k="wall"><polygon points="-90,-105 -78,-99 -78,71 -90,65" fill="#BEC1C6"/><polygon points="-78,-99 2,-139 2,31 -78,71" fill="#ABAFB5"/><polygon points="-10,-145 2,-139 -78,-99 -90,-105" fill="#D3D5D8"/><polygon points="-62,-39 -57,-36.5 -57,33.5 -62,31" fill="#D6D8DB"/><polygon points="-57,-36.5 -9,-60.5 -9,9.5 -57,33.5" fill="#C5C8CC"/><polygon points="-14,-63 -9,-60.5 -57,-36.5 -62,-39" fill="#ECEDEF"/><polygon points="-21,-4.5 -26,-2 -26,-18 -21,-20.5" fill="#6E737B"/><polygon points="-39,4.5 -44,7 -44,-9 -39,-11.5" fill="#6E737B"/></g><g class="layer" style="--cx:-63px;--c:-31.5px"><g data-k="wire"><polygon points="11,2.5 37,15.5 37,27.5 11,14.5" fill="#24406A"/><polygon points="37,15.5 42,13 42,25 37,27.5" fill="#1C3356"/><polygon points="16,0 42,13 37,15.5 11,2.5" fill="#2F4F7F"/><polygon points="-7,11.5 19,24.5 19,36.5 -7,23.5" fill="#24406A"/><polygon points="19,24.5 24,22 24,34 19,36.5" fill="#1C3356"/><polygon points="-2,9 24,22 19,24.5 -7,11.5" fill="#2F4F7F"/></g><g data-k="cover"><polygon points="6,51 66,81 66,89 6,59" fill="#D6D8DB"/><polygon points="66,81 116,56 116,64 66,89" fill="#C5C8CC"/><polygon points="56,26 116,56 66,81 6,51" fill="#ECEDEF"/></g><g data-k="wire"><polygon points="39,30.5 91,56.5 91,62.5 39,36.5" fill="#24406A"/><polygon points="91,56.5 96,54 96,60 91,62.5" fill="#1C3356"/><polygon points="44,28 96,54 91,56.5 39,30.5" fill="#2F4F7F"/><polygon points="21,39.5 73,65.5 73,71.5 21,45.5" fill="#24406A"/><polygon points="73,65.5 78,63 78,69 73,71.5" fill="#1C3356"/><polygon points="26,37 78,63 73,65.5 21,39.5" fill="#2F4F7F"/></g></g><g class="layer" style="--cx:-63px;--c:96.5px"><g data-k="cover"><polygon points="6,-135 66,-105 66,-47 6,-77" fill="#D6D8DB"/><polygon points="66,-105 116,-130 116,-72 66,-47" fill="#C5C8CC"/><polygon points="56,-160 116,-130 66,-105 6,-135" fill="#ECEDEF"/><polygon points="102,-79 97,-76.5 97,-96.5 102,-99" fill="#6E737B"/><polygon points="84,-70 79,-67.5 79,-87.5 84,-90" fill="#6E737B"/></g></g><g class="layer" style="--cx:-113px;--c:-56.5px"><g data-k="plug"><polygon points="121,45.5 147,58.5 147,72.5 121,59.5" fill="#6E737B"/><polygon points="147,58.5 152,56 152,70 147,72.5" fill="#6E737B"/><polygon points="126,43 152,56 147,58.5 121,45.5" fill="#6E737B"/><polygon points="103,54.5 129,67.5 129,81.5 103,68.5" fill="#6E737B"/><polygon points="129,67.5 134,65 134,79 129,81.5" fill="#6E737B"/><polygon points="108,52 134,65 129,67.5 103,54.5" fill="#6E737B"/><polygon points="120,50 150,65 150,115 120,100" fill="#E3E4E6"/><polygon points="150,65 192,44 192,94 150,115" fill="#D3D5D8"/><polygon points="162,29 192,44 150,65 120,50" fill="#FFFFFF"/><polygon points="164,76 200,94 200,110 164,92" fill="#BEC1C6"/><polygon points="200,94 212,88 212,104 200,110" fill="#ABAFB5"/><polygon points="176,70 212,88 200,94 164,76" fill="#D3D5D8"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="cover" aria-pressed="false"><span class="en">The app<small>Lift the cover: no model inside. It doesn’t try to be smart.</small></span><span class="zh" lang="zh">App 外壳<small>打开一看，里面没有模型，它不想变聪明。</small></span></button></li>
+<li><button type="button" data-key="wall" aria-pressed="false"><span class="en">Apple Health<small>Workouts locked on the phone; only an iOS app can reach in.</small></span><span class="zh" lang="zh">苹果健康<small>运动数据锁在手机里，只有 iOS App 拿得到。</small></span></button></li>
+<li><button type="button" data-key="wire" aria-pressed="false"><span class="en">Context, passed through<small>.fit files and art prompts: read, packaged, handed off.</small></span><span class="zh" lang="zh">上下文，直通<small>.fit 文件和绘图提示词：读出、打包、交出去。</small></span></button></li>
+<li><button type="button" data-key="plug" aria-pressed="false"><span class="en">Your AI of choice<small>Claude, Gemini or ChatGPT plugs in; the thinking happens there.</small></span><span class="zh" lang="zh">任选一个 AI<small>Claude、Gemini、ChatGPT 都插得上，思考在那头。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-vibe-coding-ios-app"><span class="en">Don’t wrap AI. Export context. Tap a part.</span><span class="zh" lang="zh">不包装 AI，只导出上下文。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="why-not-just-connect-claude-directly">&ldquo;Why Not Just Connect Claude Directly?&rdquo;</h2>
+<p>Fair question. There are tools that let AI assistants connect directly to your data — databases, cloud documents, that kind of thing. So why build an app at all?</p>
+<p><strong>Because your health data is locked on your phone.</strong></p>
+<p>Most of your digital life lives in the cloud, accessible through APIs. But Apple Health is different:</p>
+<ul>
+<li>Your workout data lives <strong>locally on your iPhone</strong></li>
+<li>Apple doesn&rsquo;t let external tools access it directly</li>
+<li>You need an iOS app to unlock that data</li>
+</ul>
+<p>Think of it this way: AI can read files you share with it, but it can&rsquo;t reach into your pocket and grab your phone.</p>
+<p><strong>My app is the bridge.</strong> It extracts the data Apple protects, packages it in a format AI understands, and hands it off. The AI does the thinking. The app does the unlocking.</p>
+<hr>
+<h2 id="the-vibe-coding-experience">The Vibe Coding Experience</h2>
+<p>Let&rsquo;s talk about how I actually built this.</p>
+<p><strong>Tools used</strong>: Claude Code (Anthropic&rsquo;s agentic coding tool)<br>
+<strong>Time</strong>: Two Saturdays<br>
+<strong>AI-generated code</strong>: ~98%</p>
+<p>I&rsquo;m not a Swift developer. I&rsquo;d never built an iOS app before. But Claude Code handled:</p>
+<ul>
+<li>All the visual design and screen layouts</li>
+<li>Connecting to Apple Health and reading workout data</li>
+<li>Converting workouts to the <code>.fit</code> format</li>
+<li>Building the art prompt generator</li>
+<li>The &ldquo;share to&hellip;&rdquo; functionality</li>
+<li>All six art style themes</li>
+</ul>
+<p>My job was:</p>
+<ul>
+<li>Describing what I wanted</li>
+<li>Testing on device</li>
+<li>Steering when things went wrong</li>
+<li>Making product decisions</li>
+</ul>
+<p><strong>The vibe coding reality</strong>: I&rsquo;d describe a feature, Claude would generate it, I&rsquo;d test it, we&rsquo;d iterate. Most of the time, it just worked. When it didn&rsquo;t, I&rsquo;d paste the error and Claude would fix it.</p>
+<p><strong>The frustrating part</strong>: Apple&rsquo;s App Store review. My first submission got rejected — they wanted more explanation of how the app uses health data. Fair enough. But it meant rewriting privacy descriptions, waiting for re-review, and refreshing my email for days. The AI couldn&rsquo;t help with that.</p>
+<p>The moment I knew vibe coding was real: I described the art prompt feature in two sentences, and Claude generated a working style picker with six themes in under a minute. I&rsquo;d budgeted half a day for that feature.</p>
+<p>This isn&rsquo;t &ldquo;AI wrote my app for me.&rdquo; It&rsquo;s more like pair programming with a very fast, very patient partner who knows every API but needs guidance on product direction.</p>
+<hr>
+<h2 id="what-this-means-for-builders">What This Means for Builders</h2>
+<p>There&rsquo;s a whole category of &ldquo;context bridge&rdquo; apps waiting to be built:</p>
+<ul>
+<li>Bank transaction exporters for budget analysis</li>
+<li>Calendar context for meeting prep</li>
+<li>Health data aggregators for wellness coaching</li>
+<li>Code context exporters for review and debugging</li>
+</ul>
+<p>The intelligence layer is becoming commoditized. <strong>The context layer is the new moat.</strong></p>
+<hr>
+<h2 id="try-it-yourself">Try It Yourself</h2>
+<p>The app is called <strong><a href="https://apps.apple.com/app/run-card-generator/id6756200075">Run Card Generator</a></strong> — it&rsquo;s free on the App Store.</p>
+<p>The running analysis prompt (a Claude &ldquo;Skill&rdquo; you can install) is open source: <a href="https://github.com/mz462/run-skill">github.com/mz462/run-skill</a></p>
+<hr>
+<h2 id="closing-thought">Closing Thought</h2>
+<p>I spent two Saturdays building an iOS app with 98% AI-generated code. It reads from Apple Health, exports workout data, generates art prompts, and supports multiple AI destinations.</p>
+<p>It has no AI inside.</p>
+<p>And that&rsquo;s exactly why it was so fast to build, so cheap to run, and so flexible to use.</p>
+<p><strong>The smartest AI app might be the one that doesn&rsquo;t try to be smart at all.</strong></p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “I Vibe Coded an AI App — But There's No AI Inside”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/ai-architecture-pattern/"><span class="mono">← EARLIER · 2025-11-17</span><strong>From Two Subscriptions to One Weekend Build: The AI Architecture Pattern Everyone's Missing</strong></a><a class="card later" href="/writing/manus-paradox/"><span class="mono">LATER · 2025-12-19 →</span><strong>The Manus Paradox: What the Fastest-Growing AI Company Reveals About Agentic AI</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

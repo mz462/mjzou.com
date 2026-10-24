@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era? · MJ Zou</title>
+<meta name="description" content="After helping three friends build their GP tech stacks from scratch, here's how I'd approach it today—with AI agents, open APIs, and conversation at the center.">
+<meta name="date" content="2025-12-23">
+<meta name="topic" content="Commercial real estate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-12-23 · 8 min read</span>
+<h1>What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era?</h1>
+<p class="dek">After helping three friends build their GP tech stacks from scratch, here's how I'd approach it today—with AI agents, open APIs, and conversation at the center.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">commercial real estate</span><span class="chip">MCP</span><span class="chip">tech stack</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p><img alt="The AI-Native Tech Stack for Emerging GPs" loading="lazy" src="/assets/hero-qqy2eTcT.webp"></p>
+<h2 id="the-three-friends">The Three Friends</h2>
+<p>In the past year, I&rsquo;ve helped advised three friends build their GP tech stacks from scratch.</p>
+<p>Maybe it&rsquo;s my network. Or maybe AI is democratizing operational knowledge in real time. The data suggests the latter: small businesses closed a technology gap with enterprises in 18 months that previously took decades. In February 2024, large businesses used AI at 1.8x the rate of small businesses. By August 2025, that gap had nearly vanished.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p><img alt="Small businesses closed an 18-month technology gap with enterprises" loading="lazy" src="/assets/sme-gap-closing-CiuSf4Zy.webp"></p>
+<p>What I learned from those three conversations shapes everything I&rsquo;d recommend today.</p>
+<p><strong>The first friend was paralyzed by fear of the unknown.</strong> He&rsquo;d never built a tech stack before—always inherited whatever the previous operator used. The beautiful irony? He used Claude and ChatGPT to educate himself through the process. AI became his tutor before it became his tool.</p>
+<p>But here&rsquo;s the caveat I had to drill into him: <strong>AI tends to tell you what you want to hear.</strong> It&rsquo;s sycophantic by design. And it hallucinates. He learned to treat AI like a smart intern—capable, but requiring verification. Never an oracle.</p>
+<p><strong>The second friend got burned by API pricing.</strong> She chose a vendor, built integrations, got everything humming—then got hit with unexpected API usage charges. Lesson learned: with MCP adoption growing, expect vendors to monetize API access. <strong>The cost of &ldquo;free&rdquo; APIs rarely stays free.</strong> Ask about pricing upfront. Get it in writing.</p>
+<p><strong>The third friend was trapped.</strong> Already invested in a legacy system, she hesitated to change vendors because of the integration nightmare she&rsquo;d face. The sunk cost fallacy plus switching cost fear equals paralysis. But here&rsquo;s the truth: the longer you wait, the more painful migration becomes. <strong>Build on open rails from day one.</strong></p>
+<p>Three friends. Three lessons. One conclusion: the technical stack you choose today determines whether AI becomes your leverage—or your limitation.</p>
+<p><img alt="Three Lessons From Three Friends" loading="lazy" src="/assets/three-friends-DEnJZ2LO.webp"></p>
+<hr>
+<h2 id="the-old-stack-problem">The Old Stack Problem</h2>
+<p><img alt="Click through screens. Export to Excel. Email PDFs. Repeat." loading="lazy" src="/assets/old-stack-problem-B5h_hxZg.webp"></p>
+<p>The traditional CRE tech stack was built for data entry, not intelligence.</p>
+<p>You know the workflow: Click through screens. Export to Excel. Email PDFs. Repeat.</p>
+<p>Integration meant six-figure consulting projects. Data lived in silos. And the reports? Unlike some legacy vendors that still have a default Excel output with blank rows, different merged cells across headers and records, and internal hyperlinks that break the moment you try to automate.</p>
+<p>If you know, you know.</p>
+<p>The old stack was designed for a world where humans did the thinking and software did the storing. That world is ending.</p>
+<hr>
+<h2 id="the-turning-point-conversation-as-interface">The Turning Point: Conversation as Interface</h2>
+<p>MCP and AI agents change the game.</p>
+<p>For the first time, you can build a stack where an AI assistant orchestrates across systems—pull loan covenants, check construction draws against budget, draft capital call notices—all through conversation.</p>
+<p>The interface isn&rsquo;t a dashboard anymore. <strong>It&rsquo;s a question.</strong></p>
+<p><img alt="The interface isn&rsquo;t a dashboard anymore. It&rsquo;s a question." loading="lazy" src="/assets/conversation-interface-B52xHIde.webp"></p>
+<p>&ldquo;What&rsquo;s our debt service coverage ratio covenant on the Main Street property?&rdquo;</p>
+<p>&ldquo;Are we over budget on electrical for the Phase 2 development?&rdquo;</p>
+<p>&ldquo;Draft a capital call notice for Q1—$2.4M total, pro-rata across the LP base.&rdquo;</p>
+<p>This isn&rsquo;t science fiction. This is what Claude Projects, ChatGPT Enterprise, and Gemini for Workspace enable today. The infrastructure exists. The question is whether your stack is ready to plug into it.</p>
+<hr>
+<h2 id="the-stack-four-principles">The Stack: Four Principles</h2>
+<p>I don&rsquo;t believe in prescribing exact vendors. Markets change. Features evolve. What matters are the principles.</p>
+<p><img alt="Markets change. Features evolve. Principles endure." loading="lazy" src="/assets/four-principles-CIfFDL8f.webp"></p>
+<h3 id="1-start-with-the-brain-data-warehouse-as-foundation">1. Start with the Brain: Data Warehouse as Foundation</h3>
+<p>Snowflake or Databricks as the single source of truth.</p>
+<p>Why? All roads lead here. Every system feeds the warehouse; every insight pulls from it. The warehouse enables AI agents to reason across your entire operation—not just one property, one fund, one workflow.</p>
+<p>When someone asks &ldquo;How are we performing across the portfolio?&rdquo; the answer shouldn&rsquo;t require three exports and a pivot table. It should be a query.</p>
+<p><strong>The startup caveat:</strong> If you&rsquo;re a smaller GP or just starting out, you don&rsquo;t need a data warehouse on day one. AI agents can pull data just-in-time via APIs—query your accounting system directly, fetch from your property management platform as needed. The decision point comes as you scale: more properties, more funds, more complex cross-portfolio questions. At some point, I don&rsquo;t see how you live without a centralized data layer. But don&rsquo;t over-engineer before you have the complexity to justify it.</p>
+<h3 id="2-choose-pipes-not-walls-open-api-as-non-negotiable">2. Choose Pipes, Not Walls: Open API as Non-Negotiable</h3>
+<p>I&rsquo;d strongly consider walking away from any vendor without open APIs.</p>
+<p><strong>Open APIs aren&rsquo;t a feature—they&rsquo;re a philosophy.</strong> Closed ecosystems mean expensive integrations mean your data held hostage. The vendor that won&rsquo;t let you export is the vendor betting you&rsquo;ll never leave.</p>
+<p>Evaluation criteria:</p>
+<ul>
+<li>API documentation quality (is it comprehensive or an afterthought?)</li>
+<li>API pricing model (per-call vs. unlimited)</li>
+<li>Data export capabilities (avoid the merged-cell Excel nightmare)</li>
+<li>Integration ecosystem (who else has connected?)</li>
+</ul>
+<h3 id="3-build-for-agents-mcp-ready-partners">3. Build for Agents: MCP-Ready Partners</h3>
+<p>I&rsquo;d prioritize vendors with MCP servers or clear API documentation that would support one.</p>
+<p>Why? MCP (Model Context Protocol) is emerging as the standard for how AI agents connect to data sources. Think of it like USB for AI—a universal plug. Vendors who support it reduce your integration costs to near-zero. Vendors who don&rsquo;t will require custom middleware.</p>
+<p><strong>The best integration is no integration.</strong></p>
+<p>As MCP adoption grows, expect this to become table stakes. Early movers get cleaner architectures. Late movers get technical debt.</p>
+<h3 id="4-center-on-conversation-chat-apps-as-the-operational-layer">4. Center on Conversation: Chat Apps as the Operational Layer</h3>
+<p>Claude, ChatGPT, or Gemini as the primary interface—not just a chatbot, but the orchestration layer.</p>
+<p>Canvas and Artifacts for ad-hoc reporting. Projects for organizing deal-specific context. Skills for consistent document generation.</p>
+<p><strong>Your next analyst won&rsquo;t need a desk.</strong></p>
+<p>The operator&rsquo;s workflow shifts from clicking to asking. From navigating menus to describing intent. From waiting for reports to conversing with data.</p>
+<hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-180 -150 360 306" role="img" aria-labelledby="fig-ai-era-gp-tech-stack">
+<g class="layer" style="--cx:-22px;--c:11px"><g data-k="src"><path d="M134 -61.6L134 46.4A26.9 13.4 0 0 1 107.1 33L107.1 -75A26.9 13.4 0 0 0 134 -61.6Z" fill="#D6D8DB"/><path d="M134 -61.6L134 46.4A26.9 13.4 0 0 0 160.9 33L160.9 -75A26.9 13.4 0 0 1 134 -61.6Z" fill="#C5C8CC"/><ellipse cx="134" cy="-75" rx="26.9" ry="13.4" fill="#ECEDEF"/></g><g data-k="pipe"><polygon points="82.5,-32.7 93.5,-27.3 93.5,-13.3 82.5,-18.7" fill="#24406A"/><polygon points="93.5,-27.3 123.5,-42.3 123.5,-28.3 93.5,-13.3" fill="#1C3356"/><polygon points="112.5,-47.8 123.5,-42.3 93.5,-27.3 82.5,-32.7" fill="#2F4F7F"/><polygon points="69.5,-33.2 86.5,-24.7 86.5,-2.7 69.5,-11.2" fill="#24406A"/><polygon points="86.5,-24.7 96.5,-29.8 96.5,-7.8 86.5,-2.7" fill="#1C3356"/><polygon points="79.5,-38.3 96.5,-29.8 86.5,-24.7 69.5,-33.2" fill="#2F4F7F"/></g></g><g class="layer" style="--cx:22px;--c:11px"><g data-k="src"><path d="M-134 -61.6L-134 46.4A26.9 13.4 0 0 1 -160.9 33L-160.9 -75A26.9 13.4 0 0 0 -134 -61.6Z" fill="#D6D8DB"/><path d="M-134 -61.6L-134 46.4A26.9 13.4 0 0 0 -107.1 33L-107.1 -75A26.9 13.4 0 0 1 -134 -61.6Z" fill="#C5C8CC"/><ellipse cx="-134" cy="-75" rx="26.9" ry="13.4" fill="#ECEDEF"/></g><g data-k="pipe"><polygon points="-123.5,-42.3 -93.5,-27.3 -93.5,-13.3 -123.5,-28.3" fill="#24406A"/><polygon points="-93.5,-27.3 -82.5,-32.7 -82.5,-18.7 -93.5,-13.3" fill="#1C3356"/><polygon points="-112.5,-47.8 -82.5,-32.7 -93.5,-27.3 -123.5,-42.3" fill="#2F4F7F"/><polygon points="-96.5,-29.8 -86.5,-24.7 -86.5,-2.7 -96.5,-7.8" fill="#24406A"/><polygon points="-86.5,-24.7 -69.5,-33.2 -69.5,-11.2 -86.5,-2.7" fill="#1C3356"/><polygon points="-79.5,-38.3 -69.5,-33.2 -86.5,-24.7 -96.5,-29.8" fill="#2F4F7F"/></g></g><g data-k="tank"><polygon points="-5.5,11.2 5.5,16.7 5.5,30.7 -5.5,25.2" fill="#D6D8DB"/><polygon points="5.5,16.7 61.5,-11.2 61.5,2.8 5.5,30.7" fill="#C5C8CC"/><polygon points="50.5,-16.8 61.5,-11.2 5.5,16.7 -5.5,11.2" fill="#ECEDEF"/><polygon points="-61.5,-11.2 -5.5,16.7 -5.5,30.7 -61.5,2.8" fill="#D6D8DB"/><polygon points="-5.5,16.7 5.5,11.2 5.5,25.2 -5.5,30.7" fill="#C5C8CC"/><polygon points="-50.5,-16.8 5.5,11.2 -5.5,16.7 -61.5,-11.2" fill="#ECEDEF"/><path d="M0 113.5L0 125.5A50.9 25.5 0 0 1 -50.9 100L-50.9 88A50.9 25.5 0 0 0 0 113.5Z" fill="#BEC1C6"/><path d="M0 113.5L0 125.5A50.9 25.5 0 0 0 50.9 100L50.9 88A50.9 25.5 0 0 1 0 113.5Z" fill="#ABAFB5"/><ellipse cx="0" cy="88" rx="50.9" ry="25.5" fill="#D3D5D8"/><path d="M0 -90.8L0 109.2A42.4 21.2 0 0 1 -42.4 88L-42.4 -112A42.4 21.2 0 0 0 0 -90.8Z" fill="#E3E4E6"/><path d="M0 -90.8L0 109.2A42.4 21.2 0 0 0 42.4 88L42.4 -112A42.4 21.2 0 0 1 0 -90.8Z" fill="#D3D5D8"/><ellipse cx="0" cy="-112" rx="42.4" ry="21.2" fill="#FFFFFF"/></g><g data-k="wall"><polygon points="-144,48 -112,64 -112,148 -144,132" fill="#BEC1C6"/><polygon points="-112,64 -80,48 -80,132 -112,148" fill="#ABAFB5"/><polygon points="-112,32 -80,48 -112,64 -144,48" fill="#D3D5D8"/><polygon points="-88,90 -104,98 -104,78 -88,70" fill="#6E737B"/></g><g class="layer" style="--cx:-20px;--c:-10px"><g data-k="tap"><polygon points="40,70 74,87 74,103 40,86" fill="#D6D8DB"/><polygon points="74,87 86,81 86,97 74,103" fill="#C5C8CC"/><polygon points="52,64 86,81 74,87 40,70" fill="#ECEDEF"/><polygon points="64,96 74,101 74,123 64,118" fill="#D6D8DB"/><polygon points="74,101 86,95 86,117 74,123" fill="#C5C8CC"/><polygon points="76,90 86,95 74,101 64,96" fill="#ECEDEF"/><path d="M60 60.8L60 76.8A5.7 2.8 0 0 1 54.3 74L54.3 58A5.7 2.8 0 0 0 60 60.8Z" fill="#D6D8DB"/><path d="M60 60.8L60 76.8A5.7 2.8 0 0 0 65.7 74L65.7 58A5.7 2.8 0 0 1 60 60.8Z" fill="#C5C8CC"/><ellipse cx="60" cy="58" rx="5.7" ry="2.8" fill="#ECEDEF"/><path d="M60 61.3L60 69.3A22.6 11.3 0 0 1 37.4 58L37.4 50A22.6 11.3 0 0 0 60 61.3Z" fill="#E3E4E6"/><path d="M60 61.3L60 69.3A22.6 11.3 0 0 0 82.6 58L82.6 50A22.6 11.3 0 0 1 60 61.3Z" fill="#D3D5D8"/><ellipse cx="60" cy="50" rx="22.6" ry="11.3" fill="#FFFFFF"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="tank" aria-pressed="false"><span class="en">Data warehouse<small>The brain. All roads lead here, so one query spans the portfolio.</small></span><span class="zh" lang="zh">数据仓库<small>大脑。数据都汇到这里，一问就能看全部资产。</small></span></button></li>
+<li><button type="button" data-key="src" aria-pressed="false"><span class="en">Operational systems<small>Accounting and property management, each feeding in.</small></span><span class="zh" lang="zh">业务系统<small>财务、物业管理，各自往里输送数据。</small></span></button></li>
+<li><button type="button" data-key="pipe" aria-pressed="false"><span class="en">Open API, MCP plug<small>Pipes, not walls. A standard coupling makes integration near zero.</small></span><span class="zh" lang="zh">开放接口，MCP<small>要管道，不要围墙。标准接口让集成几乎零成本。</small></span></button></li>
+<li><button type="button" data-key="wall" aria-pressed="false"><span class="en">Closed vendor<small>No outlet. The vendor that won’t let you export bets you’ll never leave.</small></span><span class="zh" lang="zh">封闭的供应商<small>没有出口。不让你导出的，赌的是你走不了。</small></span></button></li>
+<li><button type="button" data-key="tap" aria-pressed="false"><span class="en">Chat app = the tap<small>The interface is a question, not a dashboard.</small></span><span class="zh" lang="zh">对话应用 = 龙头<small>界面不再是仪表盘，而是一个问题。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-ai-era-gp-tech-stack"><span class="en">Every system pipes into one tank; you ask at the tap. Tap a part.</span><span class="zh" lang="zh">所有系统接进同一个水箱，要什么从龙头放。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="the-stack-by-function">The Stack by Function</h2>
+<p>Here&rsquo;s how I&rsquo;d map it:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Function</th>
+          <th>Approach</th>
+          <th>Notes</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Productivity</strong></td>
+          <td>O365 or Google Suite + Slack</td>
+          <td>O365 if Excel is non-negotiable</td>
+      </tr>
+      <tr>
+          <td><strong>Corporate Accounting</strong></td>
+          <td>QuickBooks, Ramp</td>
+          <td>Ramp for expense automation</td>
+      </tr>
+      <tr>
+          <td><strong>Asset-Level Systems</strong></td>
+          <td>DoorLoop, AppFolio, Re-Leased, Entrata</td>
+          <td>Newer generation; avoid legacy</td>
+      </tr>
+      <tr>
+          <td><strong>Data Warehouse</strong></td>
+          <td>Snowflake, Databricks</td>
+          <td>The brain—all data flows here</td>
+      </tr>
+      <tr>
+          <td><strong>Ad-Hoc Reporting</strong></td>
+          <td>Claude Canvas, ChatGPT Artifacts</td>
+          <td>Conversation-driven analysis</td>
+      </tr>
+      <tr>
+          <td><strong>Dashboards</strong></td>
+          <td>Hex, Mode</td>
+          <td>Modern, code-friendly BI</td>
+      </tr>
+      <tr>
+          <td><strong>Orchestration</strong></td>
+          <td>Claude / ChatGPT / Gemini</td>
+          <td>MCP servers as the glue</td>
+      </tr>
+  </tbody>
+</table>
+<p>On asset-level systems specifically: the market has options now. DoorLoop ranks highest for commercial property management. AppFolio leads in AI-powered automation. Re-Leased is purpose-built for commercial and mixed-use. Entrata handles enterprise-grade complexity. MRI Software unifies the full suite.</p>
+<p>The key isn&rsquo;t which one you pick—it&rsquo;s verifying they meet the principles: open API, clean exports, integration-ready.</p>
+<hr>
+<h2 id="enterprise-ai-choosing-your-orchestration-layer">Enterprise AI: Choosing Your Orchestration Layer</h2>
+<p>The chat apps aren&rsquo;t equal. Here&rsquo;s how they differ for GP workflows:</p>
+<h3 id="chatgpt-teamsenterprise">ChatGPT Teams/Enterprise</h3>
+<ul>
+<li><strong>Projects:</strong> Files, instructions, and chats in one place; memory isolation between projects</li>
+<li><strong>Connectors:</strong> Pull from Google Drive, SharePoint, GitHub, Microsoft Teams, Gmail</li>
+<li><strong>Admin controls:</strong> Role-based permissions, SOC 2, ISO 27001 certified</li>
+<li><strong>Best for:</strong> Teams already deep in Microsoft/Google ecosystems who want broad connectivity</li>
+</ul>
+<h3 id="claude-teamsenterprise">Claude Teams/Enterprise</h3>
+<ul>
+<li><strong>500K token context window</strong> (2x standard)—can ingest entire lease agreements</li>
+<li><strong>Projects:</strong> Upload files to create deal-specific AI assistants</li>
+<li><strong>Memory (2025):</strong> Learns team processes, client needs, project details</li>
+<li><strong>Claude Code:</strong> Agentic coding for building automations</li>
+<li><strong>Best for:</strong> Complex document analysis, custom skill development, technical teams</li>
+</ul>
+<h3 id="gemini-enterprise-google-workspace">Gemini Enterprise (Google Workspace)</h3>
+<ul>
+<li><strong>Native integration:</strong> Gmail, Docs, Sheets, Drive, Meet</li>
+<li><strong>Cross-platform:</strong> Also connects to Microsoft 365, Salesforce, SAP</li>
+<li><strong>NotebookLM Plus:</strong> Mind maps, research synthesis</li>
+<li><strong>Deep Research:</strong> Agentic search with source citations</li>
+<li><strong>Best for:</strong> Google-native shops, O365/Google hybrid environments</li>
+</ul>
+<p>Choose based on where your data already lives and where your team already works.</p>
+<hr>
+<h2 id="gp-workflows-what-this-actually-looks-like">GP Workflows: What This Actually Looks Like</h2>
+<p>Here&rsquo;s how &ldquo;conversation as interface&rdquo; applies to real GP operations:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Workflow</th>
+          <th>How AI Chat Apps Help</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Loan Document Management</strong></td>
+          <td>Upload loan docs, covenants, amendments to a Project. Ask &ldquo;What&rsquo;s our DSCR covenant?&rdquo; or &ldquo;When is the next interest rate reset?&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>Monthly Cash Forecasting</strong></td>
+          <td>Generate cash flow models from bank feeds + lease schedules using Canvas/Artifacts. Iterate in conversation.</td>
+      </tr>
+      <tr>
+          <td><strong>Capital Call Letters</strong></td>
+          <td>Use Skills/Custom GPTs for consistent formatting. Auto-populate investor details, calculate pro-rata amounts.</td>
+      </tr>
+      <tr>
+          <td><strong>Development Budget Tracking</strong></td>
+          <td>Upload draw schedules, invoices, change orders. Ask &ldquo;Are we over budget on electrical?&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>Investor Reporting</strong></td>
+          <td>Pull from property management + accounting via connectors. Generate quarterly reports with consistent tone.</td>
+      </tr>
+      <tr>
+          <td><strong>Meeting Notes → Actions</strong></td>
+          <td>Summarize meetings, extract action items, push to task management.</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>The best software isn&rsquo;t the one with the most features—it&rsquo;s the one you can talk to.</strong></p>
+<hr>
+<h2 id="the-architecture">The Architecture</h2>
+<p>Here&rsquo;s how it fits together:</p>
+<p><img alt="How the layers connect" loading="lazy" src="/assets/architecture-UuyXJEWr.webp"></p>
+<p>The conversation layer sits on top. The data layer unifies everything. The operational systems feed in through APIs. Reports flow out through the tools that match the use case.</p>
+<p>Bidirectional. Open. Queryable.</p>
+<hr>
+<h2 id="the-sme-advantage">The SME Advantage</h2>
+<p><img alt="Enterprises cut costs. Smart operators build capacity." loading="lazy" src="/assets/sme-advantage-DOZU6MeT.webp"></p>
+<p>Here&rsquo;s what the data says:</p>
+<ul>
+<li>91% of AI-using SMBs report revenue lift<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li>86% report improved profit margins</li>
+<li>AI acts as a &ldquo;force multiplier&rdquo;—small teams achieve the capacity of much larger enterprises<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+<li>Companies with 10-100 employees saw AI usage jump from 47% to 68% year-over-year<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+</ul>
+<p>Meanwhile, enterprises are stuck. 80% set efficiency and cost-cutting as their primary AI objective.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup> Budgets remained constrained. AI stayed in &ldquo;experimental&rdquo; mode.</p>
+<p><strong>Enterprises are using AI to cut costs. The smartest small operators are using it to build capacity they could never afford.</strong></p>
+<p>The GP that builds this stack today isn&rsquo;t just choosing software. They&rsquo;re betting on a future where operational leverage comes from intelligence, not headcount.</p>
+<hr>
+<h2 id="the-honest-caveat">The Honest Caveat</h2>
+<p><img alt="These tools are powerful but imperfect" loading="lazy" src="/assets/ai-caveats-y8_ZPHbQ.webp"></p>
+<p>I&rsquo;d be doing you a disservice if I didn&rsquo;t repeat this: AI tools are powerful but imperfect.</p>
+<p><strong>Sycophancy:</strong> These models tend to tell you what you want to hear. If you ask &ldquo;Is this a good deal?&rdquo; they&rsquo;ll find reasons to say yes. Set expectations with your team: verify, don&rsquo;t trust blindly.</p>
+<p><strong>Hallucination:</strong> AI fabricates facts and research. Always verify critical information—especially numbers, dates, and legal language.</p>
+<p><strong>The meta-beauty:</strong> You can use AI to learn how to build your stack (my first friend did exactly this). But treat it as a smart intern, not an oracle. The quality of output depends entirely on the quality of your verification.</p>
+<hr>
+<h2 id="starting-today">Starting Today</h2>
+<p><img alt="Build on open rails from day one" loading="lazy" src="/assets/open-rails-cta-CwZgKcjV.webp"></p>
+<p>Three questions to ask yourself:</p>
+<ol>
+<li>
+<p><strong>What data do we have that&rsquo;s underutilized because it&rsquo;s hard to access?</strong>
+That&rsquo;s your MCP opportunity.</p>
+</li>
+<li>
+<p><strong>What expertise exists in someone&rsquo;s head that should be captured as a reusable skill?</strong>
+That&rsquo;s your Skills opportunity.</p>
+</li>
+<li>
+<p><strong>What repetitive analysis could we turn into a conversational question?</strong>
+That&rsquo;s your Prompts opportunity.</p>
+</li>
+</ol>
+<p>The tools are here. The infrastructure is ready.</p>
+<p>I&rsquo;d love to hear what&rsquo;s working for you. What does your stack look like? What vendors have surprised you—for better or worse? Drop a comment or reach out.</p>
+<p><strong>Build on open rails from day one.</strong></p>
+<hr>
+<p><em>These are my personal opinions based on experience helping friends and colleagues. Your mileage may vary—every GP&rsquo;s needs are different. I have no financial relationship with any vendors mentioned.</em></p>
+<hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>U.S. Census Bureau, &ldquo;AI Use in Small Businesses,&rdquo; December 2024.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Thryv Survey, &ldquo;AI Adoption Among Small Businesses Surges 41% in 2025.&rdquo;&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>OECD, &ldquo;AI Adoption by Small and Medium-sized Enterprises,&rdquo; December 2025.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>U.S. Chamber of Commerce, &ldquo;Empowering Small Business: The Impact of Technology.&rdquo;&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Menlo Ventures, &ldquo;The State of Generative AI in the Enterprise,&rdquo; 2025.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era?”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/manus-paradox/"><span class="mono">← EARLIER · 2025-12-19</span><strong>The Manus Paradox: What the Fastest-Growing AI Company Reveals About Agentic AI</strong></a><a class="card later" href="/writing/mcp-python-to-typescript/"><span class="mono">LATER · 2025-12-27 →</span><strong>Why I Had to Rewrite My MCP Server from Python to TypeScript</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

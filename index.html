@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MJ Zou · Working through AI ideas in public</title>
+<meta name="description" content="MJ Zou is an AI product manager who builds. Essays on context engineering, LLM behavior, and AI adoption, plus a running log and a paper portfolio.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+<style>
+.hero { display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-start; }
+.hero-main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+.hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(46px, 6.6vw, 96px); font-weight: 400; line-height: 1.03; letter-spacing: -0.02em; }
+.circled { position: relative; font-style: italic; white-space: nowrap; }
+.circled svg { position: absolute; left: -7%; top: -22%; width: 114%; height: 148%; overflow: visible; pointer-events: none; }
+.circled path { stroke-dasharray: 900; stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .circled path { animation: draw 1.1s 0.3s cubic-bezier(0.6, 0, 0.3, 1) both; }
+  @keyframes draw { from { stroke-dashoffset: 900; } }
+}
+.hero .zh-line { margin: 0; font-family: var(--serif-zh); font-size: clamp(22px, 2.4vw, 30px); line-height: 1.55; }
+.hero .sub { margin: 0; max-width: 620px; font-family: var(--serif); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.6; color: var(--muted); }
+.glance { flex: 1 1 220px; display: flex; flex-direction: column; gap: 14px; padding-top: 8px; font-family: var(--mono); font-size: 13px; line-height: 1.55; color: var(--muted); }
+.glance .seal { width: 64px; height: 64px; border-radius: 8px; font-size: 28px; }
+
+.now { display: flex; flex-wrap: wrap; gap: 16px 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 13px; line-height: 1.5; }
+.now b { font-weight: 400; color: var(--muted); }
+
+
+.pair { display: flex; flex-wrap: wrap; gap: 24px; }
+.panel { flex: 1 1 440px; min-width: 0; border-radius: 22px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 24px; }
+.panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.panel h2 { margin: 0; font-family: var(--serif); font-size: 40px; font-weight: 400; }
+.panel-head p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; color: var(--muted); }
+.tickers { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 13px; }
+.tickers li { padding: 6px 10px; border-radius: 8px; background: var(--surface); box-shadow: 0 0 0 1px #D9DEE6; }
+
+.about { display: flex; flex-wrap: wrap; gap: 40px 64px; }
+.about-main { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.about-main .lead { margin: 0; font-family: var(--serif); font-size: clamp(22px, 2vw, 26px); line-height: 1.5; }
+.about-main .rest { margin: 0; font-family: var(--serif); font-size: 19px; line-height: 1.65; color: var(--muted); }
+.about-side { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+.about-side > div { display: flex; flex-direction: column; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.build { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; text-decoration: none; }
+.build strong { font-family: var(--serif); font-size: 21px; font-weight: 400; }
+.build span { font-size: 14px; line-height: 1.5; color: var(--muted); }
+</style>
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<header class="hero">
+<div class="hero-main">
+<span class="label">AI product manager · builder · runner</span>
+<h1>Working through AI ideas <span class="circled">in public<svg aria-hidden="true" viewBox="0 0 340 110" preserveAspectRatio="none"><path d="M18 64 C 10 18, 296 0, 322 46 C 340 86, 56 104, 28 74 C 16 58, 54 36, 108 30" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span>.</h1>
+<p class="zh-line" lang="zh">把 AI 想清楚，并且公开地想。</p>
+<p class="sub"><span class="en">I’m MJ, an AI product manager who builds. I write about context engineering, LLM behavior, and what separates successful AI adoption from expensive experiments.</span><span class="zh" lang="zh">我是 MJ，一个会动手做东西的 AI 产品经理。我写上下文工程、大模型的行为，以及企业里 AI 落地成功和烧钱试错之间的差别。</span></p>
+</div>
+<aside class="glance" aria-label="At a glance">
+<span class="seal" aria-hidden="true">MJ</span>
+<span>↳ 20 essays since 2025</span>
+<span>↳ 618 runs · 3,968 km since 2021</span>
+<span>↳ Shipped: Run Card Generator, iOS</span>
+<span>↳ Paper portfolio, priced every weekday</span>
+</aside>
+</header>
+
+<section class="now" aria-label="Now">
+<span><b>NOW THINKING ·</b> bureaucracy as organizational memory</span>
+<span><b>LAST RUN ·</b> 2026-10-10 · 4.8 km</span>
+<span><b>PORTFOLIO ·</b> 10 positions since 2026-01-04</span>
+</section>
+
+<section id="writing" aria-labelledby="writing-h">
+<div class="section-head">
+<h2 class="big" id="writing-h">Writing <span class="zh-tag" lang="zh">文章</span></h2>
+<a class="tap more" href="/writing/"><span class="en">All 20 essays →</span><span class="zh" lang="zh">全部 20 篇 →</span></a>
+</div>
+<ul class="posts"><li><a href="/writing/general-tsos-chicken-theory/"><span class="date">2026-02-17</span><span class="body"><span class="title">The General Tso's Chicken Theory of AI Adoption</span><span class="desc">Chinese food has been in America for 150 years. The real stuff is right there on the menu. And yet the default order is still a dish that doesn't exist in China. AI adoption has the same problem.</span></span><span class="tag">Enterprise AI</span></a></li><li><a href="/writing/the-last-human-complaint-about-bureaucracy/"><span class="date">2026-02-01</span><span class="body"><span class="title">The Last Human Complaint About Bureaucracy</span><span class="desc">Bureaucracy persists because it’s organizational memory. AI will digest that memory—and mutate the iron cage into something faster and harder to appeal.</span></span><span class="tag">Bureaucracy</span></a></li><li><a href="/writing/anthropic-ate-my-startup/"><span class="date">2026-01-19</span><span class="body"><span class="title">Anthropic Just Ate My Startup</span><span class="desc">I built an iOS app to bridge Apple Health data to AI. Two weeks later, Anthropic shipped the same feature natively. Here's what I learned about building in the AI era.</span></span><span class="tag">Startups</span></a></li><li><a href="/writing/quitting-claude/"><span class="date">2026-01-10</span><span class="body"><span class="title">I'm Quitting Claude (But Not What You Think)</span><span class="desc">After losing six months of Claude context to an account reset, I rebuilt my AI workflow on local files. Here's why context ownership matters more than convenience.</span></span><span class="tag">Claude</span></a></li><li><a href="/writing/mcp-python-to-typescript/"><span class="date">2025-12-27</span><span class="body"><span class="title">Why I Had to Rewrite My MCP Server from Python to TypeScript</span><span class="desc">I tried deploying a Python MCP server to Cloudflare Workers. It didn't work. Here's what I learned about remote MCP deployment.</span></span><span class="tag">MCP</span></a></li><li><a href="/writing/ai-era-gp-tech-stack/"><span class="date">2025-12-23</span><span class="body"><span class="title">What Technical Stack Would I Choose If I'm Starting My Own GP in This AI Era?</span><span class="desc">After helping three friends build their GP tech stacks from scratch, here's how I'd approach it today—with AI agents, open APIs, and conversation at the center.</span></span><span class="tag">Commercial real estate</span></a></li></ul>
+</section>
+
+<div class="pair">
+<section class="panel" id="running" aria-labelledby="running-h" style="background: var(--tint-3);">
+<div class="panel-head">
+<div>
+<h2 id="running-h">Running <span class="zh-tag" lang="zh">跑步</span></h2>
+<p><span class="en">Every run since 2021, synced from Strava.</span><span class="zh" lang="zh">2021 年以来的每一次跑步，从 Strava 同步。</span></p>
+</div>
+<svg aria-hidden="true" width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="36" r="30" fill="var(--stone)" stroke="none"/><path d="M18 50c6-2 6-12 14-14s8 10 16 6 2-16 8-20"/><circle cx="18" cy="50" r="3" fill="currentColor"/><path d="M56 22l-2 5M56 22l5 2"/></svg>
+</div>
+<div class="figures">
+<div><strong>618</strong><span class="label">Runs</span></div>
+<div><strong>3,968</strong><span class="label">Kilometers</span></div>
+</div>
+<div class="bars" role="img" aria-label="Runs per year: 2021 94, 2022 203, 2023 119, 2024 89, 2025 70, 2026 43"><div class="bar" style="height:46%"><span>2021<b>94</b></span></div><div class="bar peak" style="height:100%"><span>2022<b>203</b></span></div><div class="bar" style="height:59%"><span>2023<b>119</b></span></div><div class="bar" style="height:44%"><span>2024<b>89</b></span></div><div class="bar" style="height:34%"><span>2025<b>70</b></span></div><div class="bar" style="height:21%"><span>2026<b>43</b></span></div></div>
+<a class="tap more" href="/running/"><span class="en">Open the running log →</span><span class="zh" lang="zh">打开跑步记录 →</span></a>
+</section>
+
+<section class="panel" id="portfolio" aria-labelledby="portfolio-h" style="background: var(--tint-1);">
+<div class="panel-head">
+<div>
+<h2 id="portfolio-h">Portfolio <span class="zh-tag" lang="zh">组合</span></h2>
+<p><span class="en">A paper-trading portfolio, priced every weekday.</span><span class="zh" lang="zh">一个模拟盘组合，每个交易日更新价格。</span></p>
+</div>
+<svg aria-hidden="true" width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="36" r="30" fill="#D9DEE6" stroke="none"/><path d="M18 50h36"/><path d="M20 44l9-8 7 5 9-12 7 4"/><circle cx="52" cy="33" r="2.5" fill="currentColor"/></svg>
+</div>
+<div class="figures">
+<div><strong>10</strong><span class="label">Positions</span></div>
+<div><strong>+37.90%</strong><span class="label">Since 2026-01-04</span></div>
+</div>
+<ul class="tickers" aria-label="Holdings"><li title="Micron Technology">MU</li><li title="NVIDIA Corporation">NVDA</li><li title="Corning Incorporated">GLW</li><li title="Rambus Inc">RMBS</li><li title="Innodata Inc">INOD</li><li title="Sanmina Corporation">SANM</li><li title="Photronics Inc">PLAB</li><li title="TTM Technologies">TTMI</li><li title="American Electric Power">AEP</li><li title="Harrow Inc">HROW</li></ul>
+<a class="tap more" href="/portfolio/"><span class="en">See all positions →</span><span class="zh" lang="zh">查看全部持仓 →</span></a>
+</section>
+</div>
+
+<section class="about" id="about" aria-labelledby="about-h">
+<div class="about-main">
+<h2 class="big" id="about-h">About <span class="zh-tag" lang="zh">关于</span></h2>
+<p class="lead"><span class="en">I think deeply about how AI products actually work: why LLMs hallucinate, how context engineering shapes behavior, and what separates successful AI adoption from expensive experiments.</span><span class="zh" lang="zh">我关心 AI 产品到底是怎么运转的：大模型为什么会幻觉，上下文工程怎样塑造模型的行为，以及 AI 落地成功和烧钱试错之间差在哪里。</span></p>
+<p class="rest"><span class="en">This site is where I work through ideas in public, grounded in real experience shipping AI products and helping teams navigate the messy reality of enterprise AI adoption.</span><span class="zh" lang="zh">这里是我公开想问题的地方。想法来自真实地交付 AI 产品，也来自陪团队走过企业 AI 落地的种种混乱。</span></p>
+<div class="chips">
+<button type="button" class="btn ghost desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="en">Ask MJ about my work</span><span class="zh" lang="zh">问问我的 AI 分身</span></button>
+</div>
+</div>
+<div class="about-side">
+<div>
+<span class="label">I write about</span>
+<div class="chips">
+<span class="chip">Context engineering</span>
+<span class="chip">AI product management</span>
+<span class="chip">Enterprise AI adoption</span>
+<span class="chip">LLM behavior</span>
+</div>
+</div>
+<div>
+<span class="label">I build</span>
+<a class="card build" href="https://apps.apple.com/us/app/run-card-generator/id6756200075"><strong>Run Card Generator ↗</strong><span>An iOS app that turns your running stats into shareable artwork.</span></a>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>

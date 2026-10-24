@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From Two Subscriptions to One Weekend Build: The AI Architecture Pattern Everyone's Missing · MJ Zou</title>
+<meta name="description" content="I spent a weekend building what I was paying $200/year for. Here's what I learned about AI architecture—MCP, Skills, Subagents, and Prompts—and why context window is sacred.">
+<meta name="date" content="2025-11-17">
+<meta name="topic" content="MCP">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-B_RBJjfp.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-ZFMoZr09.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-AwkCk0f2.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2025-11-17 · 12 min read</span>
+<h1>From Two Subscriptions to One Weekend Build: The AI Architecture Pattern Everyone's Missing</h1>
+<p class="dek">I spent a weekend building what I was paying $200/year for. Here's what I learned about AI architecture—MCP, Skills, Subagents, and Prompts—and why context window is sacred.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">MCP</span><span class="chip">context engineering</span><span class="chip">product management</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<h2 id="the-problem">The Problem</h2>
+<p><img alt="Strava Training Calendar showing 867 runs of data" loading="lazy" src="/assets/1763344100522-CvYP878e.png"></p>
+<p>You have data. Lots of it.</p>
+<p>Your team captures everything—sales metrics, customer interactions, product analytics, support tickets. But when someone asks a simple question like &ldquo;Are we improving?&rdquo; you&rsquo;re stuck either:</p>
+<ul>
+<li>Clicking through five dashboards and manually connecting dots, or</li>
+<li>Paying for specialized tools that lock you into their workflows</li>
+</ul>
+<p>Sound familiar?</p>
+<p>I hit this wall with my running data. I was paying $200/year for Strava and Runna (coaching app) but still couldn&rsquo;t get straight answers to questions like:</p>
+<ul>
+<li>&ldquo;It&rsquo;s been 2 weeks since NYC Marathon—am I recovering well?&rdquo;</li>
+<li>&ldquo;This same route, how does today compare to last week? Last month?&rdquo;</li>
+<li>&ldquo;How am I performing vs my training plan for Jersey City Half?&rdquo;</li>
+</ul>
+<p>The apps gave me charts and pace averages. What I needed was analysis with <em>context</em>.</p>
+<p>So I spent a weekend building something different. Not a dashboard. Not another analytics tool. <strong>A conversation.</strong></p>
+<p>First, I created a Claude Project and loaded it with knowledge:</p>
+<ul>
+<li>My personalized training plan (created through earlier Claude discussions)</li>
+<li>Modern training methodologies (Jack Daniels VDOT, Pfitzinger periodization)</li>
+<li>My race goals and current phase</li>
+</ul>
+<p>Then I connected my running database (867 runs worth of history).</p>
+<p>Now I can ask: &ldquo;Analyze my recent run vs my training plan&rdquo; and get back comprehensive analysis—split-by-split breakdown, heart rate zones, historical comparisons, recovery assessment, personalized recommendations. In seconds.</p>
+<p><img alt="Run Analysis Dashboard showing comprehensive metrics" loading="lazy" src="/assets/1763344117155-CuY9Ogfk.webp"></p>
+<p>And now I&rsquo;m considering canceling both subscriptions.</p>
+<p>The technical architecture behind this taught me four concepts that are reshaping how businesses interact with data: <strong>MCP, Skills, Subagents, and Prompts.</strong></p>
+<p>But more importantly, I learned the unifying principle behind all of them:</p>
+<p><strong>Context window is sacred.</strong></p>
+<p>Every AI has a limited &ldquo;working memory&rdquo; (context window). The breakthrough isn&rsquo;t making AI smarter—it&rsquo;s making AI more context-efficient. All four concepts are techniques for managing what gets loaded into that precious context window, and when.</p>
+<p>Here&rsquo;s what they actually mean, and why they matter for your business (explained without the hype).</p>
+<hr>
+<h2 id="what-i-built-the-context">What I Built (The Context)</h2>
+<p>Before diving into concepts, here&rsquo;s the setup:</p>
+<p><strong>Step 1: Set up project knowledge</strong> (using Claude Projects)</p>
+<p><img alt="Claude Project setup with training plan files" loading="lazy" src="/assets/1763344500515-jlJWPVJT.png"></p>
+<ul>
+<li>Created a dedicated &ldquo;Running&rdquo; project in Claude</li>
+<li>Added my personalized training plan (developed through previous Claude conversations)</li>
+<li>Included modern training science frameworks (Jack Daniels VDOT, Pfitzinger HR zones, periodization models)</li>
+<li>This gave the AI baseline context about <em>how</em> to evaluate running performance</li>
+</ul>
+<p><strong>Step 2: Connected data source</strong> (using MCP)</p>
+<p><img alt="MotherDuck database schema with runs data" loading="lazy" src="/assets/1763344322845-DATFts62.png"></p>
+<ul>
+<li>Linked my cloud database containing 867 runs of historical data</li>
+<li>Enabled the AI to query actual performance metrics, not just theoretical principles</li>
+</ul>
+<p><strong>Step 3: Built conversational analysis</strong> (using Skills + Prompts)</p>
+<p><img alt="Claude conversation showing personalized training recommendations" loading="lazy" src="/assets/1763344418433-BLPB3r2Q.png"></p>
+<ul>
+<li>Now I can ask complex questions like &ldquo;How&rsquo;s my recovery 2 weeks post-NYC Marathon compared to my training plan?&rdquo;</li>
+<li>The AI synthesizes project knowledge + historical data + current metrics into personalized insights</li>
+</ul>
+<p><strong>What this replaced:</strong></p>
+<ul>
+<li><strong>Strava Premium</strong>: Basic analytics and social features</li>
+<li><strong>Runna coaching app</strong>: Generic training plans and guidance</li>
+<li><strong>Combined cost</strong>: ~$200/year for services that still felt disconnected from my actual context</li>
+</ul>
+<p><strong>Next step</strong>: I&rsquo;m exploring building this into an iOS app—turning a weekend proof-of-concept into a product.</p>
+<p>The whole project is <a href="https://github.com/mz462/run-skill">open source here</a> if you want to see the details.</p>
+<p><img alt="GitHub repository for run-skill" loading="lazy" src="/assets/1763345383126-DfWRUMKL.webp"></p>
+<p>But the real insight isn&rsquo;t about running or saving money—it&rsquo;s about the four architectural building blocks that made this possible in a weekend. These same patterns apply whether you&rsquo;re analyzing post-marathon recovery, sales pipeline health, or customer support trends.</p>
+<hr>
+<h2 id="1-mcp-model-context-protocol-why-your-data-silos-are-about-to-disappear">1. MCP (Model Context Protocol): Why Your Data Silos Are About to Disappear</h2>
+<p><img alt="MCP architecture diagram" loading="lazy" src="/assets/1763344842215-DszeLE5T.webp"></p>
+<p><strong>The old way</strong>: Copy data from Salesforce, paste into ChatGPT, hope the context is enough.</p>
+<p><strong>The new way</strong>: AI connects directly to your data sources through standardized &ldquo;plugs.&rdquo;</p>
+<p><strong>The analogy</strong>: Remember when every phone had a different charger? Then USB came along. MCP is USB for AI—a universal standard that lets AI assistants access different data sources seamlessly.</p>
+<p><img alt="MCP connectors in Claude showing MotherDuck connection" loading="lazy" src="/assets/1763344536092-DBfsCjwB.png"></p>
+<p><strong>In my project</strong>: Instead of uploading CSV files, the AI connects directly to my cloud database (MotherDuck). When I ask &ldquo;How does today&rsquo;s run compare to the same route from last week?&rdquo; it queries 867 runs, filters by route similarity, compares pace/HR trends, and answers contextually. All without me copying/pasting anything.</p>
+<p><strong>The power</strong>: I can ask &ldquo;Am I recovering well from NYC Marathon 2 weeks ago?&rdquo; and it:</p>
+<ol>
+<li>Queries my marathon performance (Nov 3, 2024)</li>
+<li>Pulls my runs from the past 2 weeks</li>
+<li>Compares heart rate, pace, and distance patterns to typical post-marathon recovery</li>
+<li>References my training plan to see if I&rsquo;m on track for Jersey City Half</li>
+</ol>
+<p>All in one conversational query.</p>
+<p><strong>Why this matters for business:</strong></p>
+<p>Your Salesforce data + your Google Analytics + your support tickets can all be accessible through one conversational interface. No more:</p>
+<ul>
+<li>&ldquo;Let me pull up that dashboard&hellip;&rdquo;</li>
+<li>&ldquo;I&rsquo;ll export this and send it to you&hellip;&rdquo;</li>
+<li>&ldquo;Give me a day to run that report&hellip;&rdquo;</li>
+</ul>
+<p><strong>The catch</strong>: You control permissions. Just like granting app access on your phone, you decide what data the AI can see.</p>
+<p><strong>Personal learning</strong>: I initially thought I&rsquo;d need to build custom integrations. MCP meant I just configured a connection string. The infrastructure already exists.</p>
+<p><strong>The Claude Project setup was equally important</strong>: Without loading my training plan and training science frameworks into project knowledge first, the AI would have no context for <em>how</em> to evaluate my data. It could query numbers, but couldn&rsquo;t interpret &ldquo;Is this good recovery?&rdquo; The combination of project knowledge + MCP data access is what enables real insights.</p>
+<hr>
+<h2 id="2-skills-capturing-expertise-that-usually-lives-in-someones-head">2. Skills: Capturing Expertise That Usually Lives in Someone&rsquo;s Head</h2>
+<p><img alt="Skills concept illustration" loading="lazy" src="/assets/1763346657490-CHOJskaG.png"></p>
+<p><strong>The problem I hit</strong>: The AI could access my data, but it didn&rsquo;t know <em>how runners actually train</em>. It couldn&rsquo;t tell me if 6:51/km was good for a Zone 2 run.</p>
+<p><strong>The solution</strong>: I created a &ldquo;skill&rdquo;—essentially a playbook that teaches the AI about:</p>
+<ul>
+<li>Jack Daniels&rsquo; VDOT training methodology</li>
+<li>Pfitzinger heart rate zones</li>
+<li>How to evaluate pace progression</li>
+<li>Training plan periodization (base, build, peak, taper)</li>
+</ul>
+<p>Now the AI doesn&rsquo;t just return numbers. It provides coached insights.</p>
+<p><img alt="Claude providing recovery assessment with coached insights" loading="lazy" src="/assets/1763345322367-j6B4VirC.webp"></p>
+<p><strong>The golden rule I learned</strong>: If you&rsquo;re repeating the same instructions across multiple conversations, create a Skill.</p>
+<p><strong>Business translation:</strong></p>
+<p>Think about the expertise that exists only in your top performer&rsquo;s head:</p>
+<ul>
+<li>Your best salesperson&rsquo;s qualification methodology</li>
+<li>Your financial analyst&rsquo;s forecasting approach</li>
+<li>Your customer success team&rsquo;s escalation protocol</li>
+</ul>
+<p>What if that expertise became a reusable skill that everyone could access through conversation?</p>
+<p><strong>Real examples:</strong></p>
+<ul>
+<li><strong>Brand standards skill</strong>: Upload guidelines once. Every document, email, and presentation automatically follows your color palette, typography, tone.</li>
+<li><strong>Compliance skill</strong>: Ensure every customer data request follows GDPR protocols without training every employee on the full legal framework.</li>
+<li><strong>Excel analysis skill</strong>: Your senior analyst&rsquo;s pivot table methodology becomes accessible to the whole team.</li>
+</ul>
+<p><strong>The efficiency trick</strong>: Skills use &ldquo;progressive disclosure&rdquo;—a quick preview loads first (like a table of contents), full instructions load only when needed. You can maintain dozens of specialized skills without slowing anything down.</p>
+<p><strong>The context efficiency breakthrough</strong>: Skills can also contain actual code and scripts. Instead of the AI rewriting the same data processing code every time, the skill stores it. The AI just needs to know:</p>
+<ul>
+<li>When to use the tool</li>
+<li>How to call it</li>
+<li>How to interpret results</li>
+</ul>
+<p><strong>Example from my project</strong>: My VDOT calculation formula lives in the skill. The AI doesn&rsquo;t regenerate the formula each time—it just calls the function and interprets the output. Saves hundreds of tokens per query.</p>
+<h3 id="important-clarification-skills-arent-exclusive-to-claude">Important clarification: Skills aren&rsquo;t exclusive to Claude.</h3>
+<p>The <em>concept</em> of reusable skills is universal. You could take my running analysis skill and use it with ChatGPT, Gemini, or any other AI—just paste the instructions and code into the context window.</p>
+<p><strong>The difference is architectural:</strong></p>
+<ul>
+<li><strong>Claude engineered Skills to be context-efficient</strong>: They&rsquo;re loaded into a &ldquo;container&rdquo; that sits outside your main context window. Only the relevant skill loads when needed.</li>
+<li><strong>Other platforms require everything in context</strong>: You&rsquo;d paste your skill instructions at the start of every conversation. It works, but consumes context window space the entire time, even when not actively being used.</li>
+</ul>
+<p><strong>The trade-off</strong>: Claude&rsquo;s approach optimizes context (you can have dozens of skills without slowdown), but locks you into their platform. Pasting into ChatGPT is platform-agnostic, but less efficient.</p>
+<p><strong>Why this matters for builders</strong>: When architecting AI systems, think about whether your &ldquo;skills&rdquo; need to be platform-specific or portable. Sometimes you optimize for performance (Claude Skills), sometimes for portability (copy-paste instructions).</p>
+<p><strong>The ROI moment</strong>: When my system started giving me better insights than the $200/year in apps I was paying for, I realized this wasn&rsquo;t just a technical exercise—it was a business model shift. Why pay for generic SaaS when you can build personalized AI on your own data?</p>
+<hr>
+<h2 id="3-subagents-the-plumber-you-hire-for-results-not-process">3. Subagents: The Plumber You Hire for Results, Not Process</h2>
+<p><strong>The concept</strong>: When your sink is clogged, you don&rsquo;t micromanage the plumber (&ldquo;use the snake now, try the auger next&rdquo;). You want to know: &ldquo;Is it fixed? What caused it? How do I prevent this?&rdquo;</p>
+<p>The plumber handles the details. You get the outcome.</p>
+<p><strong>How this works with AI:</strong></p>
+<p>Imagine asking: &ldquo;Create a comprehensive competitive analysis.&rdquo;</p>
+<p>Instead of one AI trying to do everything sequentially, it simultaneously delegates to specialists:</p>
+<ul>
+<li><strong>Market research subagent</strong> → Gathers competitor data (done in 8 seconds)</li>
+<li><strong>Financial analysis subagent</strong> → Models revenue trends (done in 6 seconds)</li>
+<li><strong>SWOT subagent</strong> → Identifies strengths/weaknesses (done in 5 seconds)</li>
+</ul>
+<p>Each reports back with findings + recommendations. The main AI synthesizes into one report. Total time: 8 seconds (not 19 seconds sequential).</p>
+<p><strong>My running project doesn&rsquo;t use this yet</strong> (currently one analyzer does everything sequentially), but it <em>could</em>. If I asked for a comprehensive training review, subagents could handle:</p>
+<ul>
+<li>Historical performance trends (Database Explorer)</li>
+<li>Pace consistency analysis (Pace Analyzer)</li>
+<li>Fitness trajectory modeling (VO2 Max Calculator)</li>
+<li>Heart rate zone evaluation (Training Science)</li>
+</ul>
+<p>All in parallel, each reporting back just the insights.</p>
+<p><strong>Why business leaders should care:</strong></p>
+<ul>
+<li><strong>Speed through parallelization</strong>: Complex analysis that took hours now takes seconds</li>
+<li><strong>Context window efficiency</strong>: Each subagent operates in its own context, preventing the main conversation from getting cluttered with irrelevant details</li>
+<li><strong>Stay focused on outcomes</strong>: You don&rsquo;t wade through every calculation—you just get synthesized insights</li>
+<li><strong>Automatic expertise matching</strong>: Refund questions → billing specialist, technical issues → product specialist</li>
+<li><strong>Scalability</strong>: Same infrastructure handles one request or a thousand</li>
+</ul>
+<p><strong>The context insight</strong>: Without subagents, one AI tries to hold everything in its working memory—database queries, pace calculations, heart rate analysis, training plan context. With subagents, each specialist handles their domain and reports back just the insights. Much more efficient.</p>
+<p><strong>Confirmed capability</strong>: I researched this—both Claude Code and the Agent SDK support parallel subagents (limit ~10 concurrent). This isn&rsquo;t theoretical, it&rsquo;s production-ready.</p>
+<hr>
+<h2 id="4-prompts-the-difference-between-run-a-report-and-give-me-insights">4. Prompts: The Difference Between &ldquo;Run a Report&rdquo; and &ldquo;Give Me Insights&rdquo;</h2>
+<p><img alt="Anthropic Prompt Engineering Interactive Course" loading="lazy" src="/assets/1763346712610-BKEI_Iz3.webp"></p>
+<p><strong>The realization</strong>: Prompts aren&rsquo;t just questions anymore. They&rsquo;re job descriptions.</p>
+<p>Compare these two:</p>
+<p><strong>Basic</strong>: &ldquo;Analyze my run&rdquo;</p>
+<p><strong>Detailed</strong>: &ldquo;Analyze my November 16th run. Provide: (1) split-by-split breakdown with pace progression, (2) heart rate zone analysis with drift calculation, (3) comparison to similar historical runs in the ±20% distance range, (4) evaluation against my current training plan phase, (5) specific recommendations for next workouts.&rdquo;</p>
+<p>The second isn&rsquo;t just &ldquo;more detailed&rdquo;—it&rsquo;s a reusable template that ensures consistent, comprehensive analysis every time.</p>
+<p><strong>The business parallel:</strong></p>
+<p>Think about recurring tasks your team does:</p>
+<ul>
+<li>Quarterly business reviews</li>
+<li>Customer onboarding workflows</li>
+<li>Code review checklists</li>
+<li>Sales qualification</li>
+</ul>
+<p>Each has an implicit structure in someone&rsquo;s head. Prompts make that structure explicit and repeatable.</p>
+<p><strong>What I learned building this:</strong></p>
+<p>Good prompts are the new SOPs (Standard Operating Procedures). They:</p>
+<ul>
+<li>Ensure consistency at scale</li>
+<li>Capture quality standards</li>
+<li>Let junior employees produce senior-level work</li>
+<li>Prevent &ldquo;garbage in, garbage out&rdquo;</li>
+</ul>
+<p><strong>The pattern</strong>: Start vague, refine through iteration, capture the refined version as a template.</p>
+<h3 id="a-workflow-feature-i-cant-live-without-prompt-editing">A workflow feature I can&rsquo;t live without: Prompt editing</h3>
+<p>Here&rsquo;s where Claude&rsquo;s UX shines. When you get a mediocre response, you can go back to <em>any</em> previous prompt in the conversation, edit it, and regenerate from that point forward.</p>
+<p><strong>Why this matters</strong>: The earlier you steer the conversation in the right direction, the better your results. If I realize at message #10 that my prompt at message #3 was unclear, I can go back and fix it without starting over.</p>
+<p><strong>The version control advantage</strong>: Claude keeps all previous versions so you can compare improvements. Did my edit make the response better or worse? I can check.</p>
+<p><strong>Example from my running analysis:</strong></p>
+<ul>
+<li>Original prompt: &ldquo;Analyze my run&rdquo;</li>
+<li>Got generic stats</li>
+<li>Edited prompt #3 to: &ldquo;Analyze my run. Compare pace to similar post-marathon recovery runs, evaluate heart rate zones against base-building targets, and assess weekly volume vs training plan.&rdquo;</li>
+<li>Much better response</li>
+<li>Could compare both versions to see the difference</li>
+</ul>
+<p><strong>Why I haven&rsquo;t fully adopted other platforms:</strong></p>
+<ul>
+<li>Google Gemini only lets you edit the most recent prompt</li>
+<li>ChatGPT doesn&rsquo;t show previous versions for comparison</li>
+<li>This workflow optimization has slowed my adoption of competitors</li>
+</ul>
+<p><strong>The meta-insight</strong>: Good tools don&rsquo;t just execute prompts—they help you iterate on them efficiently. This is the difference between using AI and <em>getting good at using AI</em>.</p>
+<hr>
+<h2 id="putting-it-together-when-to-use-what">Putting It Together: When to Use What</h2>
+<p>Still confused about which tool does what? Here&rsquo;s the framework I use:</p>
+<p><img alt="When to use MCP, Skills, Prompts, Subagents, and Memory" loading="lazy" src="/assets/1763345771800-BK1tQAog.png"></p>
+<p><strong>The unifying theme</strong>: All four techniques optimize what goes into the AI&rsquo;s limited &ldquo;working memory&rdquo; and when.</p>
+<p><strong>In my running project:</strong></p>
+<ul>
+<li><strong>MCP</strong>: ✅ Connects to my cloud database (only queries relevant runs)</li>
+<li><strong>Skill</strong>: ✅ Stores training science code + methodology (AI doesn&rsquo;t regenerate formulas)</li>
+<li><strong>Prompts</strong>: ✅ Structured analysis requests (gets exactly what I need, no fluff)</li>
+<li><strong>Subagents</strong>: ⏳ Not implemented yet, but would isolate specialized analysis in separate contexts</li>
+</ul>
+<p>Even with three of four, the system transformed how I interact with my data.</p>
+<hr>
+<h2 id="the-beforeafter-that-made-this-real">The Before/After That Made This Real</h2>
+<p><strong>Before:</strong></p>
+<ul>
+<li>$200/year for Strava + Runna subscriptions</li>
+<li>Generic training plans that didn&rsquo;t adapt to my actual performance</li>
+<li>867 runs of data sitting in files with no meaningful synthesis</li>
+<li>Questions like &ldquo;How&rsquo;s my marathon recovery?&rdquo; required exporting data to CSV, pivot tables, chart creation</li>
+<li>Advice disconnected from my specific context (2 weeks post-NYC Marathon, training for Jersey City Half, sub-1:30:00 goal)</li>
+</ul>
+<p><strong>After:</strong></p>
+<ul>
+<li>Ask questions in plain English: &ldquo;How&rsquo;s my recovery 2 weeks post-NYC Marathon?&rdquo;</li>
+<li>Get personalized, science-backed insights in seconds: heart rate trends, pace comparisons vs pre-marathon baseline, weekly volume progression</li>
+<li>Coaching that understands my 867-run history AND my current training phase (recovery → base building)</li>
+<li>&ldquo;Was this a good run?&rdquo; gets answered with multi-dimensional context: 23% faster than similar post-marathon runs, Zone 2 heart rate (perfect for recovery phase), weekly volume at 11.9km vs plan target of 40km</li>
+<li>Close to canceling both subscriptions (saving $200/year)</li>
+</ul>
+<p><strong>The kicker</strong>: I&rsquo;m now exploring building this into an iOS app for other runners. A weekend proof-of-concept might become a product.</p>
+<p><strong>The business equivalent:</strong></p>
+<p>Replace &ldquo;running data&rdquo; with &ldquo;sales pipeline,&rdquo; &ldquo;customer support tickets,&rdquo; or &ldquo;supply chain metrics.&rdquo;</p>
+<p>Same transformation: From data overwhelm + expensive point solutions → conversational insights built on your data.</p>
+<hr>
+<h2 id="the-bigger-picture-what-this-means-for-how-we-work">The Bigger Picture: What This Means for How We Work</h2>
+<p>We&rsquo;re moving from:</p>
+<ul>
+<li><strong>Clicking through dashboards</strong> → <strong>Asking questions</strong></li>
+<li><strong>Hiring specialists for every analysis</strong> → <strong>Deploying reusable skills</strong></li>
+<li><strong>Copying data between tools</strong> → <strong>Connecting via MCP</strong></li>
+<li><strong>Waiting for sequential analysis</strong> → <strong>Delegating to parallel subagents</strong></li>
+</ul>
+<p>But the deeper shift is this: <strong>We&rsquo;re learning to treat context window like RAM.</strong></p>
+<p>Just like computer programmers optimize memory usage, we now need to think about:</p>
+<ul>
+<li>What knowledge should be loaded upfront (Project knowledge, Skills)?</li>
+<li>What data should be fetched on-demand (MCP)?</li>
+<li>What tasks should run in isolated contexts (Subagents)?</li>
+<li>How do we structure requests to get exactly what we need (Prompts)?</li>
+</ul>
+<p>The question isn&rsquo;t whether AI will change your industry. It&rsquo;s whether you&rsquo;ll understand the building blocks well enough to shape that change.</p>
+<hr>
+<figure class="explode" data-explode>
+<div class="fig-body">
+<svg viewBox="-102 -48 242 196" role="img" aria-labelledby="fig-ai-architecture-pattern">
+<g data-k="board"><polygon points="-8,10 0,14 0,22 -8,18" fill="#BEC1C6"/><polygon points="0,14 8,10 8,18 0,22" fill="#ABAFB5"/><polygon points="0,6 8,10 0,14 -8,10" fill="#D3D5D8"/><polygon points="92,60 100,64 100,72 92,68" fill="#BEC1C6"/><polygon points="100,64 108,60 108,68 100,72" fill="#ABAFB5"/><polygon points="100,56 108,60 100,64 92,60" fill="#D3D5D8"/><polygon points="-78,45 -70,49 -70,57 -78,53" fill="#BEC1C6"/><polygon points="-70,49 -62,45 -62,53 -70,57" fill="#ABAFB5"/><polygon points="-70,41 -62,45 -70,49 -78,45" fill="#D3D5D8"/><polygon points="22,95 30,99 30,107 22,103" fill="#BEC1C6"/><polygon points="30,99 38,95 38,103 30,107" fill="#ABAFB5"/><polygon points="30,91 38,95 30,99 22,95" fill="#D3D5D8"/><polygon points="-90,31 30,91 30,105 -90,45" fill="#D6D8DB"/><polygon points="30,91 120,46 120,60 30,105" fill="#C5C8CC"/><polygon points="0,-14 120,46 30,91 -90,31" fill="#ECEDEF"/><polygon points="-4,0 4,4 -52,32 -60,28" fill="#6E737B"/><polygon points="56,24 98,45 68,60 26,39" fill="#D6D8DB"/></g><g class="layer" style="--cx:0px;--c:18px"><g data-k="ram"><polygon points="-56,-14 -52,-12 -52,12 -56,10" fill="#24406A"/><polygon points="-52,-12 0,-38 0,-14 -52,12" fill="#1C3356"/><polygon points="-4,-40 0,-38 -52,-12 -56,-14" fill="#2F4F7F"/></g></g><g class="layer" style="--cx:0px;--c:22px"><g data-k="sub"><polygon points="26,9 68,30 68,38 26,17" fill="#D6D8DB"/><polygon points="68,30 98,15 98,23 68,38" fill="#C5C8CC"/><polygon points="56,-6 98,15 68,30 26,9" fill="#ECEDEF"/><polygon points="34,-5 38,-3 38,11 34,9" fill="#E3E4E6"/><polygon points="38,-3 60,-14 60,0 38,11" fill="#D3D5D8"/><polygon points="56,-16 60,-14 38,-3 34,-5" fill="#FFFFFF"/><polygon points="52,7 68,15 68,22 52,14" fill="#E3E4E6"/><polygon points="68,15 84,7 84,14 68,22" fill="#D3D5D8"/><polygon points="68,-1 84,7 68,15 52,7" fill="#FFFFFF"/></g></g><g data-k="board"><polygon points="-34,27 -2,43 -2,53 -34,37" fill="#E3E4E6"/><polygon points="-2,43 30,27 30,37 -2,53" fill="#D3D5D8"/><polygon points="-2,11 30,27 -2,43 -34,27" fill="#FFFFFF"/><polygon points="20,58 42,69 42,85 20,74" fill="#D6D8DB"/><polygon points="42,69 66,57 66,73 42,85" fill="#C5C8CC"/><polygon points="44,46 66,57 42,69 20,58" fill="#ECEDEF"/><polygon points="62,72 46,80 46,70 62,62" fill="#6E737B"/><polygon points="-56,58 -20,76 -20,70 -56,52" fill="#6E737B"/></g><g class="layer" style="--cx:-12px;--c:-6px"><g data-k="mcp"><polygon points="52,72 62,77 62,85 52,80" fill="#D6D8DB"/><polygon points="62,77 74,71 74,79 62,85" fill="#C5C8CC"/><polygon points="64,66 74,71 62,77 52,72" fill="#ECEDEF"/><polygon points="56,74 78,85 78,103 56,92" fill="#E3E4E6"/><polygon points="78,85 102,73 102,91 78,103" fill="#D3D5D8"/><polygon points="80,62 102,73 78,85 56,74" fill="#FFFFFF"/><path d="M104 95.9L104 135.9A19.8 9.9 0 0 1 84.2 126L84.2 86A19.8 9.9 0 0 0 104 95.9Z" fill="#E3E4E6"/><path d="M104 95.9L104 135.9A19.8 9.9 0 0 0 123.8 126L123.8 86A19.8 9.9 0 0 1 104 95.9Z" fill="#D3D5D8"/><ellipse cx="104" cy="86" rx="19.8" ry="9.9" fill="#FFFFFF"/></g></g><g class="layer" style="--cx:16px;--c:-8px"><g data-k="skill"><polygon points="-94,74 -66,88 -66,94 -94,80" fill="#E3E4E6"/><polygon points="-66,88 -36,73 -36,79 -66,94" fill="#D3D5D8"/><polygon points="-64,59 -36,73 -66,88 -94,74" fill="#FFFFFF"/><polygon points="-64,63 -44,73 -51,76.5 -71,66.5" fill="#6E737B"/></g></g>
+</svg>
+<ol class="keys">
+<li><button type="button" data-key="ram" aria-pressed="false"><span class="en">Context window<small>Working memory, treated like RAM. It is sacred.</small></span><span class="zh" lang="zh">上下文窗口<small>工作记忆，要像内存一样省着用。</small></span></button></li>
+<li><button type="button" data-key="mcp" aria-pressed="false"><span class="en">MCP, the USB plug<small>Fetches from 867 runs on demand. No copy and paste.</small></span><span class="zh" lang="zh">MCP，USB 插头<small>按需查 867 次跑步记录，不用复制粘贴。</small></span></button></li>
+<li><button type="button" data-key="skill" aria-pressed="false"><span class="en">Skill, a slot-in card<small>Playbook and VDOT code live outside the window; only what’s needed loads.</small></span><span class="zh" lang="zh">Skill，插卡<small>方法和 VDOT 代码放在窗口外，用到才加载。</small></span></button></li>
+<li><button type="button" data-key="sub" aria-pressed="false"><span class="en">Subagents<small>Each works in its own context and reports back only the insight.</small></span><span class="zh" lang="zh">子代理<small>各用各的上下文，只把结论交回来。</small></span></button></li>
+<li><button type="button" data-key="board" aria-pressed="false"><span class="en">The model<small>Not the breakthrough. Being context-efficient is.</small></span><span class="zh" lang="zh">模型本身<small>突破不在更聪明，而在更省上下文。</small></span></button></li>
+</ol>
+</div>
+<figcaption id="fig-ai-architecture-pattern"><span class="en">Every part decides what goes into the context window, and when. Tap a part.</span><span class="zh" lang="zh">每个部件都在决定什么进上下文窗口、什么时候进。点一下看每个部件。</span> <button type="button" class="replay" data-replay><span class="en">Replay</span><span class="zh" lang="zh">重播</span></button></figcaption>
+</figure>
+<h2 id="three-questions-to-ask-your-team-monday-morning">Three Questions to Ask Your Team Monday Morning</h2>
+<ol>
+<li>
+<p><strong>What data do we have that&rsquo;s underutilized because it&rsquo;s hard to access?</strong></p>
+<p>(That&rsquo;s your MCP opportunity)</p>
+</li>
+<li>
+<p><strong>What expertise exists in someone&rsquo;s head that should be captured as a reusable skill?</strong></p>
+<p>(That&rsquo;s your Skills opportunity)</p>
+</li>
+<li>
+<p><strong>What repetitive analysis could we turn into a conversational question?</strong></p>
+<p>(That&rsquo;s your Prompts opportunity)</p>
+</li>
+</ol>
+<p>The tools are here. The infrastructure is ready.</p>
+<hr>
+<h2 id="want-to-see-how-this-actually-works">Want to See How This Actually Works?</h2>
+<p>The entire project is open source: <a href="https://github.com/mz462/run-skill">github.com/mz462/run-skill</a></p>
+<p>Even if you&rsquo;re not a runner or a coder:</p>
+<ul>
+<li>See how Skills are structured (the methodology applies to any domain)</li>
+<li>Explore how MCP connects AI to databases</li>
+<li>Understand how prompts evolve from simple questions to powerful instructions</li>
+</ul>
+<p><em>P.S. - If you&rsquo;re exploring AI in your organization and want to discuss practical applications (not hype), let&rsquo;s connect. I&rsquo;m particularly interested in how teams are thinking about agent platforms and orchestration—and how vertical AI apps might disrupt existing SaaS markets.</em></p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “From Two Subscriptions to One Weekend Build: The AI Architecture Pattern Everyone's Missing”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/anthropic-wins-with-5-percent/"><span class="mono">← EARLIER · 2025-10-17</span><strong>Why Anthropic Wins with 5% of the Users</strong></a><a class="card later" href="/writing/vibe-coding-ios-app/"><span class="mono">LATER · 2025-12-14 →</span><strong>I Vibe Coded an AI App — But There's No AI Inside</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>
