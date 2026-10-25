@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Koi / 02 · MJ Zou</title>
+<meta name="description" content="Koi drawn with the characters for carp, scales, fish and water. Click the water to feed them.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Only the glyphs the fish are made of. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E9%B2%A4%E9%B3%9E%E9%B1%BC%E6%B0%B5%E5%BD%A1%E9%A5%B5%E9%94%A6&display=block">
+<style>
+  :root { --bg: #F5F4F0; --ink: #2B2F33; --muted: #8A8E92; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  body {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    color: var(--ink); -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+  }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; cursor: crosshair; }
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 0 40px calc(30px + env(safe-area-inset-bottom)); pointer-events: none;
+  }
+  .title { font-size: 13px; letter-spacing: .26em; margin: 0; font-weight: 500; }
+  .title span { font-family: "Noto Serif SC", "Songti SC", serif; letter-spacing: .1em; margin-right: .6em; }
+  .hint { font-size: 11px; letter-spacing: .22em; color: var(--muted); text-align: right; }
+  .hint .touch { display: none; }
+  @media (hover: none) { .hint .touch { display: inline; } .hint .mouse { display: none; } }
+  .back { position: fixed; top: calc(26px + env(safe-area-inset-top)); left: 40px; font-size: 12px; letter-spacing: .24em; color: var(--muted); text-decoration: none; }
+  .back:hover, .back:focus-visible { color: var(--ink); }
+  .embed .bar, .embed .back { display: none; }
+  .embed canvas { cursor: default; }
+  @media (max-width: 720px) {
+    .bar { flex-direction: column; gap: 10px; padding: 0 16px calc(20px + env(safe-area-inset-bottom)); }
+    .hint { text-align: center; font-size: 10px; letter-spacing: .16em; }
+    .back { left: 16px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="c" role="img" aria-label="Koi made of Chinese characters swimming in a pond. Click the water to drop food."></canvas>
+<a class="back" href="/lab/">&larr; LAB</a>
+<div class="bar" id="bar">
+  <h1 class="title"><span lang="zh">锦鲤</span>KOI / 02</h1>
+  <div class="hint"><span class="mouse">CLICK THE WATER TO FEED · MOVE AND THEY SCATTER</span><span class="touch">TAP THE WATER TO FEED</span></div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const embed = document.documentElement.classList.contains('embed');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.45 : 1;
+  const FONT = '"Noto Serif SC", "Songti SC", "STSong", "SimSun", serif';
+  const N = 14;                                   // spine points, head first
+  const PI = Math.PI;
+
+  // ---- colours: [cell fill, glyph ink]
+  const COL = {
+    white:  [[226, 223, 215], [140, 134, 122]],
+    red:    [[204, 72, 50],   [118, 30, 18]],
+    black:  [[46, 47, 50],    [150, 152, 155]],
+    gold:   [[214, 163, 52],  [116, 80, 18]],
+    orange: [[222, 124, 62],  [124, 56, 20]],
+    slate:  [[132, 153, 166], [50, 70, 82]],
+  };
+  // Varieties: u runs head (0) to tail (1), v across the back (-1..1), n and m are two noise fields.
+  const KINDS = [
+    { name: 'kohaku',   fin: 'white', at: (u, v, n) => n > .55 ? 'red' : 'white' },
+    { name: 'showa',    fin: 'white', at: (u, v, n, m) => n > .5 ? 'red' : m > .62 ? 'white' : 'black' },
+    { name: 'yamabuki', fin: 'gold',  at: () => 'gold' },
+    { name: 'tancho',   fin: 'white', at: (u, v) => ((u - .08) * 3.4) ** 2 + (v * .9) ** 2 < .25 ? 'red' : 'white' },
+    { name: 'sanke',    fin: 'white', at: (u, v, n, m) => n > .55 ? 'red' : m > .78 ? 'black' : 'white' },
+    { name: 'asagi',    fin: 'orange', at: (u, v) => Math.abs(v) > .62 ? 'orange' : 'slate' },
+  ];
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a.toFixed(2)})`;
+
+  // ---- smooth value noise for the patches
+  function hash(i, j) {
+    let h = Math.imul(i, 374761393) + Math.imul(j, 668265263) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
+  }
+  function noise(x, y) {
+    const i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j;
+    const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
+    const a = hash(i, j), b = hash(i + 1, j), c = hash(i, j + 1), d = hash(i + 1, j + 1);
+    return a + (b - a) * sx + (c - a) * sy + (a - b - c + d) * sx * sy;
+  }
+
+  // Half-width of the body along the spine, as a fraction of R.
+  const prof = t => t < .18 ? .6 + .4 * Math.sin(t / .18 * PI / 2)
+    : t < .48 ? 1
+    : t < .86 ? 1 - .8 * ((t - .48) / .38) ** 1.6
+    : .2 * (1 - (t - .86) / .14 * .6);
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  function turnToward(from, to) {
+    let d = (to - from) % (2 * PI);
+    if (d > PI) d -= 2 * PI; else if (d < -PI) d += 2 * PI;
+    return d;
+  }
+
+  // ---- state
+  let W, H, c, dpr, grid, fish = [], food = [], ripples = [], pointer = null, clock = 0;
+
+  function spawn(i) {
+    const s = .8 + Math.random() * .35, th = Math.random() * 2 * PI;
+    let x, y, room = -1;
+    for (let k = 0; k < 20; k++) {                // best of 20 spots, away from the fish already placed
+      const px = W * (.15 + .7 * Math.random()), py = H * (.15 + .7 * Math.random());
+      const d = Math.min(Infinity, ...fish.map(o => Math.hypot(o.p[0][0] - px, o.p[0][1] - py)));
+      if (d > room) { room = d; x = px; y = py; }
+    }
+    const gap = c * s, p = [];
+    for (let k = 0; k < N; k++) p.push([x - Math.cos(th) * gap * k, y - Math.sin(th) * gap * k]);
+    return { p, th, s, gap, R: 2.3 * c * s, sp: 1.5 * c, phase: Math.random() * 9, kind: KINDS[i % KINDS.length],
+      seed: Math.random() * 100, w1: .11 + Math.random() * .08, w2: .27 + Math.random() * .1 };
+  }
+
+  function layout() {
+    W = innerWidth; H = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    const nc = clamp(Math.round(Math.min(W, H) / 40), embed ? 9 : 11, 18);
+    grid = document.createElement('canvas');
+    grid.width = cv.width; grid.height = cv.height;
+    const g = grid.getContext('2d');
+    g.scale(dpr, dpr);
+    g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg');
+    g.fillRect(0, 0, W, H);
+    g.strokeStyle = 'rgba(60, 70, 80, .07)'; g.lineWidth = 1 / dpr;
+    g.beginPath();
+    for (let x = nc; x < W; x += nc) { g.moveTo(x, 0); g.lineTo(x, H); }
+    for (let y = nc; y < H; y += nc) { g.moveTo(0, y); g.lineTo(W, y); }
+    g.stroke();
+    if (nc !== c) {                               // a new cell size means new fish sizes
+      c = nc;
+      const n = clamp(Math.round(W * H / (c * c) / 520), 3, 8);
+      fish = [];
+      for (let i = 0; i < n; i++) fish.push(spawn(i));
+    }
+  }
+
+  // ---- behaviour: wander, keep off the walls and each other, flee a moving cursor, chase food
+  function update(f, dt) {
+    const h = f.p[0], band = 7 * c;
+    let ax = Math.cos(f.th), ay = Math.sin(f.th), mode = 'cruise';
+    const ramp = z => clamp(z, 0, 1.5);
+    ax += 2 * (ramp((band - h[0]) / band) - ramp((h[0] - (W - band)) / band));
+    ay += 2 * (ramp((band - h[1]) / band) - ramp((h[1] - (H - band)) / band));
+    for (const o of fish) {
+      if (o === f) continue;
+      for (const k of [0, 3, 6, 9, 12]) {
+        const dx = h[0] - o.p[k][0], dy = h[1] - o.p[k][1], d = Math.hypot(dx, dy), r = 6 * c;
+        if (d > 0 && d < r) { ax += dx / d * (1 - d / r) * 2; ay += dy / d * (1 - d / r) * 2; }
+      }
+    }
+    if (pointer && clock - pointer.t < .6) {      // only a moving hand scares them
+      const dx = h[0] - pointer.x, dy = h[1] - pointer.y, d = Math.hypot(dx, dy), r = 9 * c;
+      if (d > 0 && d < r) { ax += dx / d * 3 * (1 - d / r); ay += dy / d * 3 * (1 - d / r); mode = 'flee'; }
+    }
+    if (mode !== 'flee') {
+      let best = null, bd = 30 * c;
+      for (const fd of food) { const d = Math.hypot(fd.x - h[0], fd.y - h[1]); if (d < bd) { bd = d; best = fd; } }
+      if (best) {
+        ax += (best.x - h[0]) / bd * 1.8; ay += (best.y - h[1]) / bd * 1.8; mode = 'food';
+        if (bd < .9 * c * f.s) { food.splice(food.indexOf(best), 1); ripple(best.x, best.y, .5); }
+      }
+    }
+    const wander = mode === 'cruise' ? .5 * Math.sin(clock * f.w1 + f.seed) + .35 * Math.sin(clock * f.w2 + f.seed * 2) : 0;
+    const maxT = { cruise: .9, food: 2.4, flee: 3.2 }[mode] * calm;
+    f.th += clamp(turnToward(f.th, Math.atan2(ay, ax) + wander) * 2, -maxT, maxT) * dt;
+    const target = { cruise: 1.6, food: 3.2, flee: 5.5 }[mode] * c * f.s * calm;
+    f.sp += (target - f.sp) * Math.min(1, dt * 1.5);
+    h[0] += Math.cos(f.th) * f.sp * dt; h[1] += Math.sin(f.th) * f.sp * dt;
+    for (let k = 1; k < N; k++) {                 // the body follows the head like a rope
+      const a = f.p[k - 1], b = f.p[k], dx = a[0] - b[0], dy = a[1] - b[1], d = Math.hypot(dx, dy);
+      if (d > f.gap) { b[0] = a[0] - dx / d * f.gap; b[1] = a[1] - dy / d * f.gap; }
+    }
+    f.phase += dt * (1.6 + f.sp / c * .9) * calm;
+  }
+
+  // ---- drawing: every grid cell the fish covers gets a tinted tile and one character
+  function cell(col, row, fill, ink, ch) {
+    const g = Math.max(.5, c * .07);
+    ctx.fillStyle = fill; ctx.fillRect(col * c + g, row * c + g, c - 2 * g, c - 2 * g);
+    if (ch) { ctx.fillStyle = ink; ctx.fillText(ch, (col + .5) * c, (row + .53) * c); }
+  }
+
+  function drawFish(f) {
+    const R = f.R, q = [];
+    const swim = .32 * R * (.5 + .5 * Math.min(1, f.sp / (3 * c))) * calm;
+    for (let k = 0; k < N; k++) {                 // swimming wave, growing toward the tail
+      const a = f.p[Math.max(0, k - 1)], b = f.p[Math.max(1, k)];
+      let nx = -(a[1] - b[1]), ny = a[0] - b[0];
+      const l = Math.hypot(nx, ny) || 1, w = swim * (k / (N - 1)) ** 1.6 * Math.sin(f.phase - k * .55);
+      q.push([f.p[k][0] + nx / l * w, f.p[k][1] + ny / l * w]);
+    }
+    const pad = 1.6 * R;
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (const [x, y] of q) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+    const c0 = Math.max(0, Math.floor((x0 - pad) / c)), c1 = Math.min(Math.ceil(W / c), Math.ceil((x1 + pad) / c));
+    const r0 = Math.max(0, Math.floor((y0 - pad) / c)), r1 = Math.min(Math.ceil(H / c), Math.ceil((y1 + pad) / c));
+    for (let row = r0; row < r1; row++) for (let col = c0; col < c1; col++) {
+      const cx = (col + .5) * c, cy = (row + .5) * c;
+      let best = Infinity, bi = 0, bs = 0, side = 1;
+      for (let k = 0; k < N - 1; k++) {           // nearest point on the spine
+        const a = q[k], ex = q[k + 1][0] - a[0], ey = q[k + 1][1] - a[1];
+        const s = clamp(((cx - a[0]) * ex + (cy - a[1]) * ey) / (ex * ex + ey * ey || 1), 0, 1);
+        const px = a[0] + ex * s - cx, py = a[1] + ey * s - cy, d2 = px * px + py * py;
+        if (d2 < best) { best = d2; bi = k; bs = s; side = ex * (cy - a[1]) - ey * (cx - a[0]) < 0 ? -1 : 1; }
+      }
+      const dist = Math.sqrt(best), t = (bi + bs) / (N - 1), rt = R * prof(t);
+      let part = null;
+      if (dist < rt) part = 'body';
+      else if (t > .18 && t < .34 && dist < rt + R * .7 * Math.sin(PI * (t - .18) / .16) * (.7 + .3 * Math.sin(f.phase * .6 + side * 1.3))) part = 'fin';
+      else if (t > .8 && dist < R * .85 * ((t - .8) / .2) ** .8) part = 'fin';
+      if (!part) continue;
+      if (part === 'fin') {
+        const [fill, ink] = COL[f.kind.fin];
+        cell(col, row, rgba(fill, .22), rgba(ink, .42), '彡');
+        continue;
+      }
+      const depth = 1 - dist / rt, u = t, v = side * Math.min(1, dist / rt);
+      const n = noise(u * 3.4 + f.seed, v * 1.2 + f.seed * .7), m = noise(u * 6 + f.seed * 3, v * 2.2 + 9);
+      const [fill, ink] = COL[f.kind.at(u, v, n, m)];
+      const ch = t < .15 && depth > .35 ? '鲤' : depth > .62 ? '鳞' : depth > .3 ? '鱼' : '氵';
+      cell(col, row, rgba(fill, .5 + .5 * depth), rgba(ink, .9), ch);
+    }
+  }
+
+  function ripple(x, y, k = 1) { ripples.push({ x, y, t0: clock, k }); }
+  function drawRipples() {
+    ripples = ripples.filter(r => clock - r.t0 < 1.8);
+    for (const r of ripples) {
+      const age = (clock - r.t0) / 1.8, rad = age * 9 * c * r.k, reach = rad + c;
+      for (let row = Math.max(0, Math.floor((r.y - reach) / c)); row < Math.min(H / c, (r.y + reach) / c); row++)
+        for (let col = Math.max(0, Math.floor((r.x - reach) / c)); col < Math.min(W / c, (r.x + reach) / c); col++) {
+          const d = Math.hypot((col + .5) * c - r.x, (row + .5) * c - r.y);
+          const a = Math.abs(d - rad) < .55 * c ? .2 : Math.abs(d - (rad - 2.2 * c)) < .55 * c ? .1 : 0;
+          if (a) cell(col, row, `rgba(110,135,150,${(a * (1 - age)).toFixed(3)})`);
+        }
+    }
+  }
+  function drawFood() {
+    food = food.filter(fd => clock - fd.t0 < 14);
+    for (const fd of food) {
+      const a = Math.min(1, (14 - (clock - fd.t0)) / 3);
+      cell(Math.floor(fd.x / c), Math.floor(fd.y / c), rgba([176, 128, 70], .85 * a), rgba([80, 50, 16], a), '饵');
+    }
+  }
+
+  function feed(x, y) {
+    if (food.length >= 6) food.shift();
+    food.push({ x, y, t0: clock });
+    ripple(x, y);
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now; clock += dt;
+    for (const f of fish) update(f, dt);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.drawImage(grid, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.font = `600 ${Math.round(c * .74)}px ${FONT}`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    drawRipples(); drawFood();
+    for (const f of fish) drawFish(f);
+    requestAnimationFrame(frame);
+  }
+
+  cv.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') pointer = { x: e.clientX, y: e.clientY, t: clock }; });
+  cv.addEventListener('pointerleave', () => { pointer = null; });
+  cv.addEventListener('click', e => { feed(e.clientX, e.clientY); if (pointer) pointer.t = -9; });
+  addEventListener('keydown', e => {
+    if ((e.code !== 'Space' && e.key !== ' ') || e.target.closest?.('a')) return;
+    e.preventDefault();
+    feed(W * (.2 + .6 * Math.random()), H * (.2 + .6 * Math.random()));
+  });
+  addEventListener('resize', layout);
+  layout();
+  document.fonts?.load(`600 16px "Noto Serif SC"`, '鲤鳞鱼氵彡饵');
+  requestAnimationFrame(frame);
+  window.koi = { feed, get fish() { return fish.length; } };
+})();
+</script>
+</body>
+</html>
