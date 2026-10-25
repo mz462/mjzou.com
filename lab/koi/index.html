@@ -120,6 +120,7 @@
   }
 
   function layout() {
+    if (!innerWidth || !innerHeight) return;      // hidden or not laid out yet; resize brings us back
     W = innerWidth; H = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     const nc = clamp(Math.round(Math.min(W, H) / 40), embed ? 9 : 11, 18);
@@ -259,7 +260,9 @@
 
   let last = performance.now();
   function frame(now) {
+    requestAnimationFrame(frame);
     const dt = Math.min(.05, (now - last) / 1000); last = now; clock += dt;
+    if (!grid) return;
     for (const f of fish) update(f, dt);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(grid, 0, 0);
@@ -268,7 +271,6 @@
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     drawRipples(); drawFood();
     for (const f of fish) drawFish(f);
-    requestAnimationFrame(frame);
   }
 
   cv.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') pointer = { x: e.clientX, y: e.clientY, t: clock }; });
