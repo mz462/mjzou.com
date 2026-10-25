@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>MJ Zou · Working through AI ideas in public</title>
-<meta name="description" content="MJ Zou is an AI product manager who builds. Essays on context engineering, LLM behavior, and AI adoption, plus a running log and a paper portfolio.">
+<title>MJ Zou</title>
+<meta name="description" content="MJ Zou builds AI products and writes about context engineering and how LLMs behave. Also a running log and a paper portfolio.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,16 +14,12 @@
 <style>
 .hero { display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-start; }
 .hero-main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
-.hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(46px, 6.6vw, 96px); font-weight: 400; line-height: 1.03; letter-spacing: -0.02em; }
-.circled { position: relative; font-style: italic; white-space: nowrap; }
-.circled svg { position: absolute; left: -7%; top: -22%; width: 114%; height: 148%; overflow: visible; pointer-events: none; }
-.circled path { stroke-dasharray: 900; stroke-dashoffset: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .circled path { animation: draw 1.1s 0.3s cubic-bezier(0.6, 0, 0.3, 1) both; }
-  @keyframes draw { from { stroke-dashoffset: 900; } }
-}
+.hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(40px, 5vw, 72px); font-weight: 400; line-height: 1.08; letter-spacing: -0.02em; }
 .hero .zh-line { margin: 0; font-family: var(--serif-zh); font-size: clamp(22px, 2.4vw, 30px); line-height: 1.55; }
 .hero .sub { margin: 0; max-width: 620px; font-family: var(--serif); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.6; color: var(--muted); }
+.latest { display: flex; flex-direction: column; gap: 6px; max-width: 620px; padding-top: 20px; border-top: 1px solid var(--line); color: inherit; text-decoration: none; }
+.latest strong { font-family: var(--serif); font-size: clamp(21px, 1.8vw, 24px); font-weight: 400; line-height: 1.35; }
+.latest:hover strong, .latest:focus-visible strong { text-decoration: underline; text-underline-offset: 4px; }
 .glance { flex: 1 1 220px; display: flex; flex-direction: column; gap: 14px; padding-top: 8px; font-family: var(--mono); font-size: 13px; line-height: 1.55; color: var(--muted); }
 .glance .seal { width: 64px; height: 64px; border-radius: 8px; font-size: 28px; }
 
@@ -76,10 +72,10 @@
 
 <header class="hero">
 <div class="hero-main">
-<span class="label">AI product manager · builder · runner</span>
-<h1>Working through AI ideas <span class="circled">in public<svg aria-hidden="true" viewBox="0 0 340 110" preserveAspectRatio="none"><path d="M18 64 C 10 18, 296 0, 322 46 C 340 86, 56 104, 28 74 C 16 58, 54 36, 108 30" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span>.</h1>
-<p class="zh-line" lang="zh">把 AI 想清楚，并且公开地想。</p>
-<p class="sub"><span class="en">I’m MJ, an AI product manager who builds. I write about context engineering, LLM behavior, and what separates successful AI adoption from expensive experiments.</span><span class="zh" lang="zh">我是 MJ，一个会动手做东西的 AI 产品经理。我写上下文工程、大模型的行为，以及企业里 AI 落地成功和烧钱试错之间的差别。</span></p>
+<h1>I build AI products and write down what I learn.</h1>
+<p class="zh-line" lang="zh">我做 AI 产品，把学到的写下来。</p>
+<p class="sub"><span class="en">I’m MJ. Mostly I write about context engineering and how LLMs behave once they are inside a real product.</span><span class="zh" lang="zh">我是 MJ。写的主要是上下文工程，以及大模型放进真实产品之后的表现。</span></p>
+<a class="latest" href="/writing/general-tsos-chicken-theory/"><span class="label"><span class="en">Latest essay</span><span class="zh" lang="zh">最近一篇</span> · 2026-02-17</span><strong>The General Tso's Chicken Theory of AI Adoption</strong></a>
 </div>
 <aside class="glance" aria-label="At a glance">
 <span class="seal" aria-hidden="true">MJ</span>
@@ -158,8 +154,8 @@
 <section class="about" id="about" aria-labelledby="about-h">
 <div class="about-main">
 <h2 class="big" id="about-h">About <span class="zh-tag" lang="zh">关于</span></h2>
-<p class="lead"><span class="en">I think deeply about how AI products actually work: why LLMs hallucinate, how context engineering shapes behavior, and what separates successful AI adoption from expensive experiments.</span><span class="zh" lang="zh">我关心 AI 产品到底是怎么运转的：大模型为什么会幻觉，上下文工程怎样塑造模型的行为，以及 AI 落地成功和烧钱试错之间差在哪里。</span></p>
-<p class="rest"><span class="en">This site is where I work through ideas in public, grounded in real experience shipping AI products and helping teams navigate the messy reality of enterprise AI adoption.</span><span class="zh" lang="zh">这里是我公开想问题的地方。想法来自真实地交付 AI 产品，也来自陪团队走过企业 AI 落地的种种混乱。</span></p>
+<p class="lead"><span class="en">I care about how AI products actually work: why LLMs hallucinate, how context shapes what a model does, and why some AI rollouts stick while others stall.</span><span class="zh" lang="zh">我关心 AI 产品到底是怎么运转的：大模型为什么会幻觉，上下文怎样决定模型的行为，以及为什么有的 AI 项目能落地，有的停在半路。</span></p>
+<p class="rest"><span class="en">What I write comes from shipping AI products at work and from helping teams adopt AI in large companies.</span><span class="zh" lang="zh">这些文章来自我在工作中交付 AI 产品的经历，也来自帮大公司里的团队把 AI 用起来。</span></p>
 <div class="chips">
 <button type="button" class="btn ghost desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="en">Ask MJ about my work</span><span class="zh" lang="zh">问问我的 AI 分身</span></button>
 </div>
