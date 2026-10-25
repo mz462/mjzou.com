@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Courtyard / 01 · MJ Zou</title>
+<meta name="description" content="An isometric line drawing of a small courtyard house that unfolds and folds.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<style>
+  :root { --bg: #f3efe5; --ink: #2d3a33; --muted: #87907f; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  body {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    color: var(--ink); -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+  }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+  canvas.hot { cursor: pointer; }
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+    padding: 0 40px calc(30px + env(safe-area-inset-bottom)); pointer-events: none;
+  }
+  .bar > * { pointer-events: auto; }
+  .title { font-size: 13px; letter-spacing: .26em; margin: 0; font-weight: 500; }
+  .hint { font-size: 11px; letter-spacing: .22em; color: var(--muted); justify-self: end; text-align: right; }
+  button {
+    font: inherit; font-size: 12px; letter-spacing: .24em; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--ink); border-radius: 0;
+    padding: 12px 20px 12px 23px; cursor: pointer; touch-action: manipulation;
+  }
+  button span { opacity: .32; transition: opacity .2s; }
+  button span.on { opacity: 1; }
+  button:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+  button.busy { cursor: default; }
+  .back { position: fixed; top: calc(26px + env(safe-area-inset-top)); left: 40px; font-size: 12px; letter-spacing: .24em; color: var(--muted); text-decoration: none; }
+  .back:hover, .back:focus-visible { color: var(--ink); }
+  .embed .bar, .embed .back { display: none; }
+  @media (max-width: 720px) {
+    .bar { grid-template-columns: 1fr; justify-items: center; gap: 12px; padding: 0 16px calc(20px + env(safe-area-inset-bottom)); }
+    .back { left: 16px; }
+    .title { order: 1; }
+    button { order: 2; }
+    .hint { order: 3; justify-self: center; text-align: center; font-size: 10px; letter-spacing: .16em; }
+  }
+</style>
+</head>
+<body>
+<canvas id="c" role="img" aria-label="Isometric line drawing of a small courtyard house that unfolds and folds"></canvas>
+<a class="back" href="/lab/">&larr; LAB</a>
+<div class="bar" id="bar">
+  <h1 class="title">COURTYARD / 01</h1>
+  <button id="btn" type="button" aria-label="Unfold the house"><span class="on" id="lu">UNFOLD</span> / <span id="lf">FOLD</span></button>
+  <div class="hint">CLICK THE HOUSE OR PRESS SPACE</div>
+</div>
+<script>
+const Courtyard = (() => {
+  'use strict';
+  // ---- dimensions, model units (~metres). x → right-down, y → left-down, z up.
+  const W = 4.4, D = 3.4, H = 2.4, R = 0.9;      // footprint, eave height, ridge rise
+  const WT = 0.08, RT = 0.055, OV = 0.1;          // wall / roof thickness, roof side overhang
+  const SM = 0.5, ST = 0.18;                      // stone base margin and thickness
+  const DUR = 2.85, OS = 0.02, deg = Math.PI / 180;
+  const TH0 = Math.atan2(R, D / 2), RL = Math.hypot(D / 2, R);
+  const ROOF_OPEN = 120 * deg, REL0 = -2 * TH0, REL_OPEN = -176 * deg;
+  const X = [1, 0, 0], Y = [0, 1, 0], Z = [0, 0, 1];
+  const VIEW = [1, 1, 1];                         // toward the camera
+  const C30 = Math.cos(30 * deg);
+
+  // segment windows in seconds; each eases in/out with a 2% overshoot at its end
+  const TL = {
+    roofB: [0.00, 1.20], roofF: [0.45, 1.55], front: [0.50, 1.70],
+    left: [0.72, 1.92], right: [0.92, 2.12], stairU: [1.70, 2.85], stairL: [2.00, 2.85],
+  };
+
+  // ---- vectors and rigid transforms
+  const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+  const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+  const mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const mulv = (r, v) => [r[0] * v[0] + r[1] * v[1] + r[2] * v[2], r[3] * v[0] + r[4] * v[1] + r[5] * v[2], r[6] * v[0] + r[7] * v[1] + r[8] * v[2]];
+  const apply = (T, v) => add(mulv(T.r, v), T.t);
+  const ID = { r: [1, 0, 0, 0, 1, 0, 0, 0, 1], t: [0, 0, 0] };
+  function rot(p, d, a) {                         // rotation by a about the line through p along unit d
+    const c = Math.cos(a), s = Math.sin(a), C = 1 - c, [x, y, z] = d;
+    const r = [c + x * x * C, x * y * C - z * s, x * z * C + y * s,
+               y * x * C + z * s, c + y * y * C, y * z * C - x * s,
+               z * x * C - y * s, z * y * C + x * s, c + z * z * C];
+    return { r, t: sub(p, mulv(r, p)) };
+  }
+  function compose(A, B) {                        // A after B
+    const r = [];
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++)
+      r.push(A.r[i * 3] * B.r[j] + A.r[i * 3 + 1] * B.r[3 + j] + A.r[i * 3 + 2] * B.r[6 + j]);
+    return { r, t: apply(A, B.t) };
+  }
+
+  // ---- timeline
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  function ease(p) {
+    const K = 0.8;
+    if (p <= K) return (1 + OS) * (1 - Math.cos(Math.PI * p / K)) / 2;
+    return 1 + OS * (1 + Math.cos(Math.PI * (p - K) / (1 - K))) / 2;
+  }
+  const seg = (t, [a, b]) => ease(clamp01((t - a) / (b - a)));
+
+  // stairs, authored in the deployed pose: two hinged flights under the mezzanine edge
+  const SX0 = 1.62, SX1 = 2.22, SH = 0.12, SW = 0.045;
+  const HS = [0, 1.15, 1.1];                      // hinge line at the mezzanine's front-bottom edge
+  const SU = [0, Math.SQRT1_2, -Math.SQRT1_2], SN = [0, Math.SQRT1_2, Math.SQRT1_2];
+  const LU = 0.85, LL = 1.1 * Math.SQRT2 - LU;
+  const PIV = add(add(HS, mul(SU, LU)), mul(SN, SH));
+  const C0 = [0, D / 2, H + R];                   // roof ridge hinge (closed pose)
+
+  function pose(t) {
+    const s = {};
+    for (const k in TL) s[k] = seg(t, TL[k]);
+    const roofB = rot([0, 0, H], X, (ROOF_OPEN - TH0) * s.roofB);
+    const stairU = rot(HS, X, -135 * deg * (1 - s.stairU));
+    return {
+      I: ID, s, roofB,
+      roofF: compose(roofB, rot(C0, X, (REL_OPEN - REL0) * s.roofF)),
+      front: rot([0, D, 0], X, -90 * deg * s.front),
+      right: rot([W, 0, 0], Y, 90 * deg * s.right),
+      left: rot([0, 0, 0], Y, -90 * deg * s.left),
+      stairU,
+      stairL: compose(stairU, rot(PIV, X, 180 * deg * (1 - s.stairL))),
+    };
+  }
+
+  // ---- solids: points + faces. Normals are oriented at draw time (away from the
+  // centroid, toward a ref point for window reveals, or along a fixed dir for decals).
+  function mk(pts, faces, mat) {
+    const c = pts.reduce((a, p) => add(a, p), [0, 0, 0]).map(v => v / pts.length);
+    return { pts, faces, mat, c };
+  }
+  function boxV(o, a, b, c, mat) {
+    const P = [o, add(o, a), add(add(o, a), b), add(o, b)];
+    const pts = [...P, ...P.map(p => add(p, c))];
+    const rings = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]];
+    return mk(pts, rings.map(ring => ({ ring })), mat);
+  }
+  const box = (x0, y0, z0, x1, y1, z1, mat) => boxV([x0, y0, z0], [x1 - x0, 0, 0], [0, y1 - y0, 0], [0, 0, z1 - z0], mat);
+  function prism(ring, e, mat) {
+    const n = ring.length, pts = [...ring, ...ring.map(p => add(p, e))];
+    const idx = [...Array(n).keys()];
+    const faces = [{ ring: idx }, { ring: idx.map(i => i + n) }];
+    for (let i = 0; i < n; i++) { const j = (i + 1) % n; faces.push({ ring: [i, j, j + n, i + n] }); }
+    return mk(pts, faces, mat);
+  }
+  // cylinder along x, y or z; half = only the half above the axis (pins resting on a surface)
+  function cyl(axis, c, r, len, mat, half) {
+    const n = half ? 9 : 14, ring = [];
+    for (let i = 0; i < n; i++) {
+      const a = half ? Math.PI * i / (n - 1) : 2 * Math.PI * i / n, u = r * Math.cos(a), v = r * Math.sin(a);
+      ring.push(axis === 'x' ? [c[0], c[1] + u, c[2] + v] : axis === 'y' ? [c[0] + u, c[1], c[2] + v] : [c[0] + u, c[1] + v, c[2]]);
+    }
+    return prism(ring, axis === 'x' ? [len, 0, 0] : axis === 'y' ? [0, len, 0] : [0, 0, len], mat);
+  }
+  function decal(ring, mat) { return mk(ring, [{ ring: ring.map((_, i) => i), dir: Z }], mat); }
+  const circle = (cx, cy, z, r, n) => [...Array(n).keys()].map(i => [cx + r * Math.cos(2 * Math.PI * i / n), cy + r * Math.sin(2 * Math.PI * i / n), z]);
+
+  // wall slab: outer face at s=0, inner at s=-WT along N; outline and holes CCW in (A,B)
+  function wall(O, A, B, N, outline, holes, mat) {
+    const pts = [], at = (a, b, s) => (pts.push(add(add(add(O, mul(A, a)), mul(B, b)), mul(N, s))), pts.length - 1);
+    const ringAt = (poly, s) => poly.map(([a, b]) => at(a, b, s));
+    const oo = ringAt(outline, 0), oi = ringAt(outline, -WT);
+    const hp = holes.map(([a0, b0, a1, b1]) => [[a0, b0], [a1, b0], [a1, b1], [a0, b1]]);
+    const ho = hp.map(h => ringAt(h, 0)), hi = hp.map(h => ringAt(h, -WT));
+    const faces = [{ ring: oo, holes: ho, layer: 2 }, { ring: oi, holes: hi, layer: 2 }];
+    const band = (a, b, extra) => a.forEach((_, i) => { const j = (i + 1) % a.length; faces.push({ ring: [a[i], a[j], b[j], b[i]], ...extra }); });
+    band(oo, oi, { layer: 1 });
+    hp.forEach((h, k) => {
+      const ref = at((h[0][0] + h[2][0]) / 2, (h[0][1] + h[2][1]) / 2, -WT / 2);
+      band(ho[k], hi[k], { layer: 0, ref, toward: true });
+    });
+    const s = mk(pts, faces, mat);
+    s.c = add(add(add(O, mul(A, outline.reduce((m, p) => m + p[0], 0) / outline.length)),
+      mul(B, outline.reduce((m, p) => m + p[1], 0) / outline.length)), mul(N, -WT / 2));
+    return s;
+  }
+  const rect = (a0, b0, a1, b1) => [[a0, b0], [a1, b0], [a1, b1], [a0, b1]];
+  const zg = y => H + R * Math.min(y, D - y) / (D / 2);
+  const gable = [[WT, 0], [D - WT, 0], [D - WT, zg(D - WT)], [D / 2, H + R], [WT, zg(WT)]];
+
+  // ---- scene
+  const slab = box(-SM, -SM, -ST, W + SM, D + SM, 0, 'stone');
+  const backWall = wall([0, 0, 0], X, Z, [0, -1, 0], rect(0, 0, W, H), [[2.8, 1.3, 3.9, 2.0]], 'paper');
+  const frontWall = wall([0, D, 0], X, Z, Y, rect(0, 0, W, H), [[0.45, 0.85, 1.75, 1.75], [2.7, 0.35, 3.85, 1.95]], 'paper');
+  const rightWall = wall([W, 0, 0], Y, Z, X, gable, [[1.05, 0.9, 2.35, 1.85], [1.55, 2.6, 1.85, 2.9]], 'paper');
+  const leftWall = wall([0, 0, 0], Y, Z, [-1, 0, 0], gable, [[1.45, 0.9, 2.55, 1.7], [1.55, 2.6, 1.85, 2.9]], 'paper');
+  const UB = [0, Math.cos(TH0), Math.sin(TH0)], NB = [0, -Math.sin(TH0), Math.cos(TH0)];
+  const UF = [0, Math.cos(TH0), -Math.sin(TH0)], NF = [0, Math.sin(TH0), Math.cos(TH0)];
+  const roofBack = boxV([-OV, 0, H], [W + 2 * OV, 0, 0], mul(UB, RL), mul(NB, RT), 'paper');
+  const roofFront = boxV([-OV, D / 2, H + R], [W + 2 * OV, 0, 0], mul(UF, RL), mul(NF, RT), 'paper');
+
+  const PR = 0.04, pinSpans = [0.35, 2.0, 3.65], sideSpans = [0.4, 1.5, 2.6];
+  const pins = {
+    front: pinSpans.map(x => cyl('x', [x, D, 0], PR, 0.4, 'pin', true)),
+    right: sideSpans.map(y => cyl('y', [W, y, 0], PR, 0.4, 'pin', true)),
+    left: sideSpans.map(y => cyl('y', [0, y, 0], PR, 0.4, 'pin', true)),
+    eave: pinSpans.map(x => cyl('x', [x, 0, H], PR, 0.4, 'pin', true)),
+    ridge: pinSpans.map(x => cyl('x', [x, C0[1], C0[2]], 0.035, 0.4, 'pin')),
+  };
+
+  // interior: compounds of solids with a fixed internal order, sorted against each other per frame
+  const S = (s, tf = 'I') => ({ s, tf });
+  const compounds = [];
+  const add1 = (...items) => compounds.push({ items });
+
+  // mezzanine, posts, railing
+  const MZ0 = 0.3, MZ1 = 2.4, MY = 1.15, MB = 1.1, MT = 1.2, RH = 2.02;
+  add1(S(box(MZ0, WT, MB, MZ1, MY, MT, 'wood')));
+  add1(S(box(MZ0, MY - 0.07, 0, MZ0 + 0.07, MY, MB, 'paper')));
+  add1(S(box(MZ1 - 0.07, MY - 0.07, 0, MZ1, MY, MB, 'paper')));
+  const newel = (x, y) => add1(S(box(x, y, MT, x + 0.04, y + 0.04, RH, 'paper')));
+  newel(MZ0, MY - 0.04); newel(1.46, MY - 0.04); newel(MZ1 - 0.04, MY - 0.04);
+  newel(MZ0, WT + 0.01); newel(MZ1 - 0.04, WT + 0.01);
+  add1(S(box(MZ0 + 0.04, MY - 0.035, RH - 0.035, 1.46, MY - 0.005, RH, 'paper')));
+  add1(S(box(MZ0 + 0.005, WT + 0.05, RH - 0.035, MZ0 + 0.035, MY - 0.04, RH, 'paper')));
+  add1(S(box(MZ1 - 0.035, WT + 0.05, RH - 0.035, MZ1 - 0.005, MY - 0.04, RH, 'paper')));
+  for (let x = 0.5; x < 1.4; x += 0.16) add1(S(box(x, MY - 0.03, MT, x + 0.02, MY - 0.01, RH - 0.035, 'paper')));
+  for (let y = 0.27; y < 1.05; y += 0.16) {
+    add1(S(box(MZ0 + 0.01, y, MT, MZ0 + 0.03, y + 0.02, RH - 0.035, 'paper')));
+    add1(S(box(MZ1 - 0.03, y, MT, MZ1 - 0.01, y + 0.02, RH - 0.035, 'paper')));
+  }
+
+  // stairs: [left pins] [left stringers] [treads] [right stringers] [right pins], x-layered;
+  // inside a layer the flight nearer the camera (by the plane bisecting the fold) goes last
+  const stairs = { flights: { U: { str: [], tr: [] }, L: { str: [], tr: [] } } };
+  const fl = stairs.flights;
+  for (const [x, side] of [[SX0, 0], [SX1 - SW, 1]]) {
+    fl.U.str[side] = boxV(add(HS, [x, 0, 0]), [SW, 0, 0], mul(SU, LU), mul(SN, SH), 'wood');
+    fl.L.str[side] = boxV(add(add(HS, mul(SU, LU)), [x, 0, 0]), [SW, 0, 0], mul(SU, LL), mul(SN, SH), 'wood');
+  }
+  for (let k = 1; k <= 5; k++) {
+    const z = 0.2 * k, yb = HS[1] + HS[2] - z;
+    const tread = box(SX0 + SW, yb + 0.03, z - 0.03, SX1 - SW, yb + 0.17, z, 'woodLight');
+    ((HS[2] - z) * Math.SQRT2 + 0.1 < LU ? fl.U : fl.L).tr.push(tread);
+  }
+  stairs.pins = [
+    [S(cyl('x', [SX0 - 0.05, HS[1], HS[2]], 0.03, 0.05, 'pin')), S(cyl('x', [SX0 - 0.05, PIV[1], PIV[2]], 0.03, 0.05, 'pin'), 'stairU')],
+    [S(cyl('x', [SX1, HS[1], HS[2]], 0.03, 0.05, 'pin')), S(cyl('x', [SX1, PIV[1], PIV[2]], 0.03, 0.05, 'pin'), 'stairU')],
+  ];
+  stairs.order = P => {
+    const uU = mulv(P.stairU.r, SU), uL = mulv(P.stairL.r, SU);
+    let n = add(uU, uL);
+    if (dot(n, n) < 1e-8) n = mulv(P.stairU.r, SN);
+    const seq = dot(n, VIEW) > 0 ? [['U', 'stairU'], ['L', 'stairL']] : [['L', 'stairL'], ['U', 'stairU']];
+    const depth = it => { const c = apply(P[it.tf], it.s.c); return c[0] + c[1] + c[2]; };
+    const layer = f => seq.flatMap(([k, tf]) => f(fl[k]).map(s => S(s, tf)).sort((a, b) => depth(a) - depth(b)));
+    return [...stairs.pins[0], ...layer(f => [f.str[0]]), ...layer(f => f.tr), ...layer(f => [f.str[1]]), ...stairs.pins[1]];
+  };
+  stairs.items = [...stairs.pins.flat(), ...['U', 'L'].flatMap(k => [...fl[k].str, ...fl[k].tr].map(s => S(s, k === 'U' ? 'stairU' : 'stairL')))];
+  stairs.dynamic = true;
+  compounds.push(stairs);
+
+  // table and bench (legs back-to-front, then top)
+  const legs = (x0, y0, x1, y1, z1, w) => [[x0, y0], [x1 - w, y0], [x0, y1 - w], [x1 - w, y1 - w]]
+    .sort((a, b) => a[0] + a[1] - b[0] - b[1]).map(([x, y]) => S(box(x, y, 0, x + w, y + w, z1, 'wood')));
+  add1(...legs(0.56, 2.41, 1.34, 2.84, 0.69, 0.05), S(box(0.5, 2.35, 0.69, 1.4, 2.9, 0.74, 'wood')));
+  add1(S(box(0.66, 3.02, 0, 0.7, 3.18, 0.38, 'wood')), S(box(1.2, 3.02, 0, 1.24, 3.18, 0.38, 'wood')),
+       S(box(0.6, 3.0, 0.38, 1.3, 3.2, 0.43, 'wood')));
+
+  // round planter with flowers, and the geometric tree standing in it
+  const TX = 3.3, TY = 2.0, PH = 0.42;
+  const blooms = [[0.32, 0.4], [0.4, 2.2], [0.27, 3.5], [0.36, 4.6], [0.42, 5.6], [0.2, 1.3]]
+    .map(([r, a]) => S(decal(circle(TX + r * Math.cos(a), TY + r * Math.sin(a), PH, 0.035, 8), 'bloom')));
+  add1(S(prism(circle(TX, TY, 0, 0.62, 36), [0, 0, PH], 'paper')), S(decal(circle(TX, TY, PH, 0.54, 36), 'soil')), ...blooms);
+  const canopy = (() => {
+    const pts = [[TX, TY, 0.95]], faces = [];
+    for (let i = 0; i < 6; i++) pts.push([TX + 0.55 * Math.cos(i * Math.PI / 3), TY + 0.55 * Math.sin(i * Math.PI / 3), 1.3]);
+    for (let i = 0; i < 6; i++) pts.push([TX + 0.46 * Math.cos((i + 0.5) * Math.PI / 3), TY + 0.46 * Math.sin((i + 0.5) * Math.PI / 3), 1.8]);
+    pts.push([TX, TY, 2.22]);
+    for (let i = 0; i < 6; i++) {
+      const j = (i + 1) % 6;
+      faces.push({ ring: [0, 1 + i, 1 + j] }, { ring: [1 + i, 1 + j, 7 + i] }, { ring: [1 + j, 7 + j, 7 + i] }, { ring: [7 + i, 7 + j, 13] });
+    }
+    return mk(pts, faces, 'green');
+  })();
+  add1(S(box(TX - 0.045, TY - 0.045, PH, TX + 0.045, TY + 0.045, 1.05, 'wood')), S(canopy));
+
+  for (const c of compounds) c.items = c.items || [];
+
+  // every solid that can move, for framing
+  const moving = [
+    [frontWall, 'front'], [rightWall, 'right'], [leftWall, 'left'], [roofBack, 'roofB'], [roofFront, 'roofF'],
+    ...pins.ridge.map(s => [s, 'roofB']), ...stairs.items.map(it => [it.s, it.tf]),
+  ];
+
+  return {
+    W, D, H, R, WT, RT, ST, SM, DUR, TL, TH0, RL, C0, HS, PIV, LU, LL, SH, SU, SN,
+    add, sub, dot, mulv, apply, rot, compose, ease, pose, zg,
+    slab, backWall, frontWall, rightWall, leftWall, roofBack, roofFront, pins, compounds, stairs, moving, VIEW, C30,
+    roofBN: NB, roofFN: NF, UB, UF,
+  };
+})();
+
+if (typeof document !== 'undefined') (() => {
+  'use strict';
+  const K = Courtyard, { apply, mulv, dot, add, sub } = K;
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const btn = document.getElementById('btn'), bar = document.getElementById('bar');
+  const BG = '#f3efe5', INK = '#2d3a33';
+  const MATS = {   // rgb, shading contrast
+    paper: [[251, 248, 241], 0.09], stone: [[236, 231, 219], 0.08], wood: [[229, 205, 168], 0.12],
+    woodLight: [[238, 220, 190], 0.1], green: [[204, 220, 188], 0.16], soil: [[216, 227, 202], 0],
+    bloom: [[238, 214, 178], 0], pin: [[210, 218, 207], 0.12],
+  };
+  const LD = (v => { const l = Math.hypot(...v); return v.map(c => c / l); })([-0.3, 0.35, 1]);
+  const shade = (mat, n) => {
+    const [rgb, k] = MATS[mat], l = Math.hypot(...n), f = 1 - k + k * dot(n, LD) / l;
+    return `rgb(${rgb.map(c => Math.round(Math.min(255, c * f))).join(',')})`;
+  };
+
+  let vw = 0, vh = 0, dpr = 1, S = 1, ox = 0, oy = 0, lw = 1, hits = [];
+  const proj0 = p => [(p[0] - p[1]) * K.C30, (p[0] + p[1]) * 0.5 - p[2]];
+  const proj = p => [ox + S * (p[0] - p[1]) * K.C30, oy + S * ((p[0] + p[1]) * 0.5 - p[2])];
+
+  function newell(ring) {
+    const n = [0, 0, 0];
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i], b = ring[(i + 1) % ring.length];
+      n[0] += (a[1] - b[1]) * (a[2] + b[2]); n[1] += (a[2] - b[2]) * (a[0] + b[0]); n[2] += (a[0] - b[0]) * (a[1] + b[1]);
+    }
+    return n;
+  }
+  const avg = ring => ring.reduce((a, p) => add(a, p), [0, 0, 0]).map(v => v / ring.length);
+
+  function path(ring) {
+    const p0 = proj(ring[0]); ctx.moveTo(p0[0], p0[1]);
+    for (let i = 1; i < ring.length; i++) { const p = proj(ring[i]); ctx.lineTo(p[0], p[1]); }
+    ctx.closePath();
+  }
+  function drawSolid(s, T) {
+    const tp = s.pts.map(p => apply(T, p)), c = apply(T, s.c), vis = [];
+    for (const f of s.faces) {
+      const ring = f.ring.map(i => tp[i]);
+      let n = newell(ring), d;
+      if (f.dir) d = dot(n, mulv(T.r, f.dir));
+      else { d = dot(n, sub(avg(ring), f.ref != null ? tp[f.ref] : c)); if (f.toward) d = -d; }
+      if (d < 0) n = n.map(v => -v);
+      if (dot(n, K.VIEW) > 1e-9) vis.push({ f, ring, n });
+    }
+    vis.sort((a, b) => (a.f.layer ?? 1) - (b.f.layer ?? 1));
+    for (const { f, ring, n } of vis) {
+      ctx.beginPath(); path(ring);
+      if (f.holes) for (const h of f.holes) path(h.map(i => tp[i]));
+      ctx.fillStyle = shade(s.mat, n); ctx.fill('evenodd'); ctx.stroke();
+      hits.push(ring.map(proj));
+    }
+  }
+  const drawItems = (items, P) => { for (const it of items) drawSolid(it.s, P[it.tf]); };
+
+  // painter's order for interior compounds: AABB separation on any axis decides, else centre depth
+  function aabb(items, P) {
+    const mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
+    for (const it of items) for (const p of it.s.pts) {
+      const q = apply(P[it.tf], p);
+      for (let k = 0; k < 3; k++) { mn[k] = Math.min(mn[k], q[k]); mx[k] = Math.max(mx[k], q[k]); }
+    }
+    const sx = [1e9, -1e9], sy = [1e9, -1e9];
+    for (let i = 0; i < 8; i++) {
+      const q = proj0([i & 1 ? mx[0] : mn[0], i & 2 ? mx[1] : mn[1], i & 4 ? mx[2] : mn[2]]);
+      sx[0] = Math.min(sx[0], q[0]); sx[1] = Math.max(sx[1], q[0]); sy[0] = Math.min(sy[0], q[1]); sy[1] = Math.max(sy[1], q[1]);
+    }
+    return { mn, mx, sx, sy, depth: mn[0] + mx[0] + mn[1] + mx[1] + mn[2] + mx[2] };
+  }
+  function inFront(a, b) {
+    for (let k = 0; k < 3; k++) {
+      if (a.mn[k] >= b.mx[k] - 1e-6) return true;
+      if (b.mn[k] >= a.mx[k] - 1e-6) return false;
+    }
+    return a.depth > b.depth;
+  }
+  function sortInterior(P) {
+    const cs = K.compounds;
+    for (const c of cs) if (c.dynamic || !c.box) c.box = aabb(c.items, P);
+    const n = cs.length, after = cs.map(() => []), indeg = new Array(n).fill(0);
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      const a = cs[i].box, b = cs[j].box;
+      if (a.sx[1] <= b.sx[0] || b.sx[1] <= a.sx[0] || a.sy[1] <= b.sy[0] || b.sy[1] <= a.sy[0]) continue;
+      if (inFront(a, b)) { after[j].push(i); indeg[i]++; } else { after[i].push(j); indeg[j]++; }
+    }
+    const out = [], done = new Array(n).fill(false);
+    while (out.length < n) {
+      let pick = -1;
+      for (let i = 0; i < n; i++) if (!done[i] && indeg[i] === 0 && (pick < 0 || cs[i].box.depth < cs[pick].box.depth)) pick = i;
+      if (pick < 0) for (let i = 0; i < n; i++) if (!done[i] && (pick < 0 || cs[i].box.depth < cs[pick].box.depth)) pick = i;   // cycle: break it
+      done[pick] = true; out.push(cs[pick]);
+      for (const j of after[pick]) indeg[j]--;
+    }
+    return out;
+  }
+
+  // ---- static backdrop: grid on the ground plane, soft shadow, stone base, paving
+  function drawGrid() {
+    const z0 = -K.ST, step = 0.5, inv = (sx, sy) => {
+      const u = (sx - ox) / S / K.C30, v = 2 * ((sy - oy) / S + z0);
+      return [(u + v) / 2, (v - u) / 2];
+    };
+    const cs = [inv(0, 0), inv(vw, 0), inv(0, vh), inv(vw, vh)];
+    const x0 = Math.floor(Math.min(...cs.map(c => c[0])) / step) * step, x1 = Math.max(...cs.map(c => c[0]));
+    const y0 = Math.floor(Math.min(...cs.map(c => c[1])) / step) * step, y1 = Math.max(...cs.map(c => c[1]));
+    ctx.save(); ctx.lineWidth = 1;
+    for (const major of [false, true]) {
+      ctx.strokeStyle = major ? 'rgba(45,58,51,0.085)' : 'rgba(45,58,51,0.045)';
+      ctx.beginPath();
+      for (let x = x0, i = Math.round(x0 / step); x <= x1; x += step, i++) if ((i % 4 === 0) === major) {
+        const a = proj([x, y0, z0]), b = proj([x, y1, z0]); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      }
+      for (let y = y0, i = Math.round(y0 / step); y <= y1; y += step, i++) if ((i % 4 === 0) === major) {
+        const a = proj([x0, y, z0]), b = proj([x1, y, z0]); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function drawShadow() {
+    const z = -K.ST, m = K.SM, d = [0.35, 0.15];
+    const ring = [[-m, -m], [K.W + m, -m], [K.W + m, K.D + m], [-m, K.D + m]].map(([x, y]) => proj([x + d[0], y + d[1], z]));
+    ctx.save();
+    ctx.shadowColor = 'rgba(45,58,51,0.16)'; ctx.shadowBlur = S * 0.45; ctx.shadowOffsetX = 1e4 * dpr;
+    ctx.beginPath(); ring.forEach(([x, y], i) => i ? ctx.lineTo(x - 1e4, y) : ctx.moveTo(x - 1e4, y)); ctx.closePath();
+    ctx.fillStyle = '#000'; ctx.fill();
+    ctx.restore();
+  }
+  function drawPaving() {
+    ctx.save(); ctx.strokeStyle = 'rgba(45,58,51,0.2)'; ctx.lineWidth = lw * 0.6; ctx.beginPath();
+    const line = (a, b) => { const p = proj(a), q = proj(b); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); };
+    for (let x = 0.55; x < K.W - 0.1; x += 0.55) line([x, K.WT, 0], [x, K.D - K.WT, 0]);
+    for (let y = 0.55; y < K.D - 0.1; y += 0.55) line([K.WT, y, 0], [K.W - K.WT, y, 0]);
+    ctx.stroke(); ctx.restore();
+  }
+
+  // ---- one frame, a pure function of time on the unfold timeline
+  let current = 0;
+  function draw(t) {
+    current = t;
+    const P = K.pose(t);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = BG; ctx.fillRect(0, 0, vw, vh);
+    drawGrid(); drawShadow();
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.strokeStyle = INK; ctx.lineWidth = lw;
+    hits = [];
+    drawSolid(K.slab, P.I); drawPaving();
+    drawSolid(K.backWall, P.I);
+    for (const s of K.pins.eave) drawSolid(s, P.I);
+    for (const s of K.pins.left) drawSolid(s, P.I);
+    drawSolid(K.leftWall, P.left);
+    for (const c of sortInterior(P)) drawItems(c.order ? c.order(P) : c.items, P);
+    drawSolid(K.rightWall, P.right);
+    for (const s of K.pins.right) drawSolid(s, P.I);
+    drawSolid(K.frontWall, P.front);
+    for (const s of K.pins.front) drawSolid(s, P.I);
+    // roof last: ridge pins sit inside the fold, then the panel farther from the camera
+    for (const s of K.pins.ridge) drawSolid(s, P.roofB);
+    const n = add(mulv(P.roofF.r, K.UF), mulv(P.roofB.r, K.UB));
+    if (dot(n, K.VIEW) > 0) { drawSolid(K.roofBack, P.roofB); drawSolid(K.roofFront, P.roofF); }
+    else { drawSolid(K.roofFront, P.roofF); drawSolid(K.roofBack, P.roofB); }
+  }
+
+  // ---- framing: the union of every pose on the timeline, refit only on resize
+  const extent = (() => {
+    const b = [1e9, 1e9, -1e9, -1e9], grow = p => { const q = proj0(p); b[0] = Math.min(b[0], q[0]); b[1] = Math.min(b[1], q[1]); b[2] = Math.max(b[2], q[0]); b[3] = Math.max(b[3], q[1]); };
+    for (let i = 0; i <= 120; i++) {
+      const P = K.pose(K.DUR * i / 120);
+      for (const [s, tf] of K.moving) for (const p of s.pts) grow(apply(P[tf], p));
+    }
+    for (const p of K.slab.pts) grow(p);
+    return b;
+  })();
+  function layout() {
+    vw = innerWidth; vh = innerHeight; dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+    const top = bar.getClientRects().length ? bar.getBoundingClientRect().top : vh, availH = Math.max(120, top - 8);
+    const pad = Math.max(16, Math.min(80, Math.min(vw, availH) * 0.06));
+    const bw = extent[2] - extent[0], bh = extent[3] - extent[1];
+    S = Math.min((vw - 2 * pad) / bw, (availH - 2 * pad) / bh);
+    ox = vw / 2 - S * (extent[0] + extent[2]) / 2;
+    oy = availH / 2 - S * (extent[1] + extent[3]) / 2;
+    lw = Math.max(0.75, Math.min(1.25, S / 85));
+    draw(current);
+  }
+
+  // ---- state and input
+  let open = false, anim = null;
+  function syncUI() {
+    const next = (anim ? anim.dir > 0 : open) ? 'fold' : 'unfold';   // the label offers the next action
+    document.getElementById('lu').classList.toggle('on', next === 'unfold');
+    document.getElementById('lf').classList.toggle('on', next === 'fold');
+    btn.setAttribute('aria-label', next === 'unfold' ? 'Unfold the house' : 'Fold the house');
+    btn.classList.toggle('busy', !!anim);
+  }
+  function tick(now) {
+    const k = Math.max(0, Math.min(1, (now - anim.start) / 1000 / K.DUR));
+    draw(anim.dir > 0 ? k * K.DUR : (1 - k) * K.DUR);
+    if (k < 1) requestAnimationFrame(tick);
+    else { open = anim.dir > 0; anim = null; syncUI(); }
+  }
+  function toggle() {
+    if (anim) return;                              // ignore repeats while moving
+    anim = { dir: open ? -1 : 1, start: performance.now() };
+    syncUI();
+    requestAnimationFrame(tick);
+  }
+  function inside(pt, poly) {
+    let c = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [xi, yi] = poly[i], [xj, yj] = poly[j];
+      if ((yi > pt[1]) !== (yj > pt[1]) && pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi) c = !c;
+    }
+    return c;
+  }
+  const onHouse = e => { const r = cv.getBoundingClientRect(), p = [e.clientX - r.left, e.clientY - r.top]; return hits.some(h => inside(p, h)); };
+  cv.addEventListener('click', e => { if (onHouse(e)) toggle(); });
+  cv.addEventListener('pointermove', e => cv.classList.toggle('hot', e.pointerType === 'mouse' && onHouse(e)));
+  btn.addEventListener('click', toggle);
+  addEventListener('keydown', e => {
+    if (e.code !== 'Space' && e.key !== ' ' && e.key !== 'Enter') return;
+    if (e.target.closest && e.target.closest('a')) return;
+    e.preventDefault();
+    if (!e.repeat) toggle();
+  });
+  addEventListener('resize', layout);
+  layout(); syncUI();
+  window.courtyard = { seek: t => draw(t), toggle, get state() { return { open, animating: !!anim, t: current }; } };
+})();
+</script>
+</body>
+</html>
