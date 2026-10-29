@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Portfolio · MJ Zou</title>
-<meta name="description" content="A 10-position paper-trading portfolio started 2026-01-04 with $10,051.">
+<meta name="description" content="A 10-position paper-trading portfolio started 2026-01-02 with $10,051.07.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +15,23 @@
 .page-head { display: flex; flex-direction: column; gap: 18px; padding-top: 24px; }
 .page-head h1 { margin: 0; font-family: var(--serif); font-size: clamp(48px, 7vw, 96px); font-weight: 400; line-height: 1.02; letter-spacing: -0.02em; }
 .page-head p { margin: 0; max-width: 620px; font-family: var(--serif); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.6; color: var(--muted); }
-.figures { gap: 24px 56px; }
-.figures .up { color: #2E6B4F; }
-.figures .down { color: #9A3B32; }
+.title-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.tabs { display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: var(--chip); font-family: var(--mono); font-size: 13px; }
+.tab { padding: 8px 14px; border-radius: 9px; }
+.tab em { margin-left: 6px; font-size: 11px; font-style: normal; color: var(--muted); }
+.tab.on { background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.tab.ghost { color: var(--muted); }
+.score { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 48px; }
+.score .big { display: flex; flex-direction: column; gap: 10px; }
+.score .big strong { font-family: var(--serif); font-size: clamp(72px, 10vw, 144px); font-weight: 400; line-height: .9; letter-spacing: -0.03em; }
+.side { display: flex; flex-direction: column; gap: 10px; font-size: 17px; line-height: 1.45; }
+.side p { margin: 0; }
+.side p:empty { display: none; }
+.side b { font-weight: 500; }
+.side .nw { white-space: nowrap; }
+.side .muted { font-size: 15px; color: var(--muted); }
+.up { color: #2E6B4F; }
+.down { color: #9A3B32; }
 .panel { border-radius: 22px; padding: clamp(20px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px; }
 .panel h2 { margin: 0; font-family: var(--serif); font-size: clamp(28px, 2.6vw, 34px); font-weight: 400; }
 .scroll { overflow-x: auto; }
@@ -25,10 +39,17 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-s
 th, td { padding: 14px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 thead th { font-weight: 400; font-size: 12px; color: var(--muted); }
+thead button { all: unset; cursor: pointer; }
+thead button:hover, thead button:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+thead th[aria-sort] { color: var(--ink); }
+thead th[aria-sort="ascending"] button::after { content: " ↑"; }
+thead th[aria-sort="descending"] button::after { content: " ↓"; }
 tbody th { font-weight: 500; }
 tbody th span { display: block; font-family: var(--sans); font-size: 13px; font-weight: 400; color: var(--muted); }
-td.up { color: #2E6B4F; }
-td.down { color: #9A3B32; }
+td.gain { font-weight: 500; font-size: 15px; }
+td.day { font-size: 13px; color: var(--muted); }
+td:last-child { width: 110px; }
+td i { display: block; height: 3px; margin-top: 6px; margin-left: auto; max-width: 100%; border-radius: 2px; background: var(--ink); opacity: .35; }
 .note { margin: 0; max-width: 680px; font-size: 14px; line-height: 1.6; color: var(--muted); }
 </style>
   <script type="module" crossorigin src="/assets/site-DPqP0FMm.js"></script>
@@ -57,21 +78,25 @@ td.down { color: #9A3B32; }
 
 <header class="page-head">
 <span class="label"><span class="en">Paper trading · prices as of 2026-10-28</span><span class="zh" lang="zh">模拟盘 · 价格截至 2026-10-28</span></span>
-<h1><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></h1>
-<p><span class="en">10 positions bought on 2026-01-04 with $10,051 of pretend money, held and priced every weekday.</span><span class="zh" lang="zh">2026-01-04 用 $10,051 虚拟资金买入 10 只股票，持有不动，每个交易日更新价格。</span></p>
+<div class="title-row"><h1><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></h1><div class="tabs" aria-label="Year"><span class="tab on">2026 <em><span class="en">live</span><span class="zh" lang="zh">进行中</span></em></span><span class="tab ghost">2027 <em><span class="en">picks in Jan</span><span class="zh" lang="zh">1 月公布</span></em></span></div></div>
+<p><span class="en">10 positions bought at the 2026-01-02 close with $10,051.07 of pretend money, held and priced every weekday.</span><span class="zh" lang="zh">按 2026-01-02 收盘价用 $10,051.07 虚拟资金买入 10 只股票，持有不动，每个交易日更新价格。</span></p>
 </header>
 
-<div class="figures">
-<div><strong>$14,677.89</strong><span class="label"><span class="en">Value</span><span class="zh" lang="zh">市值</span></span></div>
-<div><strong class="up">+46.03%</strong><span class="label"><span class="en">+$4,626.82 since start</span><span class="zh" lang="zh">开仓以来 +$4,626.82</span></span></div>
-<div><strong>297</strong><span class="label"><span class="en">Days held</span><span class="zh" lang="zh">持有天数</span></span></div>
+<section class="score" aria-label="2026 result">
+<div class="big"><strong class="up">+46.03%</strong><span class="label"><span class="en">2026 return</span><span class="zh" lang="zh">2026 收益率</span></span></div>
+<div class="side">
+<p><b class="up">+$4,626.82</b> <span class="en">on $10,051.07 invested <span class="nw">2026-01-02</span></span><span class="zh" lang="zh">本金 $10,051.07，<span class="nw">2026-01-02</span> 买入</span></p>
+<p></p>
+<p class="muted"><span class="en">Value $14,677.89 · 299 days · today </span><span class="zh" lang="zh">市值 $14,677.89 · 持有 299 天 · 今日 </span><span class="en">8 up · 2 down · 0 flat</span><span class="zh" lang="zh">8 涨 · 2 跌 · 0 平</span></p>
+<p class="muted"><span class="en">Largest </span><span class="zh" lang="zh">最大持仓 </span>MU · 40.2% · <span class="en">top gainer </span><span class="zh" lang="zh">涨最多 </span><span class="up">MU +211.7%</span> · <span class="en">laggard </span><span class="zh" lang="zh">涨最少 </span><span class="down">HROW −41.1%</span></p>
 </div>
+</section>
 
 <section class="panel card" aria-labelledby="holdings-h">
 <h2 id="holdings-h"><span class="en">Holdings</span><span class="zh" lang="zh">持仓</span></h2>
 <div class="scroll"><table>
-<thead><tr><th scope="col"><span class="en">Ticker</span><span class="zh" lang="zh">代码</span></th><th scope="col"><span class="en">Shares</span><span class="zh" lang="zh">股数</span></th><th scope="col"><span class="en">Price</span><span class="zh" lang="zh">价格</span></th><th scope="col"><span class="en">Day</span><span class="zh" lang="zh">当日</span></th><th scope="col"><span class="en">Value</span><span class="zh" lang="zh">市值</span></th><th scope="col"><span class="en">Weight</span><span class="zh" lang="zh">占比</span></th></tr></thead>
-<tbody><tr><th scope="row">MU<span>Micron Technology</span></th><td>6</td><td>$983.23</td><td class="up">+5.86%</td><td>$5,899.38</td><td>40.2%</td></tr><tr><th scope="row">NVDA<span>NVIDIA Corporation</span></th><td>8</td><td>$215.38</td><td class="down">−1.17%</td><td>$1,723.04</td><td>11.7%</td></tr><tr><th scope="row">GLW<span>Corning Incorporated</span></th><td>11</td><td>$131.20</td><td class="up">+3.88%</td><td>$1,443.20</td><td>9.8%</td></tr><tr><th scope="row">SANM<span>Sanmina Corporation</span></th><td>8</td><td>$175.78</td><td class="up">+3.71%</td><td>$1,406.24</td><td>9.6%</td></tr><tr><th scope="row">TTMI<span>TTM Technologies</span></th><td>10</td><td>$90.79</td><td class="up">+4.62%</td><td>$907.90</td><td>6.2%</td></tr><tr><th scope="row">AEP<span>American Electric Power</span></th><td>7</td><td>$128.20</td><td class="down">−1.61%</td><td>$897.40</td><td>6.1%</td></tr><tr><th scope="row">INOD<span>Innodata Inc</span></th><td>16</td><td>$47.65</td><td class="up">+6.50%</td><td>$762.40</td><td>5.2%</td></tr><tr><th scope="row">RMBS<span>Rambus Inc</span></th><td>8</td><td>$91.03</td><td class="up">+2.38%</td><td>$728.24</td><td>5.0%</td></tr><tr><th scope="row">PLAB<span>Photronics Inc</span></th><td>20</td><td>$29.34</td><td class="up">+1.80%</td><td>$586.80</td><td>4.0%</td></tr><tr><th scope="row">HROW<span>Harrow Inc</span></th><td>11</td><td>$29.39</td><td class="up">+1.10%</td><td>$323.29</td><td>2.2%</td></tr></tbody>
+<thead><tr><th scope="col"><button type="button"><span class="en">Ticker</span><span class="zh" lang="zh">代码</span></button></th><th scope="col"><button type="button"><span class="en">Shares</span><span class="zh" lang="zh">股数</span></button></th><th scope="col"><button type="button"><span class="en">Entry</span><span class="zh" lang="zh">买入价</span></button></th><th scope="col"><button type="button"><span class="en">Price</span><span class="zh" lang="zh">价格</span></button></th><th scope="col" aria-sort="descending"><button type="button"><span class="en">Gain</span><span class="zh" lang="zh">涨幅</span></button></th><th scope="col"><button type="button"><span class="en">Day</span><span class="zh" lang="zh">当日</span></button></th><th scope="col"><button type="button"><span class="en">Value</span><span class="zh" lang="zh">市值</span></button></th><th scope="col"><button type="button"><span class="en">Weight</span><span class="zh" lang="zh">占比</span></button></th></tr></thead>
+<tbody><tr><th scope="row">MU<span>Micron Technology</span></th><td>6</td><td>$315.42</td><td>$983.23</td><td class="gain up">+211.72%</td><td class="day">+5.86%</td><td>$5,899.38</td><td>40.2%<i style="width:100.0%"></i></td></tr><tr><th scope="row">GLW<span>Corning Incorporated</span></th><td>11</td><td>$90.67</td><td>$131.20</td><td class="gain up">+44.70%</td><td class="day">+3.88%</td><td>$1,443.20</td><td>9.8%<i style="width:24.5%"></i></td></tr><tr><th scope="row">TTMI<span>TTM Technologies</span></th><td>10</td><td>$70.61</td><td>$90.79</td><td class="gain up">+28.58%</td><td class="day">+4.62%</td><td>$907.90</td><td>6.2%<i style="width:15.4%"></i></td></tr><tr><th scope="row">NVDA<span>NVIDIA Corporation</span></th><td>8</td><td>$188.85</td><td>$215.38</td><td class="gain up">+14.05%</td><td class="day">−1.17%</td><td>$1,723.04</td><td>11.7%<i style="width:29.2%"></i></td></tr><tr><th scope="row">AEP<span>American Electric Power</span></th><td>7</td><td>$115.81</td><td>$128.20</td><td class="gain up">+10.70%</td><td class="day">−1.61%</td><td>$897.40</td><td>6.1%<i style="width:15.2%"></i></td></tr><tr><th scope="row">SANM<span>Sanmina Corporation</span></th><td>8</td><td>$159.29</td><td>$175.78</td><td class="gain up">+10.35%</td><td class="day">+3.71%</td><td>$1,406.24</td><td>9.6%<i style="width:23.8%"></i></td></tr><tr><th scope="row">RMBS<span>Rambus Inc</span></th><td>8</td><td>$99.28</td><td>$91.03</td><td class="gain down">−8.31%</td><td class="day">+2.38%</td><td>$728.24</td><td>5.0%<i style="width:12.3%"></i></td></tr><tr><th scope="row">INOD<span>Innodata Inc</span></th><td>16</td><td>$52.99</td><td>$47.65</td><td class="gain down">−10.08%</td><td class="day">+6.50%</td><td>$762.40</td><td>5.2%<i style="width:12.9%"></i></td></tr><tr><th scope="row">PLAB<span>Photronics Inc</span></th><td>20</td><td>$33.41</td><td>$29.34</td><td class="gain down">−12.18%</td><td class="day">+1.80%</td><td>$586.80</td><td>4.0%<i style="width:9.9%"></i></td></tr><tr><th scope="row">HROW<span>Harrow Inc</span></th><td>11</td><td>$49.91</td><td>$29.39</td><td class="gain down">−41.11%</td><td class="day">+1.10%</td><td>$323.29</td><td>2.2%<i style="width:5.5%"></i></td></tr></tbody>
 </table></div>
 </section>
 
@@ -109,5 +134,24 @@ td.down { color: #9A3B32; }
 </dialog>
 
 </div>
+<script>
+// Click a column header to sort by it; click it again to flip the order.
+(() => {
+  const table = document.querySelector('.scroll table'), body = table.tBodies[0], heads = [...table.tHead.rows[0].cells];
+  // Ticker sorts by its symbol; the rest by number ($983.23, +5.86%, −1.17%).
+  const key = (row, i) => {
+    const t = row.cells[i].firstChild.textContent;
+    return i ? parseFloat(t.replace(/[$,%+]/g, '').replace('−', '-')) : t;
+  };
+  heads.forEach((th, i) => th.querySelector('button').addEventListener('click', () => {
+    const now = th.getAttribute('aria-sort');
+    const dir = now ? (now === 'ascending' ? -1 : 1) : (i ? -1 : 1);   // new column: A→Z, or biggest first
+    heads.forEach(h => h.removeAttribute('aria-sort'));
+    th.setAttribute('aria-sort', dir > 0 ? 'ascending' : 'descending');
+    const rows = [...body.rows].sort((a, b) => { const x = key(a, i), y = key(b, i); return (x < y ? -1 : x > y ? 1 : 0) * dir; });
+    body.append(...rows);
+  }));
+})();
+</script>
 </body>
 </html>
