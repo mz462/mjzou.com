@@ -1,0 +1,191 @@
+/* The site bar, frame and footer shared by every public page: the story
+   (/), the desk (/desk.html), how it works and connect. The markup is the
+   same on every page and only aria-current moves (tests/test_site_nav.py),
+   so the bar never shifts between pages. Each page defines the colour
+   tokens; this file sets its own type and sizes so a page's body font
+   cannot change the bar. */
+:root {
+  --site-max: 1180px;
+  --site-pad: 24px;
+  --bar-h: 53px;
+  /* One motion vocabulary for every page. Four durations: respond (hover,
+     press, colour), swap (labels, chevrons, chips), settle (reveals, panels,
+     rows), arrive (entrances). Two easings: out for anything arriving or
+     answering, move for travel from A to B and for loops. A figure's own
+     content time (a replay at Excel's pace, a count-up as runs come in) is
+     not a token. */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 360ms;
+  --dur-4: 720ms;
+  --beat: 1300ms;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-move: cubic-bezier(.65, 0, .35, 1);
+  --stagger: 90ms;
+  --rise: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* short fades stay, movement goes */
+  :root { --dur-3: var(--dur-1); --dur-4: var(--dur-2); --rise: 0px; --stagger: 0ms; }
+}
+/* Reserve the scrollbar's width on every page, scrolling or not. The desk
+   is an app-height page that never scrolls the document, the other pages
+   do; without this the desk's frame sat half a scrollbar (7.5 px) to the
+   right of every other page. */
+html {
+  scrollbar-gutter: stable;
+  /* a warm scrollbar on warm paper, not the system's white and grey */
+  scrollbar-color: color-mix(in oklch, var(--ink) 28%, var(--paper)) var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* one focus ring and one selection colour on every page */
+.uw :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.uw ::selection { background: var(--accent-soft, color-mix(in oklch, var(--accent) 22%, var(--paper))); }
+
+/* Moving between the pages: the bar holds still and the current page's
+   mark glides to its new link; the rest of the page cross-fades quickly.
+   Browsers without cross-document view transitions simply navigate. */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+.uw .site-bar { view-transition-name: site-bar; }
+::view-transition-group(site-bar) { animation: none; }
+::view-transition-old(root) { animation: var(--dur-1) var(--ease-out) both site-vt-out; }
+::view-transition-new(root) { animation: var(--dur-2) var(--ease-out) 60ms both site-vt-in; }
+@keyframes site-vt-out { to { opacity: 0; } }
+@keyframes site-vt-in { from { opacity: 0; transform: translateY(4px); } }
+@media (max-width: 640px) {
+  :root { --site-pad: 16px; }
+}
+
+.uw .site-frame {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--site-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--site-pad);
+  padding-right: var(--site-pad);
+}
+
+.uw .site-bar {
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.uw .site-bar > .site-frame {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 24px;
+}
+.uw .site-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.uw .site-nav a {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  /* one pixel taller than the bar's content, so the current page's mark
+     replaces the hairline under it instead of sitting on top of it */
+  height: 53px;
+  margin-bottom: -1px;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.uw .site-nav a:hover { color: var(--ink); border-bottom-color: color-mix(in oklch, var(--accent) 30%, transparent); }
+.uw .site-nav a:focus-visible { outline-offset: -4px; }
+.uw .site-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+/* Where the browser can anchor it, the mark is one element that follows the
+   current link, so a page change glides it rather than swapping it. */
+@supports (anchor-name: --a) {
+  .uw .site-nav { position: relative; }
+  .uw .site-nav a[aria-current="page"] { anchor-name: --site-current; border-bottom-color: transparent; }
+  .uw .site-nav::after {
+    content: "";
+    position: absolute;
+    position-anchor: --site-current;
+    left: anchor(left);
+    right: anchor(right);
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    view-transition-name: site-mark;
+    pointer-events: none;
+  }
+  ::view-transition-group(site-mark) { animation-duration: var(--dur-3); animation-timing-function: var(--ease-move); }
+}
+.uw .site-nav .site-brand {
+  margin-right: 6px;
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+/* Page controls (the desk's model and rail): right of the nav, on its own
+   row when the bar is narrow. */
+.uw .site-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  min-height: 52px;
+}
+
+.uw .site-foot {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--line);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-muted);
+}
+.uw .site-foot > .site-frame {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.uw .site-foot .site-foot-who { margin-right: auto; }
+.uw .site-foot a {
+  color: var(--ink-muted);
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 3px;
+  transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out);
+}
+.uw .site-foot a:hover { color: var(--ink); text-decoration-color: currentColor; }
+
+@media (max-width: 640px) {
+  .uw .site-nav { gap: 14px; font-size: 12.5px; }
+  .uw .site-nav .site-brand { margin-right: 2px; }
+  .uw .site-tools { margin-left: 0; min-height: 44px; }
+}
+
+/* the tagline, the same words opening every page's lede */
+.uw .lede .tag {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font: 600 17px/1.35 "Instrument Sans", system-ui, sans-serif;
+  letter-spacing: -.005em;
+}

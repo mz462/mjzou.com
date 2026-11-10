@@ -1,0 +1,57 @@
+/* Underwriting pages: this site's shell around pages synced from the engine
+   demo (scripts/sync-underwriting.mjs). The synced rules all live under .uw. */
+
+/* Tokens. The synced pages set their own colours and fonts on :root, and
+   their scripts read them off <html>; here they take this site's values
+   (src/site.css), so the nav, the footer and the page are one palette. */
+html:root {
+  color-scheme: light;
+  /* names both sides use: the site's values */
+  --surface: #FFFFFF;
+  --ink: #1E2023;
+  --line: #E3E4E6;
+  --accent: #2F4F7F;
+  --serif: 'Newsreader', 'Noto Serif SC', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans SC', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* names only the synced pages use */
+  --paper: #F7F7F5;
+  --paper-deep: #EDEEEF;
+  --ink-muted: #5F636A;
+  --line-strong: #4E525A;
+  --accent-dark: #233D66;
+  --accent-soft: #E1E5EC;
+  --shadow: 0 18px 45px rgba(30, 32, 35, 0.08);
+  /* the synced pages' frame = this site's .wrap, so nav and page share one left edge */
+  --site-max: 1200px;
+  --site-pad: var(--gutter);
+  scrollbar-gutter: auto;
+  scrollbar-color: auto;
+}
+
+.uw { box-sizing: border-box; }
+
+/* This site's rules that share a class or tag name with the synced pages
+   (src/site.css: .card, .btn, .more, button, svg ...). Each line puts back
+   the value the page has without this site's stylesheet; the pages' own rules
+   come later at the same weight and still win. Found by switching the site's
+   stylesheet off in the browser and comparing computed styles under .uw. */
+.uw svg, .uw img { max-width: none; }
+.uw button { line-height: normal; }
+.uw .card { border-radius: 0; box-shadow: none; }
+.uw .btn { align-items: normal; gap: normal; min-height: 0; }
+.uw .more { color: inherit; font-weight: inherit; }
+.uw .composer { box-shadow: none; flex-direction: row; }
+.uw .composer textarea { flex-grow: 0; font: inherit; }
+.uw-shell { gap: 0; }
+.uw-screen > .uw-shell { padding-bottom: 14px; }
+
+/* ?embed: the Lab card preview and the use-case frames show the page alone */
+.embed .uw-shell, .embed .uw .site-bar { display: none; }
+
+/* The desk is an app-height page: nav, then the desk fills the first screen;
+   the footer sits below the fold. */
+html[data-uw="desk"] .uw-screen { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+html[data-uw="desk"] .uw-screen > .uw-shell { width: 100%; flex: none; }
+html[data-uw="desk"] .uw { flex: 1 1 auto; min-height: 0; height: auto; }
+html[data-uw="desk"] .uw .shell { height: 100%; }

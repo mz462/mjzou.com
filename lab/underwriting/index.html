@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-uw="story">
+<head>
+<meta charset="utf-8">
+<title>What Has to Be True · MJ Zou</title>
+<meta name="description" content="Excel's answers, without Excel, for any AI. One senior-living underwriting model, asked backwards: the most you can pay for the LP's 15%, who walks first, what the bank will lend and what the operator can carry. Every number is a run of the model.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What’s the most you can pay, and what has to be true?">
+<meta property="og:description" content="Excel’s answers, without Excel, for any AI. One underwriting model asked backwards, every number a real run.">
+<meta property="og:url" content="https://mjzou.com/lab/underwriting/">
+<meta property="og:image" content="https://mjzou.com/lab/underwriting/static/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=Instrument+Sans:wght@700&family=Newsreader:opsz,wght@6..72,600&display=swap">
+<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<link rel="stylesheet" href="/lab/underwriting/static/uw.css">
+<link rel="stylesheet" href="/lab/underwriting/static/site.css">
+<link rel="stylesheet" href="/lab/underwriting/static/story.css">
+<style>@view-transition { navigation: auto; }</style>
+<script src="/lab/underwriting/static/uw.js"></script>
+<script>addEventListener('pagereveal', e => { if (e.viewTransition) document.documentElement.classList.add('vt-arrive') })</script>
+  <script type="module" crossorigin src="/assets/site-DPqP0FMm.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-DAnifHyJ.css">
+</head>
+<body>
+<div class="uw-screen">
+<div class="wrap uw-shell">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="lab" aria-current="page" href="/lab/"><span class="en">Lab</span><span class="zh" lang="zh">实验室</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+</div>
+<div class="uw">
+<div class="site-bar">
+  <div class="site-frame">
+    <nav class="site-nav" aria-label="Site">
+      <a class="site-brand" href="/lab/underwriting/">Underwriting</a>
+      <a href="/lab/underwriting/" aria-current="page">Story</a>
+      <a href="/lab/underwriting/use-cases/">Use cases</a>
+      <a href="/lab/underwriting/desk/">Desk</a>
+      <a href="/lab/underwriting/connect/">Connect</a>
+    </nav>
+  </div>
+</div>
+
+<header class="top" id="top">
+  <div class="site-frame">
+    <p class="eyebrow" style="--i:0">MJ Zou · New York</p>
+    <h1 style="--i:1">What’s the most you can pay, and what has to be true?</h1>
+    <p class="lede" style="--i:2"><b class="tag">Excel’s answers, without Excel, for any AI.</b> One senior-living underwriting model, taken out of Excel and asked the way an investment committee asks: backwards. Every number below is a run of that model; none comes from an&nbsp;AI.</p>
+    <div class="nums">
+      <div style="--i:3"><b class="n">52,148</b><span>formulas in one senior-living underwriting model</span></div>
+      <div style="--i:4"><b class="n">0</b><span>mismatches with Excel in 30,350,136 comparisons on this model, to one part in a million</span></div>
+      <div style="--i:5"><b class="n" id="heroPay">$22.3<small>M</small></b><span>the most you can pay and still give the LP 15% · <em id="heroPayK">101 runs, 6 s</em></span></div>
+      <div style="--i:6"><b class="n">48<small> KB</small></b><span>the model, as a file · the workbook is 1.2 MB</span></div>
+    </div>
+    <p class="cue" style="--i:7">First what it answers, then how it got here <span class="bob" aria-hidden="true">↓</span></p>
+  </div>
+</header>
+
+<section class="block climax" id="reverse" aria-labelledby="reverseH">
+  <div class="site-frame">
+    <p class="eyebrow">Asking backwards</p>
+    <h2 id="reverseH">What do I have to believe?</h2>
+    <p class="lead">Excel answers “what if?” An acquisitions team asks it the other way round: what's the most we can pay, and what has to be true for it? Today that is Goal Seek, one question at a time, or a data table rebuilt for every new question. Here the model answers it backwards, and every point below is one of its runs: <span id="leadRuns">101 runs in 6 seconds</span> for one lever, thousands for twenty.</p>
+    <div class="dealcard" id="dealcard">
+      <div><b>97</b><span>units · 55 assisted living, 42 memory care</span></div>
+      <div><b>$23.95M</b><span>the asking price · $246,938 a unit</span></div>
+      <div><b>$1.94M</b><span>stabilized NOI · an 8.10% entry yield on the price</span></div>
+      <div><b>$16.42M</b><span>the loan · 68.5% loan-to-value</span></div>
+      <div><b>$9.09M</b><span>peak equity</span></div>
+      <div><b>14.31%</b><span>deal IRR · LP 13.18% · GP 21.43%</span></div>
+    </div>
+    <p class="dc-note">The deal: a community still filling, 16 months of lease-up to 94% occupancy, held 10 years and sold at a 6.5% cap, 160 bps under the 8.10% entry yield. A sample model built to be shared, not a real deal; every number below is a run of it.</p>
+
+    <div class="beat" id="beat1">
+      <p class="q"><span class="qn">1</span>What's the most you can pay, and still give the LP 15%?</p>
+      <div class="beat-body">
+        <div class="plot" id="plot1"></div>
+        <div class="beat-side">
+          <div class="ticker"><b id="t1n">0</b> of 101 runs · <b id="t1s">0.0</b> s</div>
+          <div class="big"><b id="bkA">$22.3M</b><small id="bkQ">the most you can pay and keep LP IRR at 15.0% or more · the model's price is $23.95M</small></div>
+          <p class="ans" id="ans1"></p>
+          <p class="fwd">Ask forward: price <b id="fwdQ">$24.00M</b> → LP IRR <b id="fwdA">13.1%</b></p>
+          <p class="howto">Drag the dot to ask forward. Drag the green line to change the target.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="beat" id="beat2">
+      <p class="q"><span class="qn">2</span>And if occupancy slips, who walks first: the LP or the bank?</p>
+      <div class="beat-body">
+        <div class="plot" id="plot2"></div>
+        <div class="beat-side">
+          <div class="ticker"><b id="t2n">0</b> of 725 runs · <b id="t2s">0.0</b> s</div>
+          <div class="big"><b id="big2n">7 points</b><small id="big2c">of occupancy the LP gives up before the bank lends a dollar less</small></div>
+          <p class="ans" id="ans2"></p>
+          <p class="key2"><span><i class="k-ok"></i>the LP gets its target</span><span><i class="k-cut"></i>the bank lends less</span><span><i class="k-no"></i>the LP walks</span></p>
+          <p class="howto">Read across from the occupancy you believe: the green edge is the most you can pay; below the dashed line, coverage cuts the loan. Same target as the green line above.</p>
+          <p class="howto hov" id="hov2">Point at a square to see its run.</p>
+          <button type="button" class="xl-btn" id="xl2"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="beat" id="beatL">
+      <p class="q"><span class="qn">3</span>And what will the bank lend, on your terms?</p>
+      <div class="beat-body">
+        <div class="plot" id="plotL"></div>
+        <div class="beat-side">
+          <div class="ticker"><b id="tLn">0</b> of <span id="tLr">6,915</span> runs · <b id="tLs">0.0</b> <span id="tLu">min</span><span id="tLe"></span></div>
+          <div class="big"><b id="bigL">89.75%</b><small id="bigLc">the occupancy below which the 1.25x coverage test, not the 65% loan-to-cost cap, sets the loan · at a 7% rate</small></div>
+          <p class="ans" id="ansL"></p>
+          <div class="terms" id="termsSel">
+            <p class="rates" data-k="dscr" aria-label="Coverage at least"></p>
+            <p class="rates" data-k="amort" aria-label="Amortization"></p>
+            <p class="rates" data-k="cap" aria-label="Cap"></p>
+            <p class="rates" data-k="rate" id="ratesL" aria-label="Interest rate"></p>
+          </div>
+          <ul class="rq" id="revL"></ul>
+          <p class="howto">Set the lender's terms. The flat top is the cap; where a line bends, coverage takes over.</p>
+          <p class="howto" id="termsL"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="beat" id="beatO">
+      <p class="q"><span class="qn">4</span>And what can the operator carry?</p>
+      <div class="beat-body">
+        <div class="plot" id="plotO"></div>
+        <div class="beat-side">
+          <div class="ticker"><b id="tOn">0</b> of <span id="tOr">663</span> runs · <b id="tOs">0.0</b> s</div>
+          <div class="big"><b id="bigO">–</b><small id="bigOc"></small></div>
+          <p class="ans" id="ansO"></p>
+          <p class="key2"><span><i class="k-ok"></i>both hold</span><span><i class="k-cut"></i>debt coverage breaks</span><span><i class="k-no"></i>the LP misses its pref</span></p>
+          <p class="rates" id="feesO" aria-label="Management fee"></p>
+          <p class="howto">Staffing stays at today's level in every square: no run here cuts care to make the number.</p>
+          <p class="howto hov" id="hovO">Point at a square to see its run.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="beat" id="beatS">
+      <p class="q"><span class="qn">5</span>And if everything goes wrong at once?</p>
+      <div class="beat-body">
+        <div class="plot"><div class="mxwrap"><table class="mx" id="mx" aria-describedby="mxDetail"></table></div></div>
+        <div class="beat-side">
+          <div class="ticker"><b id="tSn">0</b> of <span id="tSr">30</span> runs · <b id="tSs">0.0</b> s</div>
+          <p class="rates" id="mxWho" aria-label="Whose return"><span class="tk">Whose return</span><button type="button" data-f="2" class="on">GP IRR</button><button type="button" data-f="1">LP IRR</button><button type="button" data-f="0">Deal IRR</button></p>
+          <p class="ans" id="ansS"></p>
+          <ul class="rq" id="revS"></ul>
+          <p class="howto">Columns move operations: occupancy down and wage growth up, together, with staffing held. Rows move capital markets: the exit cap, shown against the 8.10% entry yield, and the interest rate, up together. Each cell is one full run, loan sizing and waterfall included.</p>
+          <p class="howto hov" id="mxDetail">Point at a cell to see its run.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="beat" id="beat3">
+      <p class="q"><span class="qn">6</span><span id="q5">Twenty assumptions at once. For GP IRR to reach 22%, what has to be true?</span></p>
+      <p class="rates whose" id="whose"><span class="tk">Whose return</span><button type="button" data-m="gp" class="on">GP IRR, 22%</button><button type="button" data-m="lp">LP IRR, 15%</button></p>
+      <div class="ob" id="board">
+        <div class="ob-top">
+          <div class="ob-head">
+            <p class="ob-odds"><span class="ob-from" id="oddsFrom">1,229 of 5,001</span><span class="ob-arr" aria-hidden="true">→</span><b id="oddsTo">386<small> of 627</small></b></p>
+            <p class="ob-cap" id="oddsCap">scenarios that fit what you believe reach GP IRR of 22% or more.</p>
+            <p class="ob-note">Counts of runs, not odds: each scenario draws all twenty independently, evenly across a range I set around today's value.</p>
+          </div>
+          <p class="ob-say" id="oddsSay" aria-live="polite"></p>
+          <canvas class="ob-pile" data-ob="pile" role="img" aria-label="Every scenario of the deal, piled by its GP IRR; green ones reach 22% or more."></canvas>
+          <p class="ob-chips" id="oddsChips"></p>
+        </div>
+        <div class="ob-cols" data-ob="cols"></div>
+        <p class="howto ob-key">Drag across any row to believe a range of it. A row that climbs to the right matters here; a flat one barely moves the return across its range.</p>
+        <p class="rates presets" id="presets"><span class="tk">Believe together</span><button type="button" data-p="soft">A soft market</button><button type="button" data-p="labor">A labor squeeze</button><button type="button" data-p="capital">A capital-markets shock</button></p>
+        <p class="howto">The twenty are drawn independently, on purpose: to say some move together, believe them together. A soft market believes occupancy, both rents and rent growth on their weak side; a labor squeeze, wage and cost growth on theirs; a capital-markets shock, exit cap and interest rate on theirs. Care staffing stays at today's level in every run. <span id="noIrr"></span> <a href="/lab/underwriting/static/story/futures.json" download="what-has-to-be-true-scenarios.json">Download the runs</a>.</p>
+      </div>
+      <div class="believe">
+        <p class="kicker" id="kicker"></p>
+        <p class="flat" id="flat"></p>
+      </div>
+    </div>
+
+    <p class="tally"><b id="tally">13,435</b> real runs of the model in this section. Not one of these numbers came from an AI.</p>
+    <p class="tally-ask"><a href="/lab/underwriting/desk/?ask=If%20occupancy%20lands%20at%2090%25%20instead%20of%2094%25%2C%20what%27s%20the%20GP%20IRR%3F">Ask it your own question <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<!-- Chapter A: the workbook as a map, from the question to the turn. The stage holds still; the reader's scroll moves it. -->
+<section class="scrolly" id="chA" data-rest="0,1.9,2.9,3.97,4.9">
+  <div class="stage">
+    <canvas class="gl" aria-hidden="true"></canvas>
+    <canvas class="arrows" aria-hidden="true"></canvas>
+    <div class="layer labels" aria-hidden="true"></div>
+    <div class="layer over">
+      <header class="hero opener">
+        <p class="eyebrow">How it got here</p>
+        <div class="nums one"><div><b class="n" id="heroN">52,148</b><span>formulas in one senior-living underwriting model. Every number above came from running it.</span></div></div>
+        <p class="lede">Behind every number above is one question: how do you get AI to read a spreadsheet?</p>
+      </header>
+
+      <div class="paper" id="paper" aria-hidden="true">
+        <div class="pp-k">arXiv 2407.09025 · July 2024</div>
+        <div class="pp-t">SpreadsheetLLM: Encoding Spreadsheets for Large Language Models</div>
+        <div class="pp-a">Microsoft Research</div>
+        <div class="pp-b">Spreadsheets are too big for a model to read. <b>Compress them, about 25 times, until they fit.</b></div>
+        <div class="pp-me"><span>I can do this.</span><i></i></div>
+      </div>
+
+      <div class="hud" id="hudTrace">
+        <div class="hud-n"><span id="trN">1</span><small id="trSmall">cell · GP IRR</small></div>
+        <div class="hud-sub" id="trSub">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <div class="steps">
+    <section class="step" style="--len:115"><div class="card hero-card">
+      <p class="hc-q">How it got here</p>
+      <p>Behind every number above is one question: how do you get AI to read a spreadsheet?</p>
+    </div></section>
+    <section class="step" style="--len:110"><div class="card">
+      <p class="lead">July 2024. A paper went by on my feed.</p>
+      <p>Microsoft Research had my problem: a spreadsheet is too big, and too much a grid, for a language model to read.</p>
+      <p>Their answer: compress it until it fits.</p>
+      <p class="punch">I thought: I can do this.</p>
+    </div></section>
+    <section class="step" style="--len:135"><div class="card">
+      <p class="lead">How much of the model does one number need?</p>
+      <p>Select GP IRR. Click Trace Precedents: one cell.</p>
+      <p class="punch">Click again: 386 more.</p>
+    </div></section>
+    <section class="step" style="--len:205"><div class="card">
+      <p class="lead">Keep clicking.</p>
+      <p>By the fifteenth click: <em class="n">31,485 formulas</em> on five sheets. 60% of the workbook, for one number.</p>
+      <p class="aside">In Excel, the screen would be solid arrows.</p>
+      <p class="punch">That is what “explain this IRR” costs. Every time you ask.</p>
+    </div></section>
+    <section class="step" style="--len:170"><div class="card turn">
+      <p class="lead">How do you get AI to read a spreadsheet?</p>
+      <h2>You don’t.</h2>
+      <p>You give it a model that runs.</p>
+      <p>A spreadsheet was never a document. It was a program, zipped into a grid: 951 hand-written formulas, copied out to 52,148. So I built the unzipper: give it a workbook, get back the small program someone wrote, a working copy that gives Excel's answers, without Excel.</p>
+      <p>An AI inside Excel changes the open workbook and waits for Excel to recalculate, one question at a time. This copy answers any AI, thousands of times over, and none of them can change it.</p>
+      <div class="payoff"><span class="pq">If occupancy lands at 90% instead of 94%, what's the GP IRR? Asked of the unzipped model</span><span class="pa"><b id="payA">15.9%</b><small>GP IRR at 90% occupancy, down from <span id="payB">21.4%</span> · answered in <span id="payS">0.06 s</span></small></span></div>
+      <p class="aside">The AI talks. The model does the arithmetic.</p>
+    </div></section>
+  </div>
+</section>
+
+
+<section class="block" id="proof" aria-labelledby="proofH">
+  <div class="site-frame">
+    <p class="eyebrow">September – October 2026</p>
+    <h2 id="proofH">Translating was the easy part.</h2>
+    <p class="lead">The hard part was trusting it. So Excel became the referee: change the inputs, let Excel recalculate, read all 52,148 formulas back, compare every one.</p>
+    <div class="score-wrap">
+      <div class="runs" id="runs" role="img" aria-label="582 Excel runs, each compared with the engine"></div>
+      <div class="score">
+        <span><b id="cmp">0</b><small>cells compared with Excel</small></span>
+        <span><b class="zero" id="mis">0</b><small>mismatches</small></span>
+        <span><b class="mono" id="clock">0:00:00</b><small id="clockK">of Excel time, played back fast</small></span>
+        <button class="ghost-btn" type="button" id="runsBtn">Replay</button>
+      </div>
+    </div>
+    <p class="cap">Each square is one what-if: new inputs, Excel recalculates, and every one of its 52,148 formulas is checked against the model, to one part in a million. All 582 agree, with nothing set aside, even where Excel's own XIRR finds no ordinary answer. That took 2 hours 30 minutes of Excel; it replays here in seconds.</p>
+    <p class="cap" id="design">The 582: <span id="dPts">312</span> that move one of its <span id="dIn">105</span> key inputs (of the 610 it names) to its low, base or high value, <span id="dMix">200</span> that move <span id="dMov">five to ten</span> at once, and <span id="dLev">70</span>, the darker squares, that move the levers this page asks about: 56 one at a time, 14 together.</p>
+
+    <p class="cap">On every one of the 582, the model gave Excel's answer. Whether its assumptions are right is still the underwriter's call. <a class="src-link" href="#sources">Where the numbers come from ↓</a></p>
+    <table class="receipt" id="receipt">
+      <caption>Receipt</caption>
+      <tr><th scope="row">Checked</th><td>582 what-ifs on this model: new inputs, Excel recalculates, all 52,148 formulas read back</td></tr>
+      <tr><th scope="row">Compared</th><td>30,350,136 formula values, 0 mismatches, 0 set aside</td></tr>
+      <tr><th scope="row">Excel</th><td>Excel 16.0 for Windows, build 20430, October 16, 2026</td></tr>
+      <tr><th scope="row">Engine</th><td>da355ba5, the one this page runs. On November 3, 2026 it gave the signed-off engine's value in every formula of the 578 what-ifs the model still accepts, but one; Excel for Windows and for Mac, read again on November 2, gives this engine's value there</td></tr>
+    </table>
+    <h3 class="wb-h">Six workbooks, the same check: 4 at zero, 2 still open</h3>
+    <p class="cap wb-lead"><b>181,651,953</b> formula values compared with Excel, across 3,086 what-ifs.</p>
+    <div class="wb-wrap"><table class="wb" id="workbooks">
+      <thead><tr><th scope="col">Workbook</th><th scope="col">Formulas</th><th scope="col">What-ifs</th><th scope="col">Values compared</th><th scope="col">Mismatches</th><th scope="col">Note</th></tr></thead>
+      <tbody>
+        <tr class="this"><th scope="row">Senior living, assisted living and memory care (this one)</th><td>52,148</td><td>582</td><td>30,350,136</td><td class="zero">0</td><td class="nt">70 of the what-ifs move this page's own levers; nothing set aside</td></tr>
+        <tr><th scope="row">Senior living, value-add</th><td>31,295</td><td>639</td><td>19,997,505</td><td class="zero">0</td><td class="nt"></td></tr>
+        <tr><th scope="row">Mixed-use, retail and multifamily</th><td>64,222</td><td>406</td><td>26,073,848</td><td class="zero">0</td><td class="nt">284 cells of a What-If data table set apart: Excel refreshes it; the model keeps its saved value</td></tr>
+        <tr><th scope="row">Student housing fund portfolio <small>circular</small></th><td>102,952</td><td>745</td><td>76,699,240</td><td class="zero">0</td><td class="nt">15 found and fixed in October</td></tr>
+        <tr><th scope="row">Senior living, assisted living and memory care <small>circular</small></th><td>60,256</td><td>313</td><td>18,521,462</td><td class="off">313</td><td class="nt">all 313 are one cell, =TODAY(), which Excel sets to the day of the run; 338,666 dates stored as text set apart</td></tr>
+        <tr><th scope="row">Student housing acquisition <small>circular</small></th><td>24,962</td><td>401</td><td>10,009,762</td><td class="off">188</td><td class="nt">in 13 runs whose circular loan schedule never settles. Still open</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Six more were unzipped before this check existed: 3 earlier versions of these, and 3 retired workbooks. They were checked against Excel's saved values or one or two recalculations, and no longer run.</p>
+    <p class="cap byo">A workbook that other people built can go through the same unzipping. One was timed on November 4, 2026: about 140,000 formula cells across 21 sheets, with macros. From the raw file to an engine answering scenario questions took 13 minutes and 21 seconds. About three of those minutes were a person's, spent picking which inputs are the deal's drivers. That is one workbook, timed once, and the time does not include the check above, where Excel recalculates hundreds of what-ifs. This site takes no uploads: it runs one sample model.</p>
+
+  </div>
+</section>
+
+<!-- Chapter C: what the 48 KB is, what it knows, and where it goes. -->
+<section class="scrolly" id="chC" data-rest="0.62,1.92,2.92,3.95">
+  <div class="stage">
+    <canvas class="gl" aria-hidden="true"></canvas>
+    <div class="layer over" aria-hidden="true">
+      <div class="ghostbox" id="ghost"><span>the workbook · 1.2 MB</span></div>
+      <div class="chiplab" id="chipLab">48 KB<small>the model, as a file</small></div>
+      <div class="sizes" id="sizes">
+        <div class="sz-row" data-bytes="48485"><div class="sz-k">The model<small>48 KB</small></div><div class="sz-chips"></div><b>1</b></div>
+        <div class="sz-row" data-bytes="1234933"><div class="sz-k">This workbook<small>1.2 MB</small></div><div class="sz-chips"></div><b>25</b></div>
+        <p class="sz-cap">by file size: how many copies of the model fit in each</p>
+      </div>
+      <div class="ctx" id="ctx"></div>
+      <div class="slot" id="slot0"><div class="frame srv"><i class="well"></i><i class="u"></i><i class="u"></i></div><div class="sc"><b>On a server</b><span id="slotSec">0.06 s a scenario</span></div></div>
+      <div class="slot" id="slot1"><div class="frame doc"><i class="well"></i><i class="ln"></i><i class="ln"></i></div><div class="sc"><b>Inside an AI skill</b><span>the AI carries the whole model</span></div></div>
+      <div class="slot" id="slot2"><div class="frame web"><i class="bar3"></i><i class="well"></i></div><div class="sc"><b>Offline, in a browser tab</b><span>a 218 KB prototype</span></div></div>
+      <div class="slot back" id="slot3"><div class="frame xls"><i class="tab">xlsx</i><i class="well"></i></div><div class="sc"><b>And back to Excel</b><span>any scenario, as a live workbook</span></div></div>
+      <div class="copy" id="copy0"></div><div class="copy" id="copy1"></div><div class="copy" id="copy2"></div><div class="copy" id="copy3"></div>
+      <div class="sides" id="sides">
+        <svg class="threads" aria-hidden="true"></svg>
+        <div class="mcard" data-side="buyer"><div class="mc-h"><i class="mc-ico"></i><b>Buyer</b><small>UW model</small></div><ol class="mc-rows"><li style="--j:0">Stabilized Occupancy</li><li style="--j:1">Exit Cap Rate</li><li style="--j:2">UW NOI (Yr 1)</li><li style="--j:3">Purchase Price</li></ol><div class="mc-f">same building · this one</div></div>
+        <div class="mcard" data-side="broker"><div class="mc-h"><i class="mc-ico"></i><b>Broker</b><small>OM / BOV</small></div><ol class="mc-rows"><li style="--j:0">Current Occupancy<i class="ne">≈</i></li><li style="--j:1">Reversion Cap Rate</li><li style="--j:2">Pro Forma NOI</li><li style="--j:3">Pricing Guidance<i class="ne">≈</i></li></ol><div class="mc-f">same building</div></div>
+        <div class="mcard" data-side="seller"><div class="mc-h"><i class="mc-ico"></i><b>Seller</b><small>hold / sell</small></div><ol class="mc-rows"><li style="--j:0">Avg. Census<i class="ne">≈</i></li><li style="--j:1">Terminal Cap Rate</li><li style="--j:2">T-12 NOI<i class="ne">≈</i></li><li style="--j:3">Gross Sale Price</li></ol><div class="mc-f">same building</div></div>
+        <div class="mcard" data-side="lender"><div class="mc-h"><i class="mc-ico"></i><b>Lender</b><small>credit memo</small></div><ol class="mc-rows"><li style="--j:0">Economic Occupancy<i class="ne">≈</i></li><li style="--j:1">Refi Cap Rate<i class="ne">≈</i></li><li style="--j:2">UW NCF<i class="ne">≈</i></li><li style="--j:3">As-Is Appraised Value<i class="ne">≈</i></li></ol><div class="mc-f">same building</div></div>
+        <div class="hub"><small>one idea, four names</small><b><span class="cyc"><span style="--j:0">occupancy</span><span style="--j:1">exit cap rate</span><span style="--j:2">NOI</span><span style="--j:3">price</span></span></b></div>
+      </div>
+      <div class="hud" id="hudBytes">
+        <div class="hud-n"><span id="byN">1,234,933</span><small>bytes</small></div>
+        <div class="hud-sub"><span class="wide">the workbook, and the model inside it · </span>boxes to scale</div>
+      </div>
+      <div class="hud" id="hudCtx">
+        <div class="hud-n"><span id="ctxKB">20 KB</span><small>more: the map that comes with it</small></div>
+        <div class="hud-sub"><span id="ctxIn">610</span> named inputs · <span id="ctxOut">40</span> named outputs<span class="wide"> · what feeds what, for all 52,148 formulas</span></div>
+      </div>
+      <div class="hud" id="hudKeep">
+        <div class="hud-n">63<small>bytes: a saved scenario is just its inputs</small></div>
+        <div class="hud-sub">it fits in a text message; the answer is recomputed when asked, the same every time</div>
+      </div>
+    </div>
+  </div>
+  <div class="steps">
+    <section class="step first" style="--len:150"><div class="card">
+      <p class="lead">As a file, it's 48 KB.</p>
+      <p>The workbook is 1.2 MB. The model keeps only what turns inputs into answers.</p>
+      <p class="punch">About the paper's 25 times, by file size. Except this one still runs.</p>
+      <p class="aside">By formula count it is 55 times fewer: 951 written by hand, against 52,148 in the grid.</p>
+    </div></section>
+    <section class="step" style="--len:190"><div class="card">
+      <p class="lead">Smaller, and it knows more.</p>
+      <p>Excel shows an AI an address and a number: <code>Print Summary!H13</code> is 0.214.</p>
+      <p>The model comes with a map of itself: every input and output by name, its unit, and what feeds what.</p>
+      <p class="punch">So the AI starts from “GP IRR: 21.4%”. Not from a grid.</p>
+    </div></section>
+    <section class="step" style="--len:170"><div class="card">
+      <p class="lead">And it goes anywhere.</p>
+      <p>Same inputs, same answer, every time. A saved scenario is just its inputs: <em class="n">63 bytes</em>.</p>
+      <p>No Excel needed: on a server, inside an AI skill, offline in a browser tab. The deal stops living on one PC.</p>
+      <p class="aside">And when someone wants Excel, it writes one: any scenario, every formula live, the same numbers.</p>
+    </div></section>
+    <section class="step" style="--len:230"><div class="card">
+      <p class="lead">Next: every side of the deal.</p>
+      <p>The buyer, the broker, the seller and the lender each keep their own model of the same building, with their own names for the same things.</p>
+      <p>Each unzipped model carries its whole context, and an AI can query any of it, any time. Lining four up is the next piece of work.</p>
+      <p class="aside">For the data people: a semantic layer for underwriting models. ≈ marks names that don't quite mean the same thing.</p>
+    </div></section>
+  </div>
+</section>
+
+
+<!-- Chapter D: the same map, every cell lit. -->
+<section class="scrolly" id="chD" data-rest="0.95">
+  <div class="stage">
+    <canvas class="gl" aria-hidden="true"></canvas>
+    <div class="layer labels" aria-hidden="true"></div>
+  </div>
+  <div class="steps">
+    <section class="step first" style="--len:200"><div class="card end-card">
+      <p class="last">You don't read it. You unzip it, and it runs.</p>
+      <a class="btn" href="/lab/underwriting/desk/?ask=If%20occupancy%20lands%20at%2090%25%20instead%20of%2094%25%2C%20what%27s%20the%20GP%20IRR%3F">Ask the live model yourself <span class="arr" aria-hidden="true">→</span></a>
+    </div></section>
+  </div>
+</section>
+
+<section class="block coda">
+  <div class="site-frame">
+    <p>While I built, the market moved: Claude and Grok moved into Excel. What doesn't go stale: when an AI can write anything, the hard part is knowing it wrote the right thing.</p>
+    <p class="more"><a href="/lab/underwriting/desk/">The desk</a> · <a href="/lab/underwriting/connect/">Connect your AI</a></p>
+    <p class="receipt-line">The build, July 19 to October 15, 2026: at least 26 billion tokens, at least $17,000 at list price, 7 coding subscriptions and 1,708 commits. One person and a fleet of agents.</p>
+    <details class="sources" id="sources">
+      <summary>Where the numbers come from</summary>
+      <ul>
+        <li>The model: a senior-living acquisition model I built so it could be public. Formula counts and Trace Precedents from the workbook itself.</li>
+        <li>Excel: 582 sign-off runs, October 16, 2026, on engine 478797ac, each one changing inputs, recalculating and reading every formula back; 15 s is their median, Excel's side alone. On November 3 the engine that runs this page (da355ba5) gave the same value as 478797ac in every formula of 577 of the 578 of those runs whose inputs the model still accepts, and in all but one formula of the last; that run went through Excel again on November 2, 2026, and matched this engine in every formula. A formula matches when the model is within one millionth of Excel's value, or within 0.000001 where that value is near zero.</li>
+        <li>The other workbooks: each one's latest Excel sign-off record, October 2026. Circular cells match within 0.002.</li>
+        <li>The model's speed and every run in “asking backwards”: <span id="srcEngine">engine 009e9709</span>, single-threaded, on a laptop, October 2026.</li>
+        <li>The board: 5,001 runs of the model, one per scenario, twenty assumptions (ten about the building, ten about the deal) each drawn evenly across a range around today's value, inside its verified range. Care staffing is held at today's level in every run.</li>
+        <li>The deal card and the stress matrix: engine runs of the same model, October 2026; the matrix holds staffing too.</li>
+        <li>The paper: SpreadsheetLLM, Microsoft Research, <a href="https://arxiv.org/abs/2407.09025">arXiv 2407.09025</a>, July 2024.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+</div>
+</div>
+<div class="wrap uw-shell">
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="askmj-input">Ask a question</label>
+<textarea id="askmj-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+<script src="/lab/underwriting/static/odds.js" defer></script>
+<script src="/lab/underwriting/static/story.js" defer></script>
+</body>
+</html>

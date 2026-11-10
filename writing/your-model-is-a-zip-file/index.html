@@ -15,7 +15,7 @@
 
   <script type="module" crossorigin src="/assets/site-DPqP0FMm.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/site-DAnifHyJ.css">
-  <link rel="stylesheet" crossorigin href="/assets/article-x9DMF4R_.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-CGa66zc5.css">
 </head>
 <body>
 <div class="wrap">
@@ -69,7 +69,7 @@
 <tbody>
 <tr>
 <td>Formula cells</td>
-<td>about 110,000</td>
+<td>about 105,000</td>
 </tr>
 <tr>
 <td><code>OFFSET</code> calls (a function that shifts which cells a formula points to while the sheet calculates)</td>
@@ -130,11 +130,10 @@
 <h2 id="not-just-my-own-models">Will It Work on Your Model?</h2>
 <p>Everything above ran on models I built myself. The fair question is whether it works on yours: a workbook somebody else built over years, with hidden sheets, macros and a circular loop, that nobody is going to rebuild to suit a new tool.</p>
 <p>Nobody has to. The workbook goes in as it is. On November 4, I timed one that other people built and that had never been set up to answer questions: about 140,000 formula cells across 21 sheets, with macros. From the raw file to an engine answering scenario questions took 13 minutes and 21 seconds. About three of those minutes were a person&rsquo;s, spent picking which inputs are the deal&rsquo;s drivers. The rest was the machine.</p>
-<p>That was not one lucky file. The same route has now been run on 116 real underwriting workbooks that other people built, and 112 of them came through with no hand edits. The acquisition model from the table at the top, with its roughly 110,000 formulas, is one of them.</p>
-<p>A workbook the engine has never met does not always work the first time. In a batch of 60 new ones, half ran at first sight and 44 a day later, once the three most common causes of failure were fixed.</p>
-<p>And &ldquo;ran&rdquo; means the strict thing throughout: every formula cell equals the value Excel saved in the file. Close enough is useless in underwriting. If a waterfall cell is off by a cent, the analyst goes back to the spreadsheet.</p>
+<p>That was not one lucky file. The same route has now been run on 116 real underwriting workbooks that other people built, and 112 of them came through with no hand edits. The acquisition model from the table at the top, with its roughly 105,000 formulas, is one of them.</p>
+<p>And &ldquo;came through&rdquo; means the strict thing: every formula cell equals the value Excel saved in the file. Close enough is useless in underwriting. If a waterfall cell is off by a cent, the analyst goes back to the spreadsheet.</p>
 <p>Then there is next year. A model in its tenth year is not the file it was in its first: assumptions were retyped, rows inserted, sheets renamed, a formula rewritten here and there. Does every revision mean doing all of this again?</p>
-<p>It means unzipping again, and that takes seconds. On November 9, I rewrote five formulas across three sheets of my senior-living model, then fifty, and handed each edited workbook back. About 13 seconds later, with nobody touching it, the new engine agreed with Excel on all 52,148 formulas, and every driver named the first time still answered to its name. The minutes a person spends picking the drivers are spent once.</p>
+<p>It means unzipping again, and that takes seconds. I tested this on my senior-living model by rewriting its formulas: fifty of them, then five hundred, then five thousand, about one in every ten, on every sheet. After the largest round, more than half of the model&rsquo;s results had moved, and my edits had broken 241 cells, which now showed an error in Excel. Each time I handed the edited workbook back and did nothing else. Within sixteen seconds, a new engine agreed with Excel on all 52,148 formulas, the errors included, and every driver named the first time still answered to its name. Nothing is patched. The whole workbook is read and checked again each time, so five thousand rewritten formulas took about as long as fifty. The minutes a person spends picking the drivers are spent once.</p>
 <p>If only those drivers changed, there is nothing to redo at all, because they are the engine&rsquo;s inputs. When I also inserted rows and renamed a sheet, the names followed their cells to the new addresses in about 35 seconds, and that matching is laid out for a person to confirm before anyone relies on it. Either way, the saved scenarios run on both versions and show which outputs moved.</p>
 <hr>
 <h2 id="the-missing-layer">The Missing Layer</h2>
@@ -171,8 +170,8 @@
 <div class="thread" aria-live="polite"></div>
 <form class="composer">
 <div class="row">
-<label class="sr-only" for="ask-input">Ask a question</label>
-<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<label class="sr-only" for="askmj-input">Ask a question</label>
+<textarea id="askmj-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
 <button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 </div>
 <div class="suggest">

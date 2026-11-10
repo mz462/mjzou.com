@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-uw="connect">
+<head>
+<meta charset="utf-8">
+<title>Connect Your AI · MJ Zou</title>
+<meta name="description" content="Excel's answers, without Excel, for any AI. Paste one paragraph into Meta Muse, Claude or ChatGPT and your own assistant can query a sample Excel underwriting model, unzipped into the small program someone actually wrote, which still runs. Every number still comes from the model.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Connect Your AI to an Underwriting Model That Runs Without Excel">
+<meta property="og:description" content="Excel's answers, without Excel, for any AI. One paragraph, about 30 seconds: your own AI assistant asks the unzipped model directly. No signup.">
+<meta property="og:url" content="https://mjzou.com/lab/underwriting/connect/">
+<meta property="og:image" content="https://mjzou.com/lab/underwriting/static/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=Instrument+Sans:wght@700&family=Newsreader:opsz,wght@6..72,600&display=swap">
+<script>if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');</script>
+<link rel="stylesheet" href="/lab/underwriting/static/uw.css">
+<link rel="stylesheet" href="/lab/underwriting/static/site.css">
+<style>@view-transition { navigation: auto; }</style>
+<style>
+  :root {
+    color-scheme: light;
+    --paper: oklch(97% 0.006 264);
+    --paper-deep: oklch(93.5% 0.006 264);
+    --surface: oklch(99% 0.006 264);
+    --ink: oklch(23% 0.006 264);
+    --ink-muted: oklch(49% 0.006 264);
+    --line: oklch(79% 0.006 264);
+    --line-strong: oklch(42% 0.006 264);
+    --accent: oklch(54% 0.09 262);
+    --accent-dark: oklch(43% 0.09 262);
+    --accent-soft: oklch(92% 0.046 262);
+    --shadow: 0 18px 45px oklch(25% 0.006 264 / 8%);
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Instrument Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: oklch(20% 0.006 264);
+      --paper-deep: oklch(16.5% 0.006 264);
+      --surface: oklch(24% 0.006 264);
+      --ink: oklch(92% 0.006 264);
+      --ink-muted: oklch(68% 0.006 264);
+      --line: oklch(34% 0.006 264);
+      --line-strong: oklch(62% 0.006 264);
+      --accent: oklch(66% 0.09 262);
+      --accent-dark: oklch(58% 0.09 262);
+      --accent-soft: oklch(32% 0.05 262);
+      --shadow: 0 18px 45px oklch(5% 0.006 264 / 45%);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: oklch(20% 0.006 264);
+    --paper-deep: oklch(16.5% 0.006 264);
+    --surface: oklch(24% 0.006 264);
+    --ink: oklch(92% 0.006 264);
+    --ink-muted: oklch(68% 0.006 264);
+    --line: oklch(34% 0.006 264);
+    --line-strong: oklch(62% 0.006 264);
+    --accent: oklch(66% 0.09 262);
+    --accent-dark: oklch(58% 0.09 262);
+    --accent-soft: oklch(32% 0.05 262);
+    --shadow: 0 18px 45px oklch(5% 0.006 264 / 45%);
+  }
+
+  .uw * { box-sizing: border-box; }
+  .uw {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .uw .frame { padding-top: 40px; padding-bottom: 48px; }
+  .uw .frame > * { max-width: 728px; }
+
+
+  .uw .eyebrow {
+    margin: 0 0 12px;
+    color: var(--accent-dark);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .uw h1 {
+    margin: 0 0 14px;
+    font-family: var(--serif);
+    font-size: clamp(32px, 6vw, 46px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -.012em;
+    text-wrap: balance;
+  }
+  .uw .lede { margin: 0 0 8px; color: var(--ink-muted); font-size: 18px; max-width: 62ch; }
+
+  .uw h2 {
+    margin: 52px 0 12px;
+    font-family: var(--serif);
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  /* a closing note, not a second footer: the site footer draws the only rule */
+  .uw footer {
+    margin-top: 40px;
+    color: var(--ink-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .uw footer a { color: var(--accent-dark); }
+
+  .uw .card {
+    margin: 18px 0; padding: 18px 20px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 6px;
+  }
+  .uw .card h3 { margin: 0 0 4px; font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--accent-dark); }
+  .uw .card p { margin: 6px 0 10px; }
+  .uw .muted { color: var(--ink-muted); font-size: 14px; }
+  .uw pre.paste {
+    margin: 10px 0 12px; padding: 14px 16px; background: var(--paper-deep); border: 1px solid var(--line);
+    border-radius: 4px; font-family: var(--mono); font-size: 13px; line-height: 1.55;
+    white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+    transition: background-color var(--dur-4) var(--ease-out);
+  }
+  .uw .urlrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0 6px; }
+  .uw .urlrow code {
+    flex: 1 1 260px; display: flex; align-items: center; min-height: 36px; padding: 6px 12px;
+    background: var(--paper-deep); border: 1px solid var(--line);
+    border-radius: 4px; font-family: var(--mono); font-size: 14px; overflow-wrap: anywhere;
+    transition: background-color var(--dur-4) var(--ease-out);
+  }
+  /* what just went to the clipboard takes the selection colour, then lets it go */
+  .uw pre.paste.lit, .uw .urlrow code.lit { background-color: color-mix(in oklch, var(--accent-soft) 75%, var(--paper-deep)); transition-duration: 0s; }
+  /* Copy and Copied share one cell, so the button never changes size; the label swaps in place */
+  .uw button.copy {
+    display: inline-grid; place-items: center; min-height: 36px; padding: 0 16px; cursor: pointer;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    border: 1px solid var(--accent-dark); border-radius: 4px; background: var(--accent-dark); color: var(--paper);
+    transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+  }
+  .uw button.copy:hover { background: var(--accent); border-color: var(--accent); }
+  .uw button.copy:active { transform: translateY(1px); transition-duration: 60ms; }
+  .uw button.copy > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px;
+    transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+  .uw button.copy .ok { opacity: 0; transform: translateY(3px); }
+  .uw button.copy.done .lbl { opacity: 0; transform: translateY(-3px); }
+  .uw button.copy.done .ok { opacity: 1; transform: none; }
+  .uw button.copy .ok svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.5;
+    stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 12; stroke-dashoffset: 12;
+    transition: stroke-dashoffset var(--dur-2) var(--ease-out) 60ms; }
+  .uw button.copy.done .ok svg { stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: reduce) { .uw button.copy .ok { transform: none; } .uw button.copy.done .lbl { transform: none; } }
+  .uw .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 640px) { .uw pre.paste { max-height: none; } }
+  .uw ol.steps { margin: 6px 0 0; padding-left: 20px; }
+  .uw ol.steps li { margin: 4px 0; }
+  .uw ul.asks { margin: 6px 0 0; padding-left: 20px; }
+  .uw ul.asks li { margin: 6px 0; }
+  .uw .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .uw .fact { border-left: 1px solid var(--line-strong); padding: 2px 0 2px 12px; font-size: 14px; }
+  .uw .fact b { display: block; font-size: 13px; }
+</style>
+<script src="/lab/underwriting/static/uw.js"></script>
+
+  <script type="module" crossorigin src="/assets/site-DPqP0FMm.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-DAnifHyJ.css">
+</head>
+<body>
+<div class="uw-screen">
+<div class="wrap uw-shell">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="lab" aria-current="page" href="/lab/"><span class="en">Lab</span><span class="zh" lang="zh">实验室</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+</div>
+<div class="uw">
+<div class="site-bar">
+  <div class="site-frame">
+    <nav class="site-nav" aria-label="Site">
+      <a class="site-brand" href="/lab/underwriting/">Underwriting</a>
+      <a href="/lab/underwriting/">Story</a>
+      <a href="/lab/underwriting/use-cases/">Use cases</a>
+      <a href="/lab/underwriting/desk/">Desk</a>
+      <a href="/lab/underwriting/connect/" aria-current="page">Connect</a>
+    </nav>
+  </div>
+</div>
+<div class="frame site-frame">
+  <header>
+    <p class="eyebrow">Connect your AI</p>
+    <h1>Ask the model from your own AI assistant.</h1>
+    <p class="lede"><b class="tag">Excel’s answers, without Excel, for any AI.</b> Paste one paragraph into Meta Muse, Claude or ChatGPT. Your assistant connects to the
+      underwriting model, unzipped from its Excel workbook into the small program someone actually wrote, and asks it directly. Every number still comes from the model, not
+      from the AI. No signup.</p>
+  </header>
+
+  <section class="card" aria-labelledby="pasteTitle">
+    <h3 id="pasteTitle">1 · Paste this into your AI</h3>
+    <p class="muted">Works in agents that can add a remote MCP connector from a message, such as Meta Muse.</p>
+    <pre class="paste" id="pasteText"></pre>
+    <button class="copy" type="button" data-copy="pasteText"><span class="lbl">Copy paragraph</span><span class="ok" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.4 6.3 5 8.8 9.6 3.4"/></svg>Copied</span></button>
+  </section>
+
+  <section class="card" aria-labelledby="urlTitle">
+    <h3 id="urlTitle">Or add it in your AI's settings</h3>
+    <p>Add a custom connector (a remote MCP server) with this URL. No authentication is needed.</p>
+    <div class="urlrow"><code id="mcpUrl"></code><button class="copy" type="button" data-copy="mcpUrl"><span class="lbl">Copy URL</span><span class="ok" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.4 6.3 5 8.8 9.6 3.4"/></svg>Copied</span></button></div>
+    <ol class="steps">
+      <li><b>Claude</b>: add a custom connector and paste the URL.</li>
+      <li><b>ChatGPT</b>: add it as a connector (MCP server) in developer mode.</li>
+      <li><b>Cursor or any MCP client</b>: add a Streamable HTTP server with this URL.</li>
+    </ol>
+  </section>
+
+  <section class="card" aria-labelledby="askTitle">
+    <h3 id="askTitle">2 · Then ask it what your IC would ask</h3>
+    <ul class="asks">
+      <li>Explain the story on this site to me, in terms of my work.</li>
+      <li>What's the most I can pay and still give the LP 15%?</li>
+      <li>What will the bank lend at 1.35x coverage instead of 1.25x?</li>
+      <li>Exit cap 7.5% and interest rate 8% at the same time: what's left of the GP's return?</li>
+      <li>Across occupancy from 86% to 100% and resident rates from 5% lower to 5% higher, how many combinations give a 15% deal IRR?</li>
+      <li>How is the deal IRR calculated? Show me the formula chain.</li>
+      <li>Give me the 95% occupancy case as a workbook I can open in Excel.</li>
+    </ul>
+    <div class="facts">
+      <div class="fact"><b>Read-only</b>Tools that search, run and explain the model, and hand you any case as an Excel workbook, plus guided prompts. Nothing on this site can be changed.</div>
+      <div class="fact"><b>Model numbers only</b>Your AI calls the unzipped model and reports what came back.</div>
+      <div class="fact"><b>A sample, recorded</b>The Senior Living Sample Model, a senior-living acquisition built to be shared. Runs here are recorded: bring questions about this sample, never a real deal.</div>
+    </div>
+  </section>
+
+  <footer>
+    The connector speaks MCP over stateless Streamable HTTP at <code>/mcp</code>. Calls are rate-limited.
+    Every figure is engine-computed — the language model narrates; the engine computes.
+  </footer>
+  <p class="sr" role="status" id="copyStatus"></p>
+</div>
+</div>
+</div>
+<div class="wrap uw-shell">
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="askmj-input">Ask a question</label>
+<textarea id="askmj-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+<script>
+(function () {
+  "use strict";
+  // the connector lives on the engine server; on mjzou.com the page names it (UW_API)
+  var url = (window.UW_API || location.origin) + "/mcp";
+  var paste = [
+    "Connect to the Underwriting Model Hub as a custom MCP connector.",
+    "",
+    "- Server: " + url + " (Streamable HTTP, no login needed).",
+    "- The server is stateless: every POST returns one JSON response. Do not wait for a stream to close and do not carry an Mcp-Session-Id.",
+    "- Use these tools for questions about this site's sample deal (the Senior Living Sample Model), never for a real deal of mine: runs here are recorded. Never state a number the tools did not return. If I ask what the story on the site says, or to explain it in my terms, call read_story and retell it for my line of work. If I ask who built this or what else it can do, call about_model_hub.",
+    "",
+    "Once you are in, list the tool names you got, then answer this with them: what's the most I can pay for this deal and still give the LP 15%, and if occupancy slips, who walks first: the LP or the bank?"
+  ].join("\n");
+  document.getElementById("pasteText").textContent = paste;
+  document.getElementById("mcpUrl").textContent = url;
+  var status = document.getElementById("copyStatus");
+  document.querySelectorAll("button.copy").forEach(function (btn) {
+    var timer = 0;
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.dataset.copy);
+      var text = target.textContent;
+      var done = function () {
+        btn.classList.add("done");
+        status.textContent = "Copied";
+        // the copied text glows for a moment in the selection colour, then fades back
+        target.classList.add("lit");
+        requestAnimationFrame(function () { requestAnimationFrame(function () { target.classList.remove("lit"); }); });
+        clearTimeout(timer);
+        timer = setTimeout(function () { btn.classList.remove("done"); status.textContent = ""; }, 2400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { selectText(btn.dataset.copy); });
+      } else {
+        selectText(btn.dataset.copy);
+      }
+    });
+  });
+  function selectText(id) {
+    var range = document.createRange();
+    range.selectNodeContents(document.getElementById(id));
+    var sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }
+})();
+</script>
+</body>
+</html>
