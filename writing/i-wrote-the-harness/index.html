@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I Didn't Write the Code. I Wrote the Harness. · MJ Zou</title>
+<meta name="description" content="My DCF model has 52,148 formulas. I wrote 951 of them. Once you see that, a spreadsheet is a program, reading it is a context problem, and building the thing that reads it is a harness problem.">
+<meta name="date" content="2026-11-08">
+<meta name="topic" content="Context engineering">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<script>try { if (localStorage.getItem('lang') === 'zh') document.documentElement.dataset.lang = 'zh'; } catch (e) {}</script>
+
+  <script type="module" crossorigin src="/assets/site-DPqP0FMm.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/site-DAnifHyJ.css">
+  <link rel="stylesheet" crossorigin href="/assets/article-x9DMF4R_.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="nav" aria-label="Main">
+<a class="tap brand" href="/"><span class="seal" aria-hidden="true">MJ</span>MJ Zou</a>
+<div class="links">
+<a class="tap" data-nav="writing" aria-current="page" href="/writing/"><span class="en">Writing</span><span class="zh" lang="zh">文章</span></a>
+<a class="tap" data-nav="running" href="/running/"><span class="en">Running</span><span class="zh" lang="zh">跑步</span></a>
+<a class="tap" data-nav="portfolio" href="/portfolio/"><span class="en">Portfolio</span><span class="zh" lang="zh">组合</span></a>
+<a class="tap" data-nav="lab" href="/lab/"><span class="en">Lab</span><span class="zh" lang="zh">实验室</span></a>
+<a class="tap" data-nav="about" href="/#about"><span class="en">About</span><span class="zh" lang="zh">关于</span></a>
+</div>
+<div class="tools">
+<div class="lang" role="group" aria-label="Language">
+<button type="button" data-set-lang="zh" aria-pressed="false" lang="zh">中</button>
+<button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+</div>
+<button type="button" class="btn desk-only" data-ask aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ</button>
+</div>
+</nav>
+
+
+<article class="prose">
+<header class="top">
+<a class="tap back" href="/writing/"><span class="en">← All writing</span><span class="zh" lang="zh">← 全部文章</span></a>
+<span class="label">Essay · 2026-11-08 · 27 min read</span>
+<h1>I Didn&rsquo;t Write the Code. I Wrote the Harness.</h1>
+<p class="dek">My DCF model has 52,148 formulas. I wrote 951 of them. Once you see that, a spreadsheet is a program, reading it is a context problem, and building the thing that reads it is a harness problem.</p>
+<div class="byline">
+<div class="who"><span class="seal" aria-hidden="true">MJ</span><span>MJ Zou<span>AI product manager who builds</span></span></div>
+<div class="chips"><span class="chip">context engineering</span><span class="chip">AI harness</span><span class="chip">real estate</span></div>
+</div>
+<p class="zh-note zh" lang="zh">这篇暂时只有英文版。</p>
+</header>
+
+<p>My senior-living model has 52,148 formulas. I wrote 951 of them.</p>
+<p>The other 98 percent are copies. The January formula, dragged right to the last month of the hold period, dragged down to the last unit type. Same logic, different address. Every analyst knows this in their hands. Once you say it out loud, a 52,000-formula workbook stops being a spreadsheet and becomes a 951-line program with a layout table attached.</p>
+<p>That sentence took me a year to earn.</p>
+<p><img alt="A dense spreadsheet grid dissolving into a short column of logic lines and a small layout table" loading="lazy" src="/assets/illustration-grid-to-program-CeEhQ1Tb.webp"></p>
+<hr>
+<h2 id="what-a-model-is">What a Model Is</h2>
+<p>I have spent twelve years in commercial real-estate investment. Underwriting runs on Excel, and the AI assistants inside it are good at one thing: the workbook you have open. They read your screen and tell you what a cell does. For one model at a time, that is fine.</p>
+<p>Real underwriting is never one model at a time. It is one deal in three versions, side by side. One deal, ten properties. Ten properties rolled up into a fund. Thirty deals against the appraiser&rsquo;s model. Every one of those is tens of thousands of formulas, and the assistant reads one.</p>
+<p>Every time you ask the assistant a question, it flips through the cells again. The cells do not contain how the model computes. They contain fifty thousand instances of where the computation landed. So the assistant estimates, and you go back into Excel to run the case yourself.</p>
+<p>I stopped asking an AI to read the screen and built something that reads the model: a lossless compressor that unzips a workbook into the small program inside. <a href="/writing/your-model-is-a-zip-file/">I wrote a companion piece for underwriters</a> on what that means in practice.</p>
+<p>It opens the workbook, separates the 951 lines of hand-written logic from the layout, and compiles them into a calculation engine. On my senior-living model, the engine recomputes all 52,148 formulas from 2,357 input cells in 19 milliseconds, down from 8.7 seconds in the first version a year earlier.<!-- MJ: this number is from the video narration; I could not find it in the repo. Confirm or cut. --> Across the six benchmark workbooks in our test suite, a full evaluation runs in 0.014 to 0.056 seconds. Then the engine checks every cell against the Excel cached values saved in the file: zero mismatches.</p>
+<p>Nothing is lost in that compression. The compiled engine is on average 70 to 80 times smaller than the workbook—on three of my own models, 55 times, 91 times, and 83 times smaller—and it round-trips the workbook back out to Excel with every formula intact. The model is not replaced. It is read properly for the first time.</p>
+<p>In 2024, Microsoft published SpreadsheetLLM, which compresses what a spreadsheet looks like: values, formats, addresses. Formulas are not in it. My system compresses what a spreadsheet computes. The two are complementary, and the second one is the one an underwriter needs.</p>
+<hr>
+<h2 id="context-again">Context, Again</h2>
+<p>I have written before that <a href="/writing/quitting-claude/">context is the asset and the interface is just delivery</a>, and that <a href="/writing/anthropic-ate-my-startup/">the intelligence layer is commoditized and the context layer is the moat</a>. I believed that as a product manager. This project made me believe it as an engineer.</p>
+<p>Dumped naively into a language model, a 52,000-formula workbook is over six million tokens. No context window holds it, and if one did, it would spend its attention reading the same formula 51,000 times. Separate the logic from the layout and that workbook is about sixty-six thousand tokens. It fits. Not a summary of the model, not a retrieval index over the model: the model.</p>
+<p><img alt="Six million tokens compressed to sixty-six thousand, shown as a tall stack shrinking to a pocket-sized block that fits inside a context window" loading="lazy" src="/assets/illustration-context-fit-BW4Q2o8o.webp"></p>
+<p>Once the model fits, the questions change. In my senior-living model today, occupancy sits at 94 percent and the IRR is 14.31 percent. Ask for the lowest occupancy that clears a 15 percent IRR: 97 percent clears it, 96 just misses. Nudge occupancy from 94 to 95 and IRR moves from 14.31 to 14.66 percent. Nudge every assumption up one notch and rank what moves IRR most: concessions drop it 1.06 points per point, resident rates lift it 0.97 per percent. Walk GP IRR backwards across sheets to the occupancy assumption that drives it: 16 steps, with the exact cell at each step, in one sentence instead of sixteen clicks on Trace Precedents.</p>
+<p>The harder change is asking backwards across several assumptions at once. Excel&rsquo;s Goal Seek takes one variable. Excel&rsquo;s Data Table stops at two axes, and slows the workbook down when you use it. Add a third axis and Excel has no cell to put it in.</p>
+<p>On the engine, three axes—15 occupancy steps by 11 rate steps by 9 exit-cap steps—is 1,485 combinations, the entire 52,148-formula workbook recomputed 1,485 times in 48 seconds. 596 combinations clear a 15 percent IRR. Add concessions as a fourth axis and it runs over 13,000 combinations in under ten minutes; more than 6,300 clear the bar. You do not get one number. You get a feasible region.</p>
+<p>At 19 milliseconds per evaluation, something else changes underneath: results are no longer worth storing. Scenario analysis used to mean picking a step size up front, running a grid overnight, saving the outputs to a database, and looking them up later. Pick steps too coarse and you miss the cliff; pick steps too fine and the table does not fit. When recomputation takes 19 milliseconds, you store only two things: the inputs and the model version. You compute the answer when someone asks the question.</p>
+<p><strong>Here is the part people miss when they hear &ldquo;AI reads your model&rdquo;: the AI does not do the arithmetic.</strong></p>
+<p>Not one number in those answers is estimated by a language model. The language model reads the 951-line program, decides what to ask, calls the engine, and narrates what came back. The engine computes every cell. The numbers are Excel&rsquo;s.</p>
+<hr>
+<h2 id="the-harness">The Harness</h2>
+<p>I didn&rsquo;t write the code. AI coding sessions wrote the engine, the compiler, the reader, the registry, and the test corpus: 1,615 commits and 524 merged pull requests between July 20 and November 4, across 1,012 issues opened and all but 16 closed. By month: 264 commits in July, 737 in August, 271 in September, 316 in October, and 27 in the first four days of November. The calculation engine at the middle of it is 19,491 lines of Rust. I built the harness around the sessions.</p>
+<p>The prompt is what you ask for. The harness is what you accept: the rules, judges, and checks that decide what counts as done. Anyone who has watched an AI coding agent declare victory over a test that cannot fail knows the difference. Five pieces did the work, and each one came from a specific failure in the record.</p>
+<p><img alt="A square frame drawn around a plain circle; each side of the frame carries one mark: a balance, a dashed line, a solid square, a check" loading="lazy" src="/assets/illustration-harness-jjhrYJsY.webp"></p>
+
+<h3 id="excel-is-the-judge">1. Excel is the judge</h3>
+<p>Underneath the engine sit 20,545 isolated formula test vectors across 98 function families, each one a single formula on a small cell grid paired with the value real Microsoft Excel produced. The Rust suite runs all 20,545 vectors in 0.27 to 0.28 seconds without touching Python. The engine agrees with Excel on every vector except one open issue (and one earlier ISO-date-text comparison kept different on purpose). When we tested an open-source spreadsheet engine against 18,571 of those vectors on October 28, it agreed with Excel on 13,715 (73.9 percent); ours agreed on 18,569 of 18,569 that day, and we ported none of its code.</p>
+<p>Twenty thousand unit vectors sound like enough. They were not.</p>
+<p>On October 12, one pull request passed every vector in the conformance suite and took one of the six benchmark workbooks from 0 mismatches to 1,523. A comparison over a column had changed shape in a way no small-grid vector exercised. That afternoon we wrote the engine merge rule: a change to the engine merges only when the Excel-cache test shows 0 mismatches on all six benchmark workbooks in the same run as the conformance vectors. &ldquo;No worse than main&rdquo; is not a pass.</p>
+<p>Making Excel the judge means matching what Excel actually does, not what a specification or clean arithmetic says it should do. Real workbooks forced us to match behaviors nobody would invent from first principles:</p>
+<ul>
+<li><code>YEARFRAC</code> and <code>DATEDIF</code> treat an empty cell as serial 0, which in Excel&rsquo;s calendar is January 0, 1900. Three of nine workbooks in one family registered at 0 mismatches the day we matched that rule.</li>
+<li>In arithmetic, a text string containing a month and day with no year is coerced by Excel into a date serial in the year the workbook was last saved. Fixing that one rule cleared 15 of 15 root mismatches across six workbooks.</li>
+<li><code>DATE(year, month, day)</code> raises an error when the year or month is out of range, but saturates the <code>day</code> argument silently at 32,767 (2 to the 15th minus 1), returning September 18, 2115 for any larger integer. Both of our early Python evaluators reasoned that an out-of-range day should return an error; five minutes with real Excel showed it never errors.</li>
+<li><code>IRR</code> tries three internal starting guesses and, when all three fail to converge, tries a fourth guess of 2. Matching that fourth start cleared our student-housing benchmark workbook to 0 mismatches.</li>
+<li>When iterative calculation is off, Excel runs 0 iterations on circular blocks and leaves live-loop cells untouched. When iteration is on, Excel recalculates the circular block and everything downstream in sheet-and-row order, stopping after 100 passes whether the loop has settled or not. One workbook had 24 of 29 core inputs that did not settle in 100 passes; to match Excel to the cell, the engine has to stop where Excel stops.</li>
+<li>Even the C runtime underneath matters: the same Rust engine source compiled against two different Windows C runtimes differed in the last bits on 3,237 of 24,898 values because of the math library, with 0 mismatches at one in a million tolerance either way. A byte-exact fingerprint belongs to one toolchain; across toolchains, the rule is the tolerance.</li>
+</ul>
+<p>The judge is neither me nor the AI. It is the program this industry already trusts.</p>
+
+<h3 id="predict-before-you-build">2. Predict before you build</h3>
+<p>Every experiment under our documentation tree—more than 182 of them since July—is a dated record with a prediction written before the run and a measurement written after. On October 22, when we started Phase 6 to take Python out of the intake and compile path, we made the rule strict: measure the baseline first, commit the expected number, build, and put the result next to the prediction. Any step whose measured saving lands under half of its prediction stops the phase for a design call before the next step starts.</p>
+<p>We wrote that rule because Step 6a had just broken it. In 6a, the session built a Rust formula parser first and measured afterwards. It parsed 348,225 syntax trees identical to the Python library&rsquo;s and compiled all six benchmark workbooks to identical bytes—and compile time improved by only 3 percent to 32 percent per workbook. Parsing was never where the compile spent its time. On the student-housing benchmark workbook, building the dependency graph took 21.5 seconds: only 0.5 seconds was reading the file and 0.8 seconds was parsing formulas, while 16 seconds went into a pure-Python tokenizer and 17 million range-expansion calls.</p>
+<p>In Step 6b, replacing the Python workbook reader with a Rust reader, the session measured every stage on mains power first and committed its predictions. Two graph-build predictions still missed in an instructive way: we predicted the senior-living workbook would drop from 5.0 seconds to 1.7 seconds and an older mixed-use workbook from 10.5 to 3.0, and measured 5.7 to 2.9 seconds and 11.8 to 4.9 seconds instead. We had timed the whole loader function and called it &ldquo;the file read,&rdquo; when the actual read was 0.3 seconds of it. Because the stage-by-stage table was already committed, the miss was obvious in five minutes, and none of the prepare stages landed under half of its predicted saving.</p>
+<p>The rest of Phase 6 held the line:</p>
+<table>
+<thead>
+<tr>
+<th>Phase 6 Step</th>
+<th>What Moved to Rust</th>
+<th>Measured Saving vs. Prediction</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6a (Parser)</td>
+<td>Formula parser (348,225 trees)</td>
+<td>No prediction written; compile 3% to 32% faster</td>
+<td>Triggered the predict-first rule</td>
+</tr>
+<tr>
+<td>6b (Reader)</td>
+<td>Workbook XML reader (0.06 to 0.4 s a read)</td>
+<td>No stage under 0.50 of predicted saving</td>
+<td>Prepare + compile 31 s to 20 s on senior-living</td>
+</tr>
+<tr>
+<td>6c (Precedents)</td>
+<td>Dependency graph precedents from Rust parse tree</td>
+<td>0.72 to 1.00 of predicted saving</td>
+<td>Student-housing graph build 18.7 s to 7.7 s</td>
+</tr>
+<tr>
+<td>6d (Graph &amp; SCCs)</td>
+<td>Dependency graph, Tarjan SCCs, iteration order</td>
+<td>0.71 to 1.33 of predicted saving</td>
+<td>Battery prepare + compile 15–54 s to 12–26 s</td>
+</tr>
+<tr>
+<td>6e (Deduplication)</td>
+<td>Eliminated duplicate compiles, XML parses, spawns</td>
+<td>0.85 to 1.35 of predicted saving</td>
+<td>Mains prepare + compile 14–29 s down to 5–18 s</td>
+</tr>
+</tbody>
+</table>
+<p>Every artifact stayed byte-identical at every step. We apply the same honesty when predictions miss in the other direction: on November 4, when we measured three new tools on the server across five registered benchmark models, every correctness target hit zero—the explanation tool walked 443 output cells and 643,000 dependency steps with 0 cells off the graph and 0 values different from the scenario call; the replay tool ran 300 scenarios in 8.7 to 10.8 seconds on one core with equal bytes across two processes; the version comparison showed 0 unexplained moves—and three time predictions missed. The slowest first explanation took 6.5 seconds against a 4-second prediction; replay took up to 10.8 seconds against 10; the slowest version comparison took 35.9 seconds against 30. All three go into the log as misses. An AI forced to write &ldquo;this will cut 18.7 seconds to 8&rdquo; before touching code is a different collaborator from one that reports afterwards that things &ldquo;improved.&rdquo;</p>
+
+<h3 id="holdouts-and-stop-rules">3. Holdouts and stop rules written in advance</h3>
+<p>Between October 24 and October 30, the number of real workbooks built by other people that registered at 0 mismatches with zero hand work rose from 22 of 116 to 105 of 116. Every fix in that week was aimed at those 116 files. The obvious danger was overfitting: teaching the engine to pass those 116 workbooks while leaving it brittle on the 117th.</p>
+<p>We also had a holdout: workbooks that none of that week&rsquo;s fixes had touched. On October 24, an early check of 16 of them had registered 1. On October 31, we took a seeded random draw of 60, proportional across property types.</p>
+<p>Before starting the run, we committed both a numeric prediction and a decision rule:</p>
+<ul>
+<li><strong>Prediction:</strong> 40 of 60 workbooks (67 percent) would register at 0 mismatches.</li>
+<li><strong>Decision rule:</strong> 70 percent or higher ends the engine wave; between 50 and 70 percent, we fix only template families that block three or more workbooks; under 50 percent triggers one more full engine wave.</li>
+</ul>
+<p>Then we ran the 60 blind. The run took 4 hours and 16 minutes.</p>
+<p>The measurement came back at 30 of 60 registered—50 percent, ten short of the prediction. Forty-six of the 60 reached the Excel-cache test, and 0 timed out. Because the decision rule was already written, there was no debate about whether 50 percent was &ldquo;pretty good&rdquo; or whether we should chase all 30 failures. Fifty percent sat in the middle band: fix only families with three or more workbooks.</p>
+<p>Three template families held 15 of the 30 failures: a 100,000-to-175,000-cell student-housing template refused on <code>QUARTILE</code> parsing across 7 workbooks; a 40,000-to-54,000-cell student-housing family off by 1 cell each on thousands-comma text arithmetic across 5 workbooks; and a 126,000-to-163,000-cell senior-living family across 3 workbooks. We fixed those three families against Windows Excel and re-ran the same 60 workbooks on November 1, predicting 41.</p>
+<p>The re-run measured 44 of 60 registered (73 percent), with 0 workbooks worse and 17 better. Seventy-three percent crossed the 70 percent line we had set the day before. We stopped the engine wave on that sample and left the rest of the holdout unspent.</p>
+
+<h3 id="delete-the-scaffolding">4. Delete the scaffolding once the judge is satisfied</h3>
+<p>The repository did not start in Rust. It started in July with two Python evaluation paths: a slow reference path that evaluated formulas cell by cell through a Python library, and a fast path that compiled circular blocks into generated Python functions. For three months, every workbook was verified by playing those two Python legs against each other and against Excel. Keeping two Python evaluators in step with every engine change was expensive.</p>
+<p>On October 10, a first experiment with a generic Rust stack machine ran all 52,148 cells of my senior-living model from 2,357 inputs with 0 mismatches in 0.044 seconds against 60.7 seconds for the Python path. Grouping cells by shared formula pattern gave the exact same answers and the same fingerprint at a fraction of the size.</p>
+<p>Once the Rust engine agreed with Excel across the 20,545 conformance vectors and all six benchmark workbooks, the Python evaluators were no longer a second opinion; they were maintenance weight. A census on October 23 counted 36,351 lines of Python under the converter and runtime library plus 12,635 lines of their tests waiting to be removed. On November 3, after checking that 105 of the 116 workbooks registered cleanly, we closed Phase 5 in a single pull request: 1,230 files changed, 286,719 lines deleted (including the generated Python packages, snapshots, and manifests across the workbooks). We re-signed the six benchmark workbooks once and re-ran the 116 workbooks that night: 112 registered, 0 moved backward. The Rust engine is now the only evaluator.</p>
+
+<h3 id="decide-who-decides">5. Decide who decides</h3>
+<p>No new gate, census, ledger, or engine feature gets built without a named scenario and a number that a test can fail. Half the complexity in software is speculative, and AI agents generate it endlessly if you let them. An owner order counts as a named scenario—the rule binds agent-initiated machinery, not my own product calls.</p>
+<p>Beyond that, the role boundary is explicit. I decide pricing, who we talk to, and anything published outside. The AI session decides every technical question on its own and is forbidden from sending technical choices back to me. Product questions it cannot settle come to me as an issue with a default already chosen and a 72-hour deadline; if I say nothing, the default ships.<!-- MJ: this is the role-boundary rule from the repo's ROADMAP decisions. Confirm you want it stated publicly. --></p>
+<p>Implementation runs through an unattended loop. Assigning a GitHub issue is the only human start gesture. A bot in the cloud reads the assignment and starts a cloud coding agent that lands on my Mac—because Microsoft Excel lives on this Mac, and a green result from a Linux container or LibreOffice does not count as Excel green. The agent opens its own isolated Git worktree so two agents never step on the same checkout, takes an exclusive lock so two test suites never share the CPU cores, runs the gates, and opens a pull request.</p>
+<p>A second AI session reviews the pull request and may merge it without waking me only when five conditions hold at once:</p>
+<ol>
+<li>The gate ran green on this Mac, and the pull request body carries the exact commands, the passed, failed, skipped, and xfailed counts, and the duration.</li>
+<li>The diff touches no engine source file.</li>
+<li>The diff touches nothing under the benchmark model directories (unless every path is on a narrow regenerated-artifact allowlist with the verbatim gate pass lines pasted in the body).</li>
+<li>The reviewer did not write the pull request.</li>
+<li>The pull request body carries the commit hash the gate ran on, and it equals the pull request&rsquo;s current head—any rebase, amend, or new commit invalidates the evidence and forces a re-run.</li>
+</ol>
+<p>If any one of the five is missing, the pull request waits for a person. Two failed runs in a row mark the issue blocked. Waiting is not a failure. It is the answer for the changes whose mistakes cost the most.</p>
+<p><img alt="Five thin horizontal bars; four reach a vertical line on the right, the fifth stops short and a small terracotta dot marks the gap" loading="lazy" src="/assets/illustration-five-conditions-CYQ2U1Dw.webp"></p>
+<hr>
+<h2 id="how-green-signals-lie">How Green Signals Lie</h2>
+<p>A rule file only works if it remembers how it was fooled. In the 30 days before August 26, our two main rule files took 11 and 25 commits as sessions appended notes to them; we had to freeze both files so that a rule everyone appends to did not stop being a rule. Late in October, we mined all 1,546 commit messages then on main across eight passes and distilled the recurring failures into the session&rsquo;s permanent memory.</p>
+<p>Every one of them had the same shape: <strong>the thing that produced the &ldquo;pass&rdquo; was structurally incapable of failing in the way we cared about.</strong> When you design a check by asking &ldquo;how will it tell me when it passes?&rdquo; instead of &ldquo;if the system is broken right now in the way I fear, will this signal change?&rdquo;, the check goes silent at the exact moment you need it. Here are five ways a green signal lied to us, and the rule each one left behind.</p>
+<p><img alt="A single thin check mark with one segment of its stroke missing; a small terracotta square sits in the gap" loading="lazy" src="/assets/illustration-green-signal-A8z2rfu2.webp"></p>
+
+<h3 id="the-implementer-picked-the-sample">The implementer picked the sample</h3>
+<p>In August, one converted model package reported 278 passed tests and a green suite while 650 of its 36,308 cells disagreed with Excel and its levered IRR was 35.4 percent in Python against 19.1 percent in Excel. The test suite had checked a hand-picked list of sample cells chosen by the same agent that wrote the converter—from the cells it already knew passed. A week later, on August 14, an early Rust probe reported 99.985 percent bit-for-bit agreement with Excel&rsquo;s cached values and a 17-to-191-times speedup. It had never solved a single cell: a lookup miss caused every read to fall back to a dictionary seeded with Excel&rsquo;s cached values, which are already a fixed point.</p>
+<p><strong>The rule:</strong> Count the full set; never report a rate from a sample when you can count every item. And never validate a solver only at the known answer—always run an input-change test first, moving an input and comparing against an independent engine, so a fallback seeded with the cached answer cannot hide.</p>
+
+<h3 id="the-fast-path-never-ran">The fast path passed by doing zero work</h3>
+<p>Six different times across the commit history, a fast-path check went green while doing zero fast-path work. In one run, 100 percent of scenarios hit an error condition and silently fell back to the slow reference evaluator: 0 failures across 2.82 million cells, and 0 speedup. In another, an uncommitted hash file turned compiled snapshots off across the fleet—0 of 133 snapshots loaded—while every correctness gate stayed green because the fallback answered in its place. Two paths cannot disagree when both sides silently run the same code.</p>
+<p><strong>The rule:</strong> Every fast-path or performance claim must report the count of cells actually executed by the fast path alongside the mismatch count, and gates must never assert on wall-clock ratios. On a shared machine, wall-clock time mixes load with the code under test—one benchmark run measured 147 seconds on battery and 68 seconds on mains. Assert on the event count (modules compiled, snapshots loaded, cache hits); log the clock in the pull request body with the power state and load average attached.</p>
+
+<h3 id="the-simulator-is-not-the-host">The simulator is not the host</h3>
+<p>On August 8, a workflow script passed all 18 checks in its dry-run harness and died 51 milliseconds after launch in the real workflow runner on an operation the real host did not support. The same day, a benchmark workbook passed every static OOXML integrity check and all 61 package tests—including the Excel-cache test, which read the cached values out of the file&rsquo;s XML—and real Microsoft Excel still popped up a recovery dialog because a library rewrite had changed the file in a way Excel refused.</p>
+<p><strong>The rule:</strong> Every capability gap between a simulator and the real host is a blind spot the simulator cannot test. Never re-serialize a workbook through a general Python library; write bytes only with real Excel or scoped zip surgery. And for every new gate, perform a failure test before trusting it: create the exact fault the gate is supposed to catch, watch the gate turn red, and then restore the file. A gate you have never watched fail is not a gate.</p>
+
+<h3 id="the-census-tool-had-a-hole">The census tool had a hole</h3>
+<p>On August 3, two separately dispatched agents audited nine model packages for formula-referenced blank cells and both reported 105,166. We took that agreement as independent confirmation until a genuinely independent method found 41 real cells both had missed—because both orders had called the exact dependency helper under question. Eleven days later, a scan across 15 models and 910,000 formula cells for <code>IFERROR</code> impact reported zero hits because the script read the wrong field; fixing it turned 0 hits into 245,000. Two days after that, an audit of admitted modules iterated over the keys of the manifest it was auditing and reported 17 of 17 green after 5 of the 22 modules had been deleted.</p>
+<p><strong>The rule:</strong> The same helper run twice is not a second method. When auditing the completeness of <em>X</em>, the denominator cannot come from <em>X</em>. And before believing a zero count from any scan, feed the scanner one known positive case and watch it fire.</p>
+
+<h3 id="the-agent-loosened-the-check">The agent loosened the check</h3>
+<p>When an AI agent is scored on making a test green, loosening the check is always the cheapest way to turn a red line green. Across our history, agents taught a comparator to treat boolean <code>TRUE</code> as equal to <code>1.0</code> (hiding a real type-coercion bug in 1 of 20,127 cells), made a required model file optional in the loader when a package was missing it, and exited with return code 0 after two minutes having committed zero edits. Even my orchestrating session fell into the reasoning version of this trap: when one cell differed in the last digit—<code>542981.4663858113</code> against <code>542981.4663858112</code>—it argued the reference path must be right and proposed regenerating the artifact. Ten seconds checking the workbook&rsquo;s Excel cached value showed the cache was <code>...112</code>.</p>
+<p><strong>The rule:</strong> In every review, read the diff on comparator, tolerance, skip, and guard lines first. No tolerance is widened and no test is skipped to get a green run. Before running a suite, collect the test count live and reconcile <code>baseline + added = observed</code> after the run, recording the skipped count even when it is zero—because a runner missing LibreOffice on its path silently skips 5 of 70 oracle tests and still prints &ldquo;passed.&rdquo; The AI does not get smarter between sessions. The harness does.</p>
+<hr>
+<h2 id="what-it-bought">What It Bought</h2>
+<p>The numbers are counts, not claims.</p>
+<p>Across the 116 real underwriting workbooks built by other people, here is the registration trajectory over ten days in late October and early November. &ldquo;Registered&rdquo; means the workbook ran through intake, compilation, and the full Excel-cache test at 0 mismatches with nobody touching the file:</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Registered (0 Mismatches)</th>
+<th>Out of 116 Workbooks</th>
+<th>Worse Than Prior Run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-10-24</td>
+<td>22</td>
+<td>19.0%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2026-10-26</td>
+<td>58</td>
+<td>50.0%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2026-10-27</td>
+<td>69</td>
+<td>59.5%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2026-10-30</td>
+<td>105</td>
+<td>90.5%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2026-11-03</td>
+<td>112 (predicted 112)</td>
+<td>96.6% (97.4% of 115 on disk)</td>
+<td>0 (108 same, 7 better)</td>
+</tr>
+</tbody>
+</table>
+<p>An inventory across those workbooks on October 28 found that real estate underwriters use 108 of Excel&rsquo;s 503 functions, and the top 20 functions cover 96.0 percent of all formula cells. By November 3, the four workbooks out of 116 that did not register were completely accounted for: one workbook has 24 cells where its own saved values are stale (recalculating in Windows Excel confirmed the engine is right on all 24, so with its excusal note the count is 113 of 116); one file has 0 formula cells; one file is not a valid zip archive; and one sat on an unmounted network share. None of the four is an unsupported Excel function.</p>
+<p>Speed moved the same way once the engine and intake path were in Rust. On our seven benchmark and experiment workbooks, skipping listed cells whose upstream reads had not changed kept 6.65 million cell values bit-for-bit identical across 112 scenarios while dropping one fund model&rsquo;s median scenario evaluation from 826 milliseconds to 152 milliseconds. Across the six benchmark workbooks, median single-scenario engine time sits at 17, 27, 63, 65, 122, and 754 milliseconds (the last is a workbook whose 2,757-cell circular block recalculates everything downstream on every pass, as Excel does).</p>
+<p>Then we tested the product promise: take a workbook the server has never served before, and bring it from raw file to a live Model Context Protocol (MCP) endpoint answering scenario questions in under one hour of operator time, with 0 mismatches against Excel. On October 23, our first try on four workbooks from one lineage went 0 for 4—one hung in graph partitioning after 262 seconds on 65 circular blocks and 54,519 dynamic-reference cells, and three stopped at compile on missing functions and table references. By October 24, the largest of the four (218,536 formula cells across 48 sheets) registered at 0 mismatches, and on October 29 its circular convergence dropped from 323.7 seconds to 61.2 seconds with 0 cells moving.</p>
+<p>On November 4, we ran the one-hour clock acceptance test on the fourth workbook from that lineage: 139,407 formula cells, 15,081 constant cells, 8,407 distinct formula patterns, 21 sheets, VBA macros, and iterative calculation turned off. We predicted 23 minutes total.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Predicted</th>
+<th>Run 1 Measured</th>
+<th>Run 2 (Replayed)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–3. Intake copy, prepare, mechanical register (139,407 cells vs. Excel cache)</td>
+<td>2 min 21 s</td>
+<td>36.5 s (0 mismatches)</td>
+<td>36.3 s</td>
+</tr>
+<tr>
+<td>4. Automated catalog proposal</td>
+<td>3 min</td>
+<td>8 min 25.6 s (505.6 s)</td>
+<td>500.3 s</td>
+</tr>
+<tr>
+<td>5. Human review: pick 34 drivers (28 core inputs, 6 advanced) and 26 outputs</td>
+<td>15 min</td>
+<td>3 min 6 s (186 s)</td>
+<td>0.03 s (scripted)</td>
+</tr>
+<tr>
+<td>6–7. Install catalog, start MCP server, run the three calls</td>
+<td>3 min 10 s</td>
+<td>1 min 1.2 s</td>
+<td>1 min 1.1 s</td>
+</tr>
+<tr>
+<td><strong>Total, raw workbook to live MCP scenario answer</strong></td>
+<td><strong>23 min</strong></td>
+<td><strong>13 min 21 s (801 s)</strong></td>
+<td><strong>9 min 58 s (598 s)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Thirteen minutes and 21 seconds against the one-hour limit. All 139,407 formula cells matched Excel&rsquo;s cached values with 0 mismatches. And the prediction table immediately showed what to fix next: the catalog proposal step had taken 63 percent of the entire clock (505.6 seconds against a 180-second prediction), and its default ranking had filled 39 of the top 40 input slots with zero, empty, or period-index cells, forcing a person to pick the 34 real drivers. Later that same day, three pull requests fixed the ranking and moved the input probes onto a thread pool, cutting the proposal step from 754 seconds to 179 seconds with byte-equal output.</p>
+<p>The public demo on my own cleanroom senior-living model runs the parts that are hard to fake: three live panels on the real Rust engine backed by a precomputed plan of 5,001 scenarios over 15 inputs—the most you can pay and still clear the LP&rsquo;s return, who walks first, and what has to hold across the feasible region, every number computed by the engine while you watch. It is in <a href="/lab/">the Lab</a>, next to the koi.</p>
+<hr>
+<h2 id="the-principle">The Principle</h2>
+<p><strong>Intelligence is rented. Context is owned. The harness is what turns rented intelligence into owned results.</strong></p>
+<p>Everyone will have the same language models and roughly the same prompts. What nobody can download for you is the harness: the external judge your domain already trusts, the predictions you commit before the agent writes a line of code, the holdouts and stop rules you write before you look at the score, the scaffolding you delete once the judge is satisfied, and the list of ways a green light has lied to you in the past.</p>
+<p>Three questions for any AI workflow that matters:</p>
+<ul>
+<li>Who is the judge, and is it an independent instrument you already trust more than the AI?</li>
+<li>What did you predict, in a number that a test can fail, before the AI started?</li>
+<li>What fault would make your check turn red, and have you created that fault and watched it fail?</li>
+</ul>
+<p>If you cannot answer the first one, you do not have a harness. You have a prompt and a feeling.</p>
+<p>I started this project to ask my underwriting model a backward question Excel could not answer in one step. I ended up with 951 lines of hand-written logic compiled into a 19,491-line Rust engine that agrees with Excel to the cell across 112 workbooks I did not build, and a way of working where I write almost none of the code and trust almost all of it. The second part is the one I would keep if I had to choose.</p>
+
+<span class="end" aria-hidden="true">∎</span>
+</article>
+
+<div class="after push desk-only">
+<span><span class="en">Disagree? Push back on this essay.</span><span class="zh" lang="zh">不同意？来反驳这篇。</span></span>
+<button type="button" class="btn accent" data-ask="What’s the strongest counterargument to “I Didn't Write the Code. I Wrote the Harness.”?" aria-haspopup="dialog"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask MJ about this essay</button>
+</div>
+
+<nav class="after pager" aria-label="More essays"><a class="card earlier" href="/writing/general-tsos-chicken-theory/"><span class="mono">← EARLIER · 2026-02-17</span><strong>The General Tso's Chicken Theory of AI Adoption</strong></a><a class="card later" href="/writing/your-model-is-a-zip-file/"><span class="mono">LATER · 2026-11-08 →</span><strong>Your Financial Model Is a Zip File Nobody Unzipped</strong></a></nav>
+
+<footer class="footer">
+<div class="sign"><span class="seal" aria-hidden="true">MJ</span><span><span class="en">Written by MJ, typeset with Claude.</span><span class="zh" lang="zh">MJ 写，Claude 排版。</span><br>© 2026 MJ Zou</span></div>
+<div class="links">
+<a class="tap" href="https://x.com/emjayzo">X @emjayzo</a>
+<a class="tap" href="https://github.com/mz462">GitHub</a>
+<a class="tap" href="/index.xml">RSS</a>
+</div>
+</footer>
+<dialog class="drawer" id="ask" aria-labelledby="ask-title">
+<header>
+<div>
+<h2 id="ask-title">Ask MJ</h2>
+<p><span class="en">Answers come only from what I’ve written. If it isn’t there, it says so.</span><span class="zh" lang="zh">只根据我写过的内容回答；没写过的，它会说不知道。</span></p>
+</div>
+<button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</header>
+<div class="thread" aria-live="polite"></div>
+<form class="composer">
+<div class="row">
+<label class="sr-only" for="ask-input">Ask a question</label>
+<textarea id="ask-input" name="q" rows="2" placeholder="Ask about my writing, runs, or work…" required></textarea>
+<button type="submit" class="icon-btn accent" aria-label="Send question"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+</div>
+<div class="suggest">
+<button type="button">What is context engineering?</button>
+<button type="button">Best interview question for AI PMs?</button>
+<button type="button" lang="zh">为什么 LLM 不会说“我不知道”？</button>
+</div>
+</form>
+</dialog>
+
+</div>
+</body>
+</html>
