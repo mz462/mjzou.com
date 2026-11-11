@@ -46,7 +46,7 @@ html:root {
 .uw-shell { gap: 0; }
 .uw-screen > .uw-shell { padding-bottom: 14px; }
 
-/* ?embed: the Lab card preview and the use-case frames show the page alone */
+/* ?embed: the Lab card preview shows the page alone */
 .embed .uw-shell, .embed .uw .site-bar { display: none; }
 
 /* The desk is an app-height page: nav, then the desk fills the first screen;

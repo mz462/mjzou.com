@@ -645,7 +645,7 @@
     return watchOverflow(wrap);
   }
 
-  // read_story: the desk retells the landing page's story; this card points at
+  // read_story: the desk retells the story page's story; this card points at
   // where each retold part sits on the page (the whole story when it told all of it)
   function renderStoryLinks(payload) {
     const parts = Array.isArray(payload.parts) ? payload.parts : [];
